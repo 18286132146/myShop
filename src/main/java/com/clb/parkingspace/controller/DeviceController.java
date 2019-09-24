@@ -43,7 +43,7 @@ public class DeviceController {
     @ResponseBody
     public ResultData putVehicleIn(@RequestBody DParkingLock lockDto) {
         Logger logger = LoggerFactory.getLogger(this.getClass());
-
+        //sad
         if (lockDto != null && !StringUtils.isEmpty(lockDto.getNum())) {
             EntityWrapper w = new EntityWrapper();
             w.eq("num", lockDto.getNum());
