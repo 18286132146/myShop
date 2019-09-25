@@ -8,7 +8,8 @@ public class UpOrDown {
         this.num = num;
         this.UOrD = UOrD;
     }
-
+    public UpOrDown() {
+    }
     public String getNum() {
         return num;
     }
