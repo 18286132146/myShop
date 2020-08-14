@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>信息修改</title>
+    <!--<link rel="stylesheet" type="text/css" href="../resource/static/css/style.css"/>-->
+    <link th:href="@{/css/common.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script th:src="@{/jqury/jquery-2.1.4.min.js}"></script>
+    <script th:src="@{/js/index.js}"></script>
+    <script th:src="@{/layer-v3.1.1/layer/mobile/layer.js}"></script>
+    <link rel="stylesheet" th:href="@{/layer-v3.1.1/layer/mobile/need/layer.css}">
+    <script type="text/javascript">
+        /*  document.documentElement.style.fontSize = window.innerWidth/3.75 + 'px';*/
+        /*   document.documentElement.style.fontSize = window.innerWidth/25 + 'px';*/
+    </script>
+    <style>
+        select {
+            padding: 0.7rem 0;
+            height: 3rem;
+            width: 65%
+        }
+
+        .eleInput {
+            height: 2rem;
+            width: 65%
+        }
+
+        .area div {
+            margin-left: 4rem;
+        }
+
+
+    </style>
+</head>
+<body style="padding-top: 0rem">
+<div id="pageA" style="padding: 1rem">
+    <header class="upload-hedaer">
+        <a href="javaScript:history.back(-1)" class="upload-fh"></a>
+        <div>信息变更</div>
+        <div>···</div>
+    </header>
+    <div style="margin-top: 1rem">
+        <form id="fm">
+            <div>
+                <span>姓&nbsp;&nbsp;&nbsp;名：</span><input id="name" name="name" th:value="${needer.name}"
+                                                         class="eleInput"/>
+            </div>
+            <div>
+                <span> 性&nbsp;&nbsp;&nbsp;别：</span>
+                <input id="sex" name="sex" type="radio" value="0" th:attr="checked=${needer.sex =='0' ?true:false}"/>男
+                <!-- th:attr="value=${needer.sex =='0'?'0':'1'}"-->
+
+                <input name="sex" type="radio" value="1" th:attr="checked=${needer.sex =='1' ?true:false}"/>女
+            </div>
+            <div>
+                <span> 年&nbsp;&nbsp;&nbsp;龄：</span><input class="eleInput" id="age" name="age" type="number"
+                                                          th:value="${needer.age}"/>
+            </div>
+            <div>
+                <span>手机号：</span><input id="phone" name="phone" class="eleInput" th:value="${needer.phone}"/>
+            </div>
+            <div>
+                <span> 身份证：</span><input id="idCard" name="idCard" class="eleInput" th:value="${needer.idCard}"/>
+            </div>
+            <div class="area" id="area" name="area">
+                <span>居住地:</span>
+                <div>
+                    <select id="province" name="province">
+                        <option selected>&#45;&#45;请选择&#45;&#45;</option>
+                    </select>省
+                </div>
+                <div><select id="city" name="city"></select>市</div>
+                <div><select id="county" name="county"></select>县/区</div>
+                <div><input id="detail" name="detail" class="eleInput"/>详细地址</div>
+            </div>
+            <div class="pageB">
+                <section class="upload-section">
+                    <article class="upload-article-text">
+                        <textarea id='memo' oninput="autoTextarea(this)" placeholder="格言"
+                                  class="upload-textarea"></textarea>
+                    </article>
+                    <article class="upload-piclist">
+                        <div class="upload-file">
+                            <input type="file" id="file" name="file" accept="img/needers/*}" multiple
+                                   onchange="imgChange()"/>
+                        </div>
+                    </article>
+                    <div class="submit" onclick="submit1()">
+                        发布
+                    </div>
+                </section>
+                <div class="upload-sm">
+                    <p>说明：</p>
+                    <ol>
+                        <li>图片限制只能上传9张，如需修改请看js(picmax)。</li>
+                        <li>点击发布按钮后会控制台将会打印出你所输出的内容及一个已转为base64格式的图片列表。</li>
+                        <li>此项目为原生js编写不含任何插件。</li>
+                    </ol>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="pageB" style="display: none;text-align: center;">
+    <header class="upload-hedaer">
+        <a href="javaScript:history.back(-1)" class="upload-fh"></a>
+        <div>上传信息</div>
+        <div>···</div>
+    </header>
+    <img th:src="@{/img/needers/success.png}" height="200" width="200" style="margin-top: 6rem"/>
+    <div style="text-align: center;height: 6rem;font-size:1.8rem"> 您的信息已经提交，赶快去相亲广场逛逛吧！</div>
+    <span style="margin-top: 4rem;color: red" onclick="goNeederSqual()">点击这里进入广场</span>
+</div>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    var basePath = [[${#httpServletRequest.getScheme() + "://" + #httpServletRequest.getServerName() + ":" + #httpServletRequest.getServerPort() + #httpServletRequest.getContextPath()}]];
+
+    goTo(){
+        var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+        console.log( myreg.test((this.input)) )
+    }
+
+    //初始化区县数据
+    var provinceId = [[${needer.province}]];
+    var city = [[${needer.city}]];
+    var area = [[${needer.area}]];
+    var num= area.replace(/[^0-9]/ig,"");
+    var detail=area.split(num)[1]
+    $(function () {
+        findAreas('province', '0', provinceId);
+        findAreas('city', provinceId, city);
+        findAreas('county', city, num);
+        $("#detail").val(detail);
+    })
+
+    function findAreas(grade, pid, rebackId) {
+        $.ajax({
+            url: basePath + '/common/findAreaData',
+            type: 'POST',
+            data: {'pId': pid},
+            success: function (data) {
+                switch (grade) {
+                    case 'province':
+                        $("#province").html('');
+                        var html = '<option>--请选择--</option>';
+                        $.each(data, function (index, val) {
+                            if (rebackId == val.id) {
+                                html += '<option value="' + val.id + '" selected=true>' + val.areaName + '</option>';
+                            } else {
+                                html += '<option value="' + val.id + '">' + val.areaName + '</option>';
+                            }
+                        })
+                        $("#province").html(html);
+                        break;
+
+                    case 'city':
+                        $("#city").html('');
+                        var html = '<option>--请选择--</option>';
+                        $.each(data, function (index, val) {
+                            html += '<option value="' + val.id + '">' + val.areaName + '</option>';
+                            if (rebackId == val.id) {
+                                html += '<option value="' + val.id + '" selected=true>' + val.areaName + '</option>';
+                            } else {
+                                html += '<option value="' + val.id + '">' + val.areaName + '</option>';
+                            }
+                        })
+                        $("#city").html(html);
+                        break;
+                    case 'county':
+                        $("#county").html('');
+                        var html = '<option>--请选择--</option>';
+                        $.each(data, function (index, val) {
+                            if (rebackId == val.id) {
+                                html += '<option value="' + val.id + '" selected=true>' + val.areaName + '</option>';
+                            } else {
+                                html += '<option value="' + val.id + '">' + val.areaName + '</option>';
+                            }
+                        })
+                        $("#county").html(html);
+                        break;
+                }
+            }
+        })
+    }
+
+
+    //提交
+    function submit1() {
+        var imglist = []
+        var text = document.getElementsByClassName('upload-textarea')[0].value
+        var piclist = document.querySelectorAll('.upload-Picitem');
+        /*	for (let i = 0; i < piclist.length; i++) {
+                imglist.push(piclist[i].lastChild.src)
+            }*/
+        submit2();
+    }
+
+
+    function submit2() {
+        // var formData = new FormData();
+        // var file=document.getElementById('file').files[0];
+        // var f=$("file");
+        var formData = new FormData(document.getElementById("fm"));
+        $.ajax({
+            url: basePath + '/needers/addNeeders',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            async: false,
+            success: function (data) {
+                $("#pageA").css('display', 'none');
+                $("#pageB").css('display', "block");
+            }
+        })
+    }
+
+    function goNeederSqual() {
+        window.location = basePath + "/needers/goNeederSqual"
+    }
+
+
+    /*]]>*/
+</script>
+</body>
+</html>

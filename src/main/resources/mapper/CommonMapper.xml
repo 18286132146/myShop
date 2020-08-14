@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clb.parkingspace.dao.CommonMapper">
+    <resultMap type="com.clb.parkingspace.po.AreaMap" id="areaMap">
+        <id property="id" column="id"/>
+        <result property="areaName" column="area_name"/>
+        <result property="areaCode" column="area_code"/>
+        <result property="areaShort" column="area_short"/>
+        <result property="areaIsHot" column="area_is_hot"/>
+        <result property="areaSequence" column="area_sequence"/>
+        <result property="areaParentId" column="area_parent_id"/>
+        <result property="memo" column="memo"/>
+    </resultMap>
+
+
+   <select id="findAreaData" parameterType="java.lang.String" resultMap="areaMap">
+       select * from dt_area
+       <if test="pId!=null and pId!=''">
+           where area_parent_id=#{pId}
+       </if>
+
+   </select>
+</mapper>

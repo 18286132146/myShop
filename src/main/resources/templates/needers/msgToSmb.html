@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <title>neederSpual</title>
+    <link th:href="@{/css/common.css}" rel="stylesheet"/>
+    <script th:src="@{/jqury/jquery-3.4.1/jquery-3.4.1.js}"></script>
+    <!-- <script th:src="@{/jqury/jquery-2.1.4.min.js}"></script>-->
+    <script th:src="@{/layer-v3.1.1/layer/mobile/layer.js}"></script>
+    <link rel="stylesheet" th:href="@{/layer-v3.1.1/layer/mobile/need/layer.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <style>
+        .submit {
+            padding: 1.5rem 0;
+            background-color: #287cff;
+            color: #fff;
+            text-align: center;
+            margin: 1.6rem;
+            font-size: 2rem;
+            border-radius: 1rem;
+        }
+        textarea,.submit{font-size: 4rem;}
+    </style>
+</head>
+<body>
+<div class="" style=" ">
+    <div><img style="height: 20rem;width:20rem;" th:src="@{/img/needers/liuyanIco.png}"></div>
+<!-- <area style="width: 10rem;height: 20rem">-->
+    <textarea style="border-radius:0.8rem; border:0.2rem solid;width: 60rem;height: 60rem" placeholder="赶快留言吧！"></textarea>
+    <div class="submit" onclick="submit1()">
+        发送
+    </div>
+</div>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    var App = {
+        pageNo: 1,
+    }
+    var basePath = [[${#httpServletRequest.getScheme() + "://" + #httpServletRequest.getServerName() + ":" + #httpServletRequest.getServerPort() + #httpServletRequest.getContextPath()}]];
+    var neederImpFolder = "";
+    /*]]>*/
+</script>
+</body>
+</html>

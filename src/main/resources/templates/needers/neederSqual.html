@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <title>neederSpual</title>
+    <script th:src="@{/jqury/jquery-3.4.1/jquery-3.4.1.js}"></script>
+    <!-- <script th:src="@{/jqury/jquery-2.1.4.min.js}"></script>-->
+    <script th:src="@{/layer-v3.1.1/layer/mobile/layer.js}"></script>
+    <link rel="stylesheet" th:href="@{/layer-v3.1.1/layer/mobile/need/layer.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <style>
+        ul {
+            /* width: 17rem;
+                       height: 17rem;*/
+            padding: 0rem;
+            margin: 0rem;
+        }
+
+        .neederLi {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            float: left;
+            text-align: center;
+        }
+
+        .imgDiv {
+            width: 20rem;
+            height: 26rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .neederImg {
+            width: 20rem;
+            height: 20rem;
+        }
+
+        .layui-m-layercont img {
+            width: 60rem;
+            height: 80rem;
+        }
+
+        .ulDiv {
+        }
+
+        /*   ul{text-align: center;}*/
+        .page {
+
+        }
+
+        .page div {
+            display: inline-block;
+            background: #287cff;
+            width: 28rem;
+            height: 6rem;
+            line-height: 5rem;
+            border-radius: 0.8rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+        .header {
+            background: #ff9800;
+            height: 6rem;
+            color: #fff;
+            line-height: 5rem;
+            font-size: 1.5rem;
+            padding: 0 10px;
+        }
+        .back{height:6rem;width:6rem}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <span style="float: left;"><img class="back" th:src="@{/img/back.png}" onclick="back()"/></span>
+        <span style="float: right;" onclick="goMyCenter.call(this)"><span style="font-size: 2rem">个人中心</span></span>
+    </div>
+    <div class="ulDiv" style="display: inline-block;background: pink;">
+        <ul class="neederUl" id="neederImgs">
+
+        </ul>
+    </div>
+    <div class="page" style="background: pink">
+        <div class="page uPagee" id="uPage" onclick="changePage.call(this)">上一页</div>
+        <div class="page dPagee" style="float: right" id="dPage" onclick="changePage.call(this)">下一页</div>
+    </div>
+</div>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    var App = {
+        pageNo: 1,
+    }
+
+    var basePath = [[${#httpServletRequest.getScheme() + "://" + #httpServletRequest.getServerName() + ":" + #httpServletRequest.getServerPort() + #httpServletRequest.getContextPath()}]];
+    var neederImpFolder = "";
+    var pageNo = App.pageNo;
+    $(function () {
+        goPage(pageNo);
+        Object.defineProperty(App, "pageNo", {
+            get: function () {
+                return pageNo
+            },
+            set: function (pageNo) {
+                if (pageNo <= 0) {
+                    App.pageNo = 1;
+                } else {
+                    goPage(pageNo);
+                }
+            }
+        })
+    })
+    var index = null;
+
+    function previewImg() {
+        var content = "<div style='text-align: center'>" +
+            "<img  class='showImg' sytle='width:34rem;height:34rem'src='" + $(this).attr("src") + "'/> <br/>" +
+            "<div style='width:8rem;height:6rem;font-size: 3rem;text-align: center; display: inline-block;line-height: normal' onclick='closeLayer();'>返回</div>" +
+            "<div class='"+$(this).attr('id')+"' style='width:12rem;height:6rem;font-size: 3rem;text-align: center; display: inline-block;line-height: normal' onclick='goChat.call(this)'>聊天</div>" +
+            "<div style='width:8rem;height:6rem;font-size: 3rem;float: right;display: inline-block;line-height: normal'>" +
+            "<img class='"+$(this).attr('id')+"' style='width: 3.6rem;height: 3.6rem;'src='"+basePath+"/img/needers/xindong.png' onclick='brightHeart.call(this);'></div>" +
+            "</div>";
+
+        index = layer.open({
+            type: 1,
+            closeBtn: 1,
+            area: ['60%', '60%'],
+            skin: 'layui-layer-nobg', //没有背景色
+            shadeClose: false,
+            content: content
+        });
+
+    }
+
+/*去聊天*/
+    function  goMsgToNeeder(){
+        var id= $(this).attr('class');
+        window.location=basePath+"/needers/goMsgToNeeder?id="+id;
+    }
+
+
+    function  goChat(){
+       var id= $(this).attr('class');
+       window.location=basePath+"/chat/goChatPan.do?receiverId="+id;
+    }
+
+    function brightHeart(){
+       /* 心动切换*/
+       var heartPath= $(this).attr('src');
+        if(heartPath.indexOf("heart") != -1){
+            $(this).attr('src',basePath+"/img/needers/xindong.png")
+        }else{
+            $(this).attr('src',basePath+"/img/needers/heart.png")
+        }
+    }
+
+    function closeLayer() {
+        layer.close(index);
+    }
+
+    function goPage(pageNo) {
+        $("#neederImgs").html("");
+        $.ajax({
+                url: basePath + '/needers/neederImpFolder',
+                type: 'POST',
+                data: {"neederName": "neederImpFolder"},
+                success: function (data1) {
+                    var neederImpFolder = data1.neederImpFolder;
+                    $.ajax({
+                            url: basePath + '/needers/listNeeders',
+                            type: 'POST',
+                            data: {"pageNo": pageNo, "pageSize": 9},
+                            success: function (data2) {
+                                /*onclick='previewImg.call(this)'*/
+                                var needersLi = "";
+                                $.each(data2.records, function (index, val) {
+                                    needersLi += "<li class='neederLi'>" +
+                                        "<div class='imgDiv' >" +
+                                        "" + "<img class='neederImg' " +
+                                        "src='" + basePath + "/needers/findPic?fileName=" + val.imgUrl +
+                                        "' onclick='previewImg.call(this)'" +
+                                        "id='" + val.id + "'>" +
+                                        +"" + val.name + ""
+                                    "</div></li>"
+                                    $('#neederImgs').html(needersLi);
+                                });
+                            }
+                        }
+                    );
+                }
+            }
+        )
+    }
+
+    function changePage() {
+        var id = $(this).attr("id");
+        switch (id) {
+            case 'uPage':
+                App.pageNo = App.pageNo - 1;
+                break;
+            case 'dPage':
+                App.pageNo = App.pageNo + 1;
+        }
+    }
+    function back(){
+        window.history.back();
+    }
+
+    function goMyCenter(){
+        window.location=basePath+"/needers/goEditNeeder.do";
+    }
+
+    /*]]>*/
+</script>
+</body>
+</html>
