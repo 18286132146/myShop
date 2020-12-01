@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html>
+　　
+<head>
+    <meta charset="UTF-8">
+    <!-- <script src="../js/jquery.min.js"></script>-->
+    <script src="../../js/ytfw.js"></script>
+    <script src="../../js/ytfw/device/web.js"></script>
+    <link rel="stylesheet" href="../../assets/css/core/frozen.css">
+    <link rel="stylesheet" href="../../assets/css/core/web.css">
+    <link rel="stylesheet" href="../../assets/css/core/core.css">
+
+    <style type="text/css">
+       .msgDiv{height:1.2rem;background-color: #1E9FFF;display: block;margin: 0rem 0.1rem 0.1rem 0.1rem }
+
+    </style>
+</head>
+　　
+<body>
+<div id="gz18">
+    <div id="pageA" title="工作日程"
+         data-btnLeft="true|&nbsp;|YT.prevPage()" data-btnRight="true|添加|GZ18.toAdd()">
+        <div style="">
+            <ul>
+                <li class="msgLi" data-jump="page/gz/p09/01/GZ0901.html">
+                    <div class="msgDiv">
+                        <div><img src=""/></div><span class="msgSpan">hheheheheh</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="pageB" title="添加日程"
+         data-btnLeft="true|&nbsp;|GZ18.showPageA()" data-btnRight="false||">
+        添加日程pageB
+
+    </div>
+    <div id="pageC" data-page="C" title="修改日程"
+         data-btnLeft="true|&nbsp;|GZ18.showPageA()" data-btnRight="false||">
+        修改日程pageC
+    </div>
+</div>
+
+
+<script id="tpl" type="text/juicer">
+<div style="">
+            <ul>
+
+                <li class="msgLi" data-jump="page/gz/p09/01/GZ0901.html">
+                    <div class="msgDiv">
+                        <span class="msgSpan">${data.msgNum}</span>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+
+</script>
+</body>
+　　
+</html>

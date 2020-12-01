@@ -9,7 +9,15 @@ import com.clb.parkingspace.service.INeederService;
 import com.clb.parkingspace.service.INeederTalkService;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.Date;
+
 @Service
 public class NeedsTalkServiceImp extends ServiceImpl<NeederTalkMapper,NeederTalk> implements INeederTalkService {
+@Resource
+  private NeederTalkMapper neederTalkMapper;
 
+    public Object senderMsgInfo(String userId,String lastDate){
+        return neederTalkMapper.senderMsgInfoCount(userId,lastDate);
+    };
 }

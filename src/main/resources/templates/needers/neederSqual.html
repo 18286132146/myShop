@@ -6,6 +6,7 @@
     <script th:src="@{/jqury/jquery-3.4.1/jquery-3.4.1.js}"></script>
     <!-- <script th:src="@{/jqury/jquery-2.1.4.min.js}"></script>-->
     <script th:src="@{/layer-v3.1.1/layer/mobile/layer.js}"></script>
+    <script th:src="@{/js/commonJs.js}"></script>
     <link rel="stylesheet" th:href="@{/layer-v3.1.1/layer/mobile/need/layer.css}">
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <style>
@@ -14,26 +15,27 @@
                        height: 17rem;*/
             padding: 0rem;
             margin: 0rem;
+            padding-left: 2.5rem;
         }
 
         .neederLi {
-            margin: 0;
+            margin: 0.2rem;
             padding: 0;
             list-style: none;
             float: left;
+            display: inline;
             text-align: center;
         }
 
         .imgDiv {
-            width: 20rem;
-            height: 26rem;
+            width: 18rem;
             text-align: center;
             font-size: 2rem;
         }
 
         .neederImg {
-            width: 20rem;
-            height: 20rem;
+            width: 16rem;
+            height: 18rem;
         }
 
         .layui-m-layercont img {
@@ -42,11 +44,12 @@
         }
 
         .ulDiv {
+            text-align: center;
         }
 
         /*   ul{text-align: center;}*/
-        .page {
-
+        .neederUl div {
+            font-size: 2rem;
         }
 
         .page div {
@@ -59,6 +62,7 @@
             text-align: center;
             font-size: 2rem;
         }
+
         .header {
             background: #ff9800;
             height: 6rem;
@@ -67,14 +71,33 @@
             font-size: 1.5rem;
             padding: 0 10px;
         }
-        .back{height:6rem;width:6rem}
+
+        .back {
+            height: 6rem;
+            width: 6rem
+        }
+
+        /*消息闪烁*/
+        .redMsg {
+            display: none;
+            width: 4rem;
+            height:4rem;
+        }
+
+        .grMsg {
+            display: none;
+            width: 4rem;
+            height:4rem;
+        }
+        /*消息闪烁*/
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
         <span style="float: left;"><img class="back" th:src="@{/img/back.png}" onclick="back()"/></span>
-        <span style="float: right;" onclick="goMyCenter.call(this)"><span style="font-size: 2rem">个人中心</span></span>
+        <span style="float: right;font-size: 2rem" onclick="goMyCenter.call(this)">个人中心</span>
+        <span style="margin-top:1rem;margin-right:6rem;display:inline-block;float: right"><img class="grMsg" th:src="@{/img/chat/grMsg.png}"/><img class="redMsg" th:src="@{/img/chat/redMsg.png}"/></span>
     </div>
     <div class="ulDiv" style="display: inline-block;background: pink;">
         <ul class="neederUl" id="neederImgs">
@@ -116,9 +139,9 @@
         var content = "<div style='text-align: center'>" +
             "<img  class='showImg' sytle='width:34rem;height:34rem'src='" + $(this).attr("src") + "'/> <br/>" +
             "<div style='width:8rem;height:6rem;font-size: 3rem;text-align: center; display: inline-block;line-height: normal' onclick='closeLayer();'>返回</div>" +
-            "<div class='"+$(this).attr('id')+"' style='width:12rem;height:6rem;font-size: 3rem;text-align: center; display: inline-block;line-height: normal' onclick='goChat.call(this)'>聊天</div>" +
+            "<div class='" + $(this).attr('id') + "' style='width:12rem;height:6rem;font-size: 3rem;text-align: center; display: inline-block;line-height: normal' onclick='goChat.call(this)'>聊天</div>" +
             "<div style='width:8rem;height:6rem;font-size: 3rem;float: right;display: inline-block;line-height: normal'>" +
-            "<img class='"+$(this).attr('id')+"' style='width: 3.6rem;height: 3.6rem;'src='"+basePath+"/img/needers/xindong.png' onclick='brightHeart.call(this);'></div>" +
+            "<img class='" + $(this).attr('id') + "' style='width: 3.6rem;height: 3.6rem;'src='" + basePath + "/img/needers/xindong.png' onclick='brightHeart.call(this);'></div>" +
             "</div>";
 
         index = layer.open({
@@ -132,25 +155,25 @@
 
     }
 
-/*去聊天*/
-    function  goMsgToNeeder(){
-        var id= $(this).attr('class');
-        window.location=basePath+"/needers/goMsgToNeeder?id="+id;
+    /*去聊天*/
+    function goMsgToNeeder() {
+        var id = $(this).attr('class');
+        window.location = basePath + "/needers/goMsgToNeeder?id=" + id;
     }
 
 
-    function  goChat(){
-       var id= $(this).attr('class');
-       window.location=basePath+"/chat/goChatPan.do?receiverId="+id;
+    function goChat() {
+        var id = $(this).attr('class');
+        window.location = basePath + "/chat/goChatPan.do?receiverId=" + id;
     }
 
-    function brightHeart(){
-       /* 心动切换*/
-       var heartPath= $(this).attr('src');
-        if(heartPath.indexOf("heart") != -1){
-            $(this).attr('src',basePath+"/img/needers/xindong.png")
-        }else{
-            $(this).attr('src',basePath+"/img/needers/heart.png")
+    function brightHeart() {
+        /* 心动切换*/
+        var heartPath = $(this).attr('src');
+        if (heartPath.indexOf("heart") != -1) {
+            $(this).attr('src', basePath + "/img/needers/xindong.png")
+        } else {
+            $(this).attr('src', basePath + "/img/needers/heart.png")
         }
     }
 
@@ -179,9 +202,11 @@
                                         "" + "<img class='neederImg' " +
                                         "src='" + basePath + "/needers/findPic?fileName=" + val.imgUrl +
                                         "' onclick='previewImg.call(this)'" +
-                                        "id='" + val.id + "'>" +
-                                        +"" + val.name + ""
-                                    "</div></li>"
+                                        "id='" + val.id + "'/><br/>" +
+
+                                        "</div>" +
+                                        "<div>" + val.name + "</div>" +
+                                        "</li>"
                                     $('#neederImgs').html(needersLi);
                                 });
                             }
@@ -202,14 +227,63 @@
                 App.pageNo = App.pageNo + 1;
         }
     }
-    function back(){
+
+    function back() {
         window.history.back();
     }
 
-    function goMyCenter(){
-        window.location=basePath+"/needers/goEditNeeder.do";
+    function goMyCenter() {
+        window.location = basePath + "/needers/goEditNeeder.do";
     }
 
+    ///消息闪烁
+    var val = 0;
+    var fla={hasNew:false};
+    function hasNewMsg(data){
+           if(data.hasNewMsg){
+               fla.hasNew=true;
+           }else{
+               fla.hasNew=false;
+           }
+
+    }
+    $(function () {
+        setInterval('ajax("'+basePath+'/chat/checkNewMsg.do",{},"hasNewMsg")', 3000);
+    })
+
+    var id='';
+    function flash() {
+        Object.defineProperty(fla,'hasNew',{
+          /*  get:function(){alert("hh")},*/
+
+           set:function(value){
+               if(value){
+                   if(id!=''){clearInterval(id)}
+                   id=setInterval(jiaoHuan,300);
+               }else{
+                   //恢复不闪动
+                  clearInterval(id);
+                   var msg = $(".redMsg");
+                   var grMsg = $(".grMsg");
+                   msg.css("display","none");
+                   grMsg.css("display","none")
+               }
+            }
+        })
+
+    }
+    function jiaoHuan(){
+        var msg = $(".redMsg");
+        var grMsg = $(".grMsg");
+        switch (msg.css("display")){
+            case "block": msg.css("display","none");grMsg.css("display","block");break;
+            case "none":  msg.css("display","block");grMsg.css("display","none");
+        }
+    }
+
+   // message();
+    flash();
+    //消息闪烁
     /*]]>*/
 </script>
 </body>

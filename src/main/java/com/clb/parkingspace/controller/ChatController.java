@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /*聊天*/
 @Controller
@@ -103,4 +101,57 @@ public class ChatController {
        }
       return  map.put("hasMsg","no");
     }
+
+    @RequestMapping(value = "/checkNewMsg.do")
+    @ResponseBody
+    public Object checkNewMsg(HttpSession session){
+        //查询当前用户是否有新消息
+           int i=new java.util.Random().nextInt(10);
+        Map data=new HashMap<String,Boolean>();
+        EntityWrapper<NeederTalk> ewt=new EntityWrapper();
+        Needer loginNeeder=(Needer)session.getAttribute("loginNeeder");
+        String userId=loginNeeder.getId();
+        //查询最近查看消息时间
+        EntityWrapper<Needer> ewn=new EntityWrapper();
+        ewn.eq("id",userId);
+        Needer nedr=neederService.selectOne(ewn);
+        Date lastScan=nedr.getLastScan();
+        if(lastScan==null){
+            nedr.setLastScan(new Date());
+            neederService.update(nedr,ewn);
+        }
+        ewt.eq("receiver_id",userId);
+        ewt.and().gt("create_time",nedr.getLastScan());
+        int msgNums=neederTalkService.selectCount(ewt);
+           if(msgNums>0){
+               data.put("hasNewMsg",true);
+               data.put("newMsgs",msgNums);
+               return  data;
+           }else{
+               data.put("hasNewMsg",false);
+               return  data;
+           }
+    }
+
+    /**
+     * 发送人信息和发送的消息内容
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/senderMsg.do")
+    @ResponseBody
+    public Object senderMsg(HttpSession session) {
+        //查询当前用户是否有新消息
+        int i=new java.util.Random().nextInt(10);
+        Map data=new HashMap<String,Boolean>();
+        EntityWrapper<NeederTalk> ewt=new EntityWrapper();
+        Needer loginNeeder=(Needer)session.getAttribute("loginNeeder");
+        String userId=loginNeeder.getId();
+        Calendar ca=Calendar.getInstance();
+        ca.setTime(new Date());
+        ca.set(Calendar.MONTH,9);
+        Date d=ca.getTime();
+     /*   new SimpleDateFormat("yyyy-MM-dd HH:ss:mm").parse(d);*/
+        return  neederTalkService.senderMsgInfo(userId,"2019-10-11 12:00:00");
+    };
 }

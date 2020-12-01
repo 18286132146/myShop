@@ -2,46 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>模拟缴费</title>
+    <title>首页</title>
     <script th:src="@{/js/jquery.min.js}"></script>
 </head>
 <body>
-  <div id="gg" class="j">
-      <h1 class="hello" onclick="toDo()">hello world</h1>
-      <a>hhhhhhhh</a>
-  </div>
-  <div id="d">
-      niaho
-      <br/>
-  </div>
-  <form action="/parkingspace/deviceController/commandGate" method="get">
-      <table>
-          <tr>
-              <td>请输入缴费车位锁编号：</td>
-              <td><input name="num"/></td>
-          </tr>
-          <tr>
-              <td><input type="submit" title="确认"/></td>
-          </tr>
-      </table>
-  </form>
-  <script type="text/javascript">
-      var msg='[[${msg}]]';
-      if(msg!=null){
-          alert(msg);
-      }
-  function toDo(){
-          alert("dao");
-          var hello=$(".hello");
-          $("table").after(hello);
-          $("#d").attr({name:'naaa',class:'hhh'});
-      $("div").each(function (i) {
-          alert(i);
-          alert("name:"+$(this).attr('name'));
-      });
-      $("div").css({color:'blue',width:1000,height:1000,backgroundColor:'red'})
-      $("h1").css({color:'blue'})
-  }
-  </script>
+<script>
+    $(function () {
+        window.location.href="needers/goNeederSqual";
+    })
+</script>
 </body>
 </html>

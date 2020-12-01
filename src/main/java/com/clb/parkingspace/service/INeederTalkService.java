@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.service.IService;
 import com.clb.parkingspace.po.Needer;
 import com.clb.parkingspace.po.NeederTalk;
 
-public interface INeederTalkService extends IService<NeederTalk>{
+import java.util.Date;
 
+public interface INeederTalkService extends IService<NeederTalk>{
+ public Object senderMsgInfo(String userId,String lastDate);
 }
