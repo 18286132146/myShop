@@ -12,22 +12,22 @@ public  class DateUtils {
     }
 
 
-    /*ä¸¤ä¸ªæ—¥æœŸç›¸å·®å¤šå°‘åˆ†*/
+    /*Á½¸öÈÕÆÚÏà²î¶àÉÙ·Ö*/
     public static long minDatePoor(Date endDate, Date nowDate) {
 
         long nd = 1000 * 24 * 60 * 60;
         long nh = 1000 * 60 * 60;
         long nm = 1000 * 60;
         // long ns = 1000;
-        // è·å¾—ä¸¤ä¸ªæ—¶é—´çš„æ¯«ç§’æ—¶é—´å·®å¼‚
+        // »ñµÃÁ½¸öÊ±¼äµÄºÁÃëÊ±¼ä²îÒì
         long diff = endDate.getTime() - nowDate.getTime();
-        // è®¡ç®—å·®å¤šå°‘å¤©
+        // ¼ÆËã²î¶àÉÙÌì
         long day = diff / nd;
-        // è®¡ç®—å·®å¤šå°‘å°æ—¶
+        // ¼ÆËã²î¶àÉÙĞ¡Ê±
         long hour = diff % nd / nh;
-        // è®¡ç®—å·®å¤šå°‘åˆ†é’Ÿ
+        // ¼ÆËã²î¶àÉÙ·ÖÖÓ
         long min = diff % nd % nh / nm;
-        // è®¡ç®—å·®å¤šå°‘ç§’//è¾“å‡ºç»“æœ
+        // ¼ÆËã²î¶àÉÙÃë//Êä³ö½á¹û
         // long sec = diff % nd % nh % nm / ns;
         return min;
     }
