@@ -10,10 +10,10 @@ import java.util.Date;
 @Data
 @TableName(value = "sender_mark")//指定表名
 public class SenderMark {
-    @TableId(value = "scan_id")
     private String scanId;
+    @TableId(value = "sender_id")
     private String senderId;
-    private Date lastDate;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date lastScan;
+    private Date lastDate;
+    private boolean flash;
 }

@@ -8,4 +8,6 @@ import java.util.Date;
 
 public interface INeederTalkService extends IService<NeederTalk>{
  public Object senderMsgInfo(String userId,String lastDate);
+
+ public int newMsgNums(String userId,String voicerId ,Date lastDate);
 }

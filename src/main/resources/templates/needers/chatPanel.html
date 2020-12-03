@@ -10,15 +10,15 @@
     <link rel="stylesheet" th:href="@{/layer-v3.1.1/layer/mobile/need/layer.css}">
     <style>
         .gray {
-               -webkit-filter: grayscale(100%);
-               -moz-filter: grayscale(100%);
-               -ms-filter: grayscale(100%);
-               -o-filter: grayscale(100%);
+            -webkit-filter: grayscale(100%);
+            -moz-filter: grayscale(100%);
+            -ms-filter: grayscale(100%);
+            -o-filter: grayscale(100%);
 
-               filter: grayscale(100%);
+            filter: grayscale(100%);
 
-               filter: gray;
-           }
+            filter: gray;
+        }
 
         /**重置标签默认样式*/
         * {
@@ -39,7 +39,7 @@
         }
 
         .header {
-            background: #ff9800;
+            background: #00d4d4;
             height: 6rem;
             color: #fff;
             line-height: 5rem;
@@ -103,7 +103,12 @@
             width: 7rem;
             height: 7rem;
         }
-        .back{height:6rem;width:6rem}
+
+        .back {
+            height: 6rem;
+            width: 6rem
+        }
+
         #user_face_icon img {
             width: 6.5rem;
             height: 6.5rem;
@@ -170,67 +175,67 @@
         receiverImg.src = basePath + "/needers/findPic?fileName=" + receiver.imgUrl;
         var senderImg = new Image();
         senderImg.src = basePath + "/needers/findPic?fileName=" + sender.imgUrl;
-/*        window.onload = function () {
-            var arrIcon = [senderImg.src, receiverImg.src];
-            var num = 0;     //控制头像改变
-            var iNow = -1;    //用来累加改变左右浮动
-            var icon = document.getElementById('user_face_icon').getElementsByTagName('img');
-            var btn = document.getElementById('btn');
-            var text = document.getElementById('text');
-            var content = document.getElementsByTagName('ul')[0];
-            var img = content.getElementsByTagName('img');
-            var span = content.getElementsByTagName('span');
+        /*        window.onload = function () {
+                    var arrIcon = [senderImg.src, receiverImg.src];
+                    var num = 0;     //控制头像改变
+                    var iNow = -1;    //用来累加改变左右浮动
+                    var icon = document.getElementById('user_face_icon').getElementsByTagName('img');
+                    var btn = document.getElementById('btn');
+                    var text = document.getElementById('text');
+                    var content = document.getElementsByTagName('ul')[0];
+                    var img = content.getElementsByTagName('img');
+                    var span = content.getElementsByTagName('span');
 
-            icon[0].onclick = function () {
-                if (num == 0) {
-                    this.src = arrIcon[1];
-                    // this.src=senderImg.src;
-                    num = 1;
-                } else if (num == 1) {
-                    this.src = arrIcon[0];
-                    //  this.src=receiverImg.src;
-                    num = 0;
-                }
-            }
-            btn.onclick = function () {
-                if (text.value == '') {
-                    alert('不能发送空消息');
-                } else {
-                    content.innerHTML += '<li><img src="' + arrIcon[num] + '"><span>' + text.value + '</span></li>';
-                    iNow++;
-                    if (num == 0) {
-                        img[iNow].className += 'imgright';
-                        span[iNow].className += 'spanright';
-                       /!* sendMsg(receiver.id, text.value);*!/
-                    } else {
-                        img[iNow].className += 'imgleft';
-                        span[iNow].className += 'spanleft';
+                    icon[0].onclick = function () {
+                        if (num == 0) {
+                            this.src = arrIcon[1];
+                            // this.src=senderImg.src;
+                            num = 1;
+                        } else if (num == 1) {
+                            this.src = arrIcon[0];
+                            //  this.src=receiverImg.src;
+                            num = 0;
+                        }
                     }
-                    text.value = '';
-                    // 内容过多时,将滚动条放置到最底端
-                    content.scrollTop = content.scrollHeight;
-                }
-            }
-        }*/
+                    btn.onclick = function () {
+                        if (text.value == '') {
+                            alert('不能发送空消息');
+                        } else {
+                            content.innerHTML += '<li><img src="' + arrIcon[num] + '"><span>' + text.value + '</span></li>';
+                            iNow++;
+                            if (num == 0) {
+                                img[iNow].className += 'imgright';
+                                span[iNow].className += 'spanright';
+                               /!* sendMsg(receiver.id, text.value);*!/
+                            } else {
+                                img[iNow].className += 'imgleft';
+                                span[iNow].className += 'spanleft';
+                            }
+                            text.value = '';
+                            // 内容过多时,将滚动条放置到最底端
+                            content.scrollTop = content.scrollHeight;
+                        }
+                    }
+                }*/
 
 
         $(function () {
             $("#receiverImg").attr("src", receiverImg.src);
-            setInterval(lastChatData,1000);
+            setInterval(lastChatData, 1000);
         })
 
-        var sinceTime=null;
+        var sinceTime = null;
 
-        function sendMsg( ) {
-            var txt=$("#text").val();
+        function sendMsg() {
+            var txt = $("#text").val();
             $.ajax({
                     url: basePath + '/chat/sendMsg.do',
                     type: 'POST',
                     data: {"receiverId": receiver.id, "senderId": sender.id, "txt": txt},
                     success: function (data) {
-                        if(data.msg=="yes"){
-                            var txt=$("#text").val('');
-                        }else{
+                        if (data.msg == "yes") {
+                            var txt = $("#text").val('');
+                        } else {
                             alert("消息发送失败！");
                         }
                     }
@@ -241,34 +246,29 @@
         var iNow = -1;    //用来累加改变左右浮动
         var arrIcon = [senderImg.src, receiverImg.src];
         var num = 0;     //控制头像改变
-        function lastChatData() {
-          /*  var icon = document.getElementById('user_face_icon').getElementsByTagName('img');
-            var btn = document.getElementById('btn');
-            var text = document.getElementById('text');*/
+        function lastChatData() {//查询消息展示到聊天页面
             var content = document.getElementsByTagName('ul')[0];
             var img = content.getElementsByTagName('img');
             var span = content.getElementsByTagName('span');
-
-
             $.ajax({
                     url: basePath + '/chat/afterMsg.do',
                     type: 'POST',
                     data: {"receiverId": receiver.id, "senderId": sender.id, "sinceTime": sinceTime},
                     success: function (data) {
-                        if(data.hasMsg=="yes"){
-                            sinceTime= data.lastMsgData[data.lastMsgData.length-1].createTime;
-                            sinceTime=sinceTime;
+                        if (data.hasMsg == "yes") {
+                            sinceTime = data.lastMsgData[data.lastMsgData.length - 1].createTime;
+                            sinceTime = sinceTime;
 
-                            data.lastMsgData.forEach(function(item,index){
-                                if(item.voicerId==sender.id){
+                            data.lastMsgData.forEach(function (item, index) {
+                                if (item.voicerId == sender.id) {
                                     content.innerHTML += '<li><img src="' + arrIcon[0] + '"><span>' + item.content + '</span></li>';
-                                    iNow=iNow+1;
+                                    iNow = iNow + 1;
                                     img[iNow].className += 'imgright';
                                     span[iNow].className += 'spanright';
                                     content.scrollTop = content.scrollHeight;
-                                }else if(item.voicerId==receiver.id){
+                                } else if (item.voicerId == receiver.id) {
                                     content.innerHTML += '<li><img src="' + arrIcon[1] + '"><span>' + item.content + '</span></li>';
-                                    iNow=iNow+1;
+                                    iNow = iNow + 1;
                                     img[iNow].className += 'imgleft';
                                     span[iNow].className += 'spanleft';
                                     content.scrollTop = content.scrollHeight;
@@ -280,17 +280,25 @@
             );
         }
 
-    /*    function isOnLine(userId){
-            $.ajax({
-                url: basePath + '/chat/isOnLine.do',
-                type: 'POST',
-                data: {"receiverId": receiver.id, "senderId": sender.id, "sinceTime": sinceTime},
-                success: function (data) {
-        }})}*/
-
-
-        function back(){
+        function back() {
             window.history.back();
+        }
+
+       /* window.onbeforeunload = function (e) {
+            var e = window.event || e;
+            e.returnValue("你确定要离开？");
+        }*/
+
+        function checkLeave() {
+            $.ajax({
+                url: basePath + '/chat/leaveDialog.do',
+                type: 'POST',
+                data: {"receiverId": receiver.id},
+                success: function (data) {
+
+                }
+            })
+
         }
 
 
@@ -298,7 +306,7 @@
 
     </script>
 </head>
-<body>
+<body onbeforeunload="checkLeave()">
 <div id="container">
     <div class="header">
         <span style="float: left;"><img class="back" th:src="@{/img/back.png}" onclick="back()"/></span>

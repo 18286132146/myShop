@@ -20,4 +20,17 @@ public class NeedsTalkServiceImp extends ServiceImpl<NeederTalkMapper,NeederTalk
     public Object senderMsgInfo(String userId,String lastDate){
         return neederTalkMapper.senderMsgInfoCount(userId,lastDate);
     };
+
+    /**
+     * 查询发送者新消息数
+     * @param userId
+     * @param voicerId
+     * @param lastDate
+     * @return
+     */
+    public int newMsgNums(String userId,String voicerId,Date lastDate){
+        Integer num=neederTalkMapper.newMsgNums(userId,voicerId,lastDate);
+        return num==null? 0:num;
+    };
+
 }

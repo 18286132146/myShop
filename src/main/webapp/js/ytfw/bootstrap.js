@@ -3,7 +3,54 @@
 	// 返回URL中的参数
 	var _param = window['_getParameter'];
 	var _pp = window['__pageParam'];
-
+    //返回基本路径
+    window['_getBasePath'] = function(){
+        if(!window.basePath){
+            var protocol = document.location.protocol;
+            var host = document.location.host;
+            var pathname = document.location.pathname;
+            var ctxname = pathname.split('/')[1];
+            if(pathname === '/' || ctxname === 'page' || ctxname === 'login.html'){
+                window.basePath = protocol + '//' + host;
+            }
+            else{
+                window.basePath = protocol + '//' + host + '/' + ctxname;
+            }
+        }
+        return window.basePath;
+    };
+    //返回URL中的参数
+    window['_getParameter'] = function (key, location){
+        var url = String(location || document.location);
+        if(key){
+            var value = url.match(new RegExp('[?&]' + key + '=([^&]*)(&?)', 'i'));
+            return value ? value[1] : null;
+        }
+        else{
+            var start = url.indexOf('?');
+            if (start == -1) {
+                return null;
+            }
+            //
+            url = url.slice(start + 1);
+            var items = url.split('&');
+            if(items.length === 0){
+                return null;
+            }
+            //
+            var key, value, index, item;
+            var values = {};
+            for (index = 0; index < items.length; index++) {
+                item = items[index].split('=');
+                key = item[0];
+                value = item[item.length - 1];
+                if (key) {
+                    values[key] = value ? unescape(value) : null;
+                }
+            }
+            return values;
+        }
+    };
 	// 兼容库代码
 	window.Zepto = $;
 
@@ -68,6 +115,7 @@
 		html += '{0}js/ytfw/ns/NS.js{1}';
 		html += '{0}js/ytfw/ns/NS_ACCT_TYPE.js{1}';
 		html += '{0}js/ytfw/core/YT.js{1}';
+        html += '{0}js/ytfw/core/Fw.js{1}';
 		html += '{0}js/ytfw/utils/Observable.js{1}';
 		html += '{0}js/ytfw/widget/Ajax.js{1}';
 		html += '{0}js/ytfw/utils/Format.js{1}';

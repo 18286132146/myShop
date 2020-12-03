@@ -12,7 +12,30 @@
     <link rel="stylesheet" href="../../assets/css/core/core.css">
 
     <style type="text/css">
-       .msgDiv{height:1.2rem;background-color: #1E9FFF;display: block;margin: 0rem 0.1rem 0.1rem 0.1rem }
+        .msgDiv {
+            height: 1.2rem;
+            background-color: #1E9FFF;
+            display: block;
+            margin: 0rem 0.1rem 0.1rem 0.1rem;
+        }
+
+        .headImg {
+            width: 1rem;
+            height: 1rem;
+            border-radius: 0.1rem;
+            margin-top: 0.1rem
+        }
+
+        .msgSpan {
+            position: fixed;
+            display: inline-block;
+            width: 0.5rem;
+            height: 0.5rem;
+            background: red;
+            border-radius: 0.4rem;
+            text-align: center;
+            line-height: 0.5rem;
+        }
 
     </style>
 </head>
@@ -21,15 +44,7 @@
 <div id="gz18">
     <div id="pageA" title="工作日程"
          data-btnLeft="true|&nbsp;|YT.prevPage()" data-btnRight="true|添加|GZ18.toAdd()">
-        <div style="">
-            <ul>
-                <li class="msgLi" data-jump="page/gz/p09/01/GZ0901.html">
-                    <div class="msgDiv">
-                        <div><img src=""/></div><span class="msgSpan">hheheheheh</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
+
     </div>
     <div id="pageB" title="添加日程"
          data-btnLeft="true|&nbsp;|GZ18.showPageA()" data-btnRight="false||">
@@ -46,15 +61,20 @@
 <script id="tpl" type="text/juicer">
 <div style="">
             <ul>
-
-                <li class="msgLi" data-jump="page/gz/p09/01/GZ0901.html">
-                    <div class="msgDiv">
-                        <span class="msgSpan">${data.msgNum}</span>
+             {@each data as item,index}
+                <li class="msgLi">
+                    <div class="msgDiv" id="${item.voicerId}" onclick="App.goChat('${item.senderId}')">
+                       <img class='headImg' src='needers/findPic?fileName=${item.headImg}'/>
+                       {@if item.newMsgNum>0}
+                        <span class="msgSpan">${item.newMsgNum}</span>
+                        {@/if}
                     </div>
                 </li>
-
+              {@/each}
             </ul>
-        </div>
+ </div>
+
+
 
 </script>
 </body>

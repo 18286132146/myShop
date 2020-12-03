@@ -55,7 +55,7 @@ private INeederService neederService;
             return map;
         }
             session.setAttribute("loginNeeder",nrList.get(0));
-        userOnLineList.add(nrList.get(0).getId());
+        userOnLineList.add(nrList.get(0).getId());//用户上线
         userOnLineAmont();
             map.put("result","yes");
             return map;

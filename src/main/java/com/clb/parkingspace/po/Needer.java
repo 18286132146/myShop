@@ -27,4 +27,5 @@ public class Needer {
     private String password;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lastScan;
+    private boolean hasNewMsg;
 }

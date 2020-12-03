@@ -97,7 +97,10 @@
     <div class="header">
         <span style="float: left;"><img class="back" th:src="@{/img/back.png}" onclick="back()"/></span>
         <span style="float: right;font-size: 2rem" onclick="goMyCenter.call(this)">个人中心</span>
-        <span style="margin-top:1rem;margin-right:6rem;display:inline-block;float: right"><img class="grMsg" th:src="@{/img/chat/grMsg.png}"/><img class="redMsg" th:src="@{/img/chat/redMsg.png}"/></span>
+        <span style="margin-top:1rem;margin-right:6rem;display:inline-block;float: right" onclick="goMsgCenter()">
+            <img class="grMsg" th:src="@{/img/chat/grMsg.png}"/>
+            <img class="redMsg" th:src="@{/img/chat/redMsg.png}"/>
+        </span>
     </div>
     <div class="ulDiv" style="display: inline-block;background: pink;">
         <ul class="neederUl" id="neederImgs">
@@ -284,6 +287,12 @@
    // message();
     flash();
     //消息闪烁
+
+    //跳转消息中心
+    function goMsgCenter(){
+        window.location = basePath + "/page/chart/msgCenter.html";
+    }
+
     /*]]>*/
 </script>
 </body>

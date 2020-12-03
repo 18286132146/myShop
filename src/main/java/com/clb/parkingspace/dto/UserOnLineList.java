@@ -1,15 +1,20 @@
 package com.clb.parkingspace.dto;
 
+import com.clb.parkingspace.dao.SenderMarkMapper;
 import com.clb.parkingspace.util.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 
 public class UserOnLineList {
    // private List<String> userOnLineList=new ArrayList<String>();
     Logger logger= LoggerFactory.getLogger(this.getClass());
+
+    @Resource
+    private SenderMarkMapper senderMarkMapper;//对话消息状态记录
 
     public UserOnLineList(){
 
@@ -31,7 +36,7 @@ public class UserOnLineList {
         t.start();
     }
 
-    private Map<String,Date> userOnLineMap=new HashMap<>();
+    protected Map<String,Date> userOnLineMap=new HashMap<>();
 
     public int howManyOnLine(){
         return this.userOnLineMap.size();
@@ -65,6 +70,12 @@ public class UserOnLineList {
                 String k=m.getKey();
                     logger.info("===========用户心跳超时，强制下线============="+k);
                     ite.remove();
+                    /**
+                     * 更改聊天为没有查看新消息
+                     */
+                   // senderMarkMapper.update();
+
+
                 }
         }
     }
