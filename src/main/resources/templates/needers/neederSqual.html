@@ -55,7 +55,7 @@
         .page div {
             display: inline-block;
             background: #287cff;
-            width: 28rem;
+            width: 30rem;
             height: 6rem;
             line-height: 5rem;
             border-radius: 0.8rem;
@@ -64,7 +64,7 @@
         }
 
         .header {
-            background: #ff9800;
+            background: #00d4d4;
             height: 6rem;
             color: #fff;
             line-height: 5rem;
@@ -85,7 +85,7 @@
         }
 
         .grMsg {
-            display: none;
+           /* display: none;*/
             width: 4rem;
             height:4rem;
         }
@@ -102,14 +102,14 @@
             <img class="redMsg" th:src="@{/img/chat/redMsg.png}"/>
         </span>
     </div>
-    <div class="ulDiv" style="display: inline-block;background: pink;">
+    <div class="ulDiv" style="display: inline-block;background: rgba(30,159,255,0.29);">
         <ul class="neederUl" id="neederImgs">
 
         </ul>
     </div>
-    <div class="page" style="background: pink">
-        <div class="page uPagee" id="uPage" onclick="changePage.call(this)">上一页</div>
-        <div class="page dPagee" style="float: right" id="dPage" onclick="changePage.call(this)">下一页</div>
+    <div class="page" style="background: rgba(30,159,255,0.29);position: fixed;bottom: 2%;width: 100%">
+        <div class="uPagee" id="uPage" onclick="changePage.call(this)">上一页</div>
+        <div class="dPagee" style="float: right;margin-right:1rem" id="dPage" onclick="changePage.call(this)">下一页</div>
     </div>
 </div>
 <script type="text/javascript" th:inline="javascript">
@@ -121,20 +121,22 @@
     var basePath = [[${#httpServletRequest.getScheme() + "://" + #httpServletRequest.getServerName() + ":" + #httpServletRequest.getServerPort() + #httpServletRequest.getContextPath()}]];
     var neederImpFolder = "";
     var pageNo = App.pageNo;
+/*    Object.defineProperty(App, "pageNo", {
+        get: function () {
+            alert("get:"+pageNo);
+            return pageNo
+        },
+        set: function (pageNo) {
+            if (pageNo <= 0) {
+                App.pageNo = 1;
+            } else {
+                alert("set:"+pageNo);
+                goPage(pageNo);
+            }
+        }
+    });*/
     $(function () {
         goPage(pageNo);
-        Object.defineProperty(App, "pageNo", {
-            get: function () {
-                return pageNo
-            },
-            set: function (pageNo) {
-                if (pageNo <= 0) {
-                    App.pageNo = 1;
-                } else {
-                    goPage(pageNo);
-                }
-            }
-        })
     })
     var index = null;
 
@@ -225,9 +227,14 @@
         switch (id) {
             case 'uPage':
                 App.pageNo = App.pageNo - 1;
+                if(App.pageNo<1){
+                    App.pageNo=1;
+                }
+                goPage(App.pageNo);
                 break;
             case 'dPage':
                 App.pageNo = App.pageNo + 1;
+                goPage(App.pageNo);
         }
     }
 
@@ -261,7 +268,7 @@
 
            set:function(value){
                if(value){
-                   if(id!=''){clearInterval(id)}
+                   if(id!=''){clearInterval(id)}//清楚原来的定时
                    id=setInterval(jiaoHuan,300);
                }else{
                    //恢复不闪动
@@ -269,7 +276,7 @@
                    var msg = $(".redMsg");
                    var grMsg = $(".grMsg");
                    msg.css("display","none");
-                   grMsg.css("display","none")
+                  //grMsg.css("display","none")
                }
             }
         })

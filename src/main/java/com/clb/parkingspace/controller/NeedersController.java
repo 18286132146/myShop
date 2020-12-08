@@ -8,6 +8,7 @@ import com.clb.parkingspace.po.Needer;
 import com.clb.parkingspace.po.NeederTalk;
 import com.clb.parkingspace.service.INeederService;
 import com.clb.parkingspace.service.INeederTalkService;
+import com.clb.parkingspace.util.FileUtil;
 import com.clb.parkingspace.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -69,6 +70,8 @@ public class NeedersController extends CommonController {
     @ResponseBody
     public Object listNeeders(int pageNo, int pageSize) {
         EntityWrapper ew = new EntityWrapper<Needer>();
+
+        neederService.selectList(ew);
         Page page = neederService.selectPage(new Page(pageNo, pageSize), ew);
         return page;
     }
@@ -116,21 +119,23 @@ public class NeedersController extends CommonController {
     public String goEditNeeder(HttpSession session, Model modle) {
         //老用户，回显数据
         Needer needer = (Needer) session.getAttribute("loginNeeder");
-        modle.addAttribute("needer", needer);
+        Needer needer2 = neederService.selectById(needer.getId());
+
+        modle.addAttribute("needer", needer2);
         return "needers/editNeeders";
     }
 
     @RequestMapping(value = "/addNeeders.do", method = RequestMethod.POST)
     @ResponseBody
-    public Object imgUpload(@RequestParam(value = "file", required = true) MultipartFile file,
-                           @RequestParam(value = "name", required = false) String name,
-                            @RequestParam(value = "sex", required = false)String sex,
-                            @RequestParam(value = "age", required = true)int age,
-                            @RequestParam(value = "province", required = false)String province,
-                            @RequestParam(value = "city", required = false)String city,
-                            @RequestParam(value = "county", required = false)String county,  @RequestParam(value = "detail", required = false)String detail,
-                            @RequestParam(value = "idCard", required = false)String idCard,  @RequestParam(value = "memo", required = false)String memo, HttpServletRequest request,
-                            @RequestParam(value = "password",required = true) String password,  @RequestParam(value = "phone", required = false)String phone) throws Exception {
+    public Object addNeeders(@RequestParam(value = "file", required = true) MultipartFile file,
+                             @RequestParam(value = "name", required = false) String name,
+                             @RequestParam(value = "sex", required = false) String sex,
+                             @RequestParam(value = "age", required = true) int age,
+                             @RequestParam(value = "province", required = false) String province,
+                             @RequestParam(value = "city", required = false) String city,
+                             @RequestParam(value = "county", required = false) String county, @RequestParam(value = "detail", required = false) String detail,
+                             @RequestParam(value = "idCard", required = false) String idCard, @RequestParam(value = "memo", required = false) String memo, HttpServletRequest request,
+                             @RequestParam(value = "password", required = true) String password, @RequestParam(value = "phone", required = false) String phone) throws Exception {
         Map map = new HashMap<String, Object>();
         EntityWrapper ew = new EntityWrapper();
         ew.eq("phone", phone);
@@ -154,6 +159,7 @@ public class NeedersController extends CommonController {
         needer.setMemo(memo);
         needer.setName(name);
         needer.setProvince(province);
+        needer.setPhone(phone);
         String fileName = file.getOriginalFilename(); //获取文件名
         fileName = fileName.substring(fileName.indexOf("."), fileName.length());
         needer.setPassword(password);
@@ -181,5 +187,74 @@ public class NeedersController extends CommonController {
         return map;
     }
 
+    @RequestMapping(value = "/editNeeders.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object editNeeders(@RequestParam(value = "file", required = true) MultipartFile file,
+                              @RequestParam(value = "name", required = false) String name,
+                              @RequestParam(value = "sex", required = false) String sex,
+                              @RequestParam(value = "age", required = true) int age,
+                              @RequestParam(value = "province", required = false) String province,
+                              @RequestParam(value = "city", required = false) String city,
+                              @RequestParam(value = "county", required = false) String county, @RequestParam(value = "detail", required = false) String detail,
+                              @RequestParam(value = "idCard", required = false) String idCard, @RequestParam(value = "memo", required = false) String memo, HttpServletRequest request,
+                              @RequestParam(value = "password", required = false) String password, @RequestParam(value = "phone", required = false) String phone) throws Exception {
+        Map map = new HashMap<String, Object>();
+        EntityWrapper ew = new EntityWrapper();
+        byte[] b=file.getBytes();
+        ew.eq("phone", phone);
+        Needer needSe = (Needer) request.getSession().getAttribute("loginNeeder");
+        EntityWrapper ewr = new EntityWrapper();
+        ewr.eq("id", needSe.getId());
+        Needer nee = neederService.selectOne(ewr);
+        //name和addrinfo是表单提交的数据 因为文件上传有可能带有其他参数   但是名字要与表单里的名字一样
+        // Needer needer = new Needer();
+        nee.setAge(age);
+        nee.setSex(sex);
+        nee.setArea(county + detail);
+        nee.setCity(city);
+        nee.setIdCard(idCard);
+        nee.setMemo(memo);
+        nee.setName(name);
+        nee.setProvince(province);
+        nee.setPhone(phone);
+        String fileName = "";
+        String oldFileName = nee.getImgUrl();
+        boolean isNewImg=false;
+        if (file != null) {
+            fileName = file.getOriginalFilename(); //获取文件名
+            if(!fileName.isEmpty()){
+                isNewImg=true;//更换图片
+            }
+        } else {
+            Map result = new HashMap<>();
+            result.put("msg", "头像不能为空！");
+            return result;
+        }
+        if (fileName.isEmpty()) {
+            fileName = nee.getImgUrl();//编辑时没有更改图片，图片名称就是用户id
+        }
+            if (fileName.contains(".")) {
+            String fileEnd = fileName.substring(fileName.indexOf("."), fileName.length());
+            fileName = nee.getId() + fileEnd;
+        }
+        if (!(file == null) && !fileName.isEmpty() && isNewImg) {
+            String path = neederImpFolder;//图片保存路径
+            if(!oldFileName.equals(fileName)){
+                File oldFile = new File(path, oldFileName);
+                oldFile.delete();
+            }
+            try {
+                FileUtil.writeFile(path,fileName,file);
+                nee.setImgUrl(fileName);
+            } catch (Exception e) {
+                e.printStackTrace();
+                map.put("result", "fail");
+                return map;
+            }
+        }
+        neederService.update(nee, ewr);
+        map.put("result", "success");
+        return map;
+    }
 
 }

@@ -110,9 +110,11 @@ public class ChatController {
         ew3.eq("sender_id",receiverId);//发送消息的对方id
         ew3.and().eq("scan_id",loginNeeder.getId());
         SenderMark sdm=senderMarkService.selectOne(ew3);
-        sdm.setLastDate(new Date());
-        sdm.setFlash(true);//标记消息已查看
-        senderMarkService.update(sdm,ew3);
+        if(sdm!=null){
+            sdm.setLastDate(new Date());
+            sdm.setFlash(true);//标记消息已查看
+            senderMarkService.update(sdm,ew3);
+        }
         return "needers/chatPanel";
     }
     @RequestMapping(value = "/afterMsg.do")

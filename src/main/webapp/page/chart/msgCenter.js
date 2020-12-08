@@ -7,6 +7,9 @@ var App={
         App.pages=[App.pageA,App.pageB,App.pageC];
         WY.showPages(App.pageA,App.pages);
         WY.ajax('chat/findSendersMsg.do',{},'App.success');
+        $(".titlebar-left-btn").bind('click',function () {
+            window.history.back();
+        })
     },
   success:function(data){
         var tpl=$("#tpl").html();

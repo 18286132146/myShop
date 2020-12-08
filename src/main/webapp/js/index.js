@@ -4,15 +4,21 @@ var App={
 }
 
 
-var picmax = 9; //限制上传数量
+var picmax =1; //限制上传数量
 function imgChange() {
+	//如果是编辑状态图片回显
+	//var userImg=document.getElementById('userImg');
+    //如果是编辑状态图片回显
 	var file = document.getElementById('file').files;
+  /*  if(userImg!=null){
+        file=userImg;
+    }*/
     var imglist = document.querySelectorAll('.upload-Picitem');
     var piclist = document.getElementsByClassName('upload-piclist')[0];
-    var filelist = file.length + imglist.length > picmax ? 9 - imglist.length : file.length + imglist.length;
-	if (file.length + imglist.length >= 9) {
+    var filelist = file.length + imglist.length > picmax ? 1 - imglist.length : file.length + imglist.length;
+	if (file.length + imglist.length >= 1) {
         var uploadfile = document.getElementsByClassName('upload-file')[0]
-		uploadfile.style.display = "none"
+		//uploadfile.style.display = "none"
 	}
 	for (var i = 0; i < filelist; i++) {
 		readerfile(file[i]).then(e => {
