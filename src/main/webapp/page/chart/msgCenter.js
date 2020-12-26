@@ -17,7 +17,8 @@ var App={
       $("#pageA").html(html);
   },
   goChat:function(id) {
-     window.location.href=Fw.getBasePath()+"/chat/goChatPan.do?receiverId="+id;
+     /*window.location.href=Fw.getBasePath()+"/chat/goChatPan.do?receiverId="+id;*/
+     Fw.redirect("/page/needers/chatPanel.html",{receiver:id})
   }
 }
 

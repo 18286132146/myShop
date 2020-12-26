@@ -97,7 +97,10 @@
     <div class="header">
         <span style="float: left;"><img class="back" th:src="@{/img/back.png}" onclick="back()"/></span>
         <span style="float: right;font-size: 2rem" onclick="goMyCenter.call(this)">个人中心</span>
-        <span style="margin-top:1rem;margin-right:6rem;display:inline-block;float: right" onclick="goMsgCenter()">
+        <span style="margin-top:1rem;margin-right:3rem;display:inline-block;float: right" onclick="goMarketCenter()">
+          <img class="grMsg" th:src="@{/img/jishi.png}"/>
+        </span>
+        <span style="margin-top:1rem;margin-right:2rem;display:inline-block;float: right" onclick="goMsgCenter()">
             <img class="grMsg" th:src="@{/img/chat/grMsg.png}"/>
             <img class="redMsg" th:src="@{/img/chat/redMsg.png}"/>
         </span>
@@ -298,6 +301,10 @@
     //跳转消息中心
     function goMsgCenter(){
         window.location = basePath + "/page/chart/msgCenter.html";
+    }
+    //跳转集市中心
+    function goMarketCenter(){
+        window.location = basePath + "/page/market/marketCenter.html";
     }
 
     /*]]>*/

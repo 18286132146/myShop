@@ -1,0 +1,30 @@
+@charset "utf-8";
+.yui-agreeContent{
+    padding:15px;
+    padding-left: 0;
+    padding-top:0px;
+    background:#fff;
+}
+.yui-agreeContent p{
+    padding: 0 15px 0 16px;
+    margin-top:10px;
+    line-height:20px;
+    font-size:13px;
+    color: #666666;
+}
+.yui-agreeContent p:nth-of-type(1){
+    margin-top:0px;
+}
+.ui-module-tips .ui-checkbox-sq input{
+    width: 10px;
+}
+/*同意选择协议*/
+.yui-module-tips {
+    padding: 19px 10px 5px 16px;
+    color: #333333;
+    font-size: 13px;
+    position: relative;
+}
+.yui-module-tips .ui-checkbox-sq input {
+    width: 10px;
+}

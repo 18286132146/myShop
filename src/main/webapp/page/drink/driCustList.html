@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html>
+　　
+<head>
+    <meta charset="UTF-8">
+   <!-- <script src="../js/jquery.min.js"></script>-->
+    <script src="../../js/ytfw.js"></script>
+    <script src="../../js/ytfw/device/web.js"></script>
+    <link rel="stylesheet" href="../../assets/css/core/frozen.css">
+    <link rel="stylesheet" href="../../assets/css/core/web.css">
+    <link rel="stylesheet" href="../../assets/css/core/core.css">
+
+    <style type="text/css">
+        body {
+            background: rgba(30, 159, 255, 0.13)
+        }
+
+        .search {
+            font-size: 0.4rem;
+        }
+
+        .search input {
+            height: 0.6rem;
+            width: 2rem;
+        }
+
+        .search .phone {
+            height: 0.6rem;
+            width: 3rem;
+        }
+
+        .searchImg {
+            width: 0.6rem;
+            height: 0.6rem;
+            right: 0.4rem;
+            position: fixed;
+        }
+
+        thead td {
+            border: solid 1px;
+            width: 4rem;
+            text-align: center;
+            font-size: 0.4rem;
+            color: #0b7bc2
+        }
+
+        tbody td {
+            border: solid 1px;
+            width: 4rem;
+            text-align: center;
+            font-size: 0.3rem
+        }
+    </style>
+
+</head>
+<body>
+<div id="gz18">
+    <div id="pageA" title="我的顾客"
+         data-btnLeft="true|&nbsp;|YT.prevPage()" data-btnRight="true|添加|GZ18.toAdd()">
+        <div class="search" style="background: #b8d4f2;">
+            <form id="fm">
+                <table>
+                    <tr class="dition">
+                        电话：<input name="phone" class="phone"/>姓名：<input name="name"/><img class="searchImg"
+                                                                                         src="../../img/search.png"/>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div style="margin-top: 0.3rem">
+            <table>
+                <thead>
+                <tr>
+                    <td>序号</td>
+                    <td>姓名</td>
+                    <td>性别</td>
+                    <td>电话</td>
+                    <td>等级</td>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script id="tpl" type="text/juicer">
+             {@each data as item,index}
+                 <tr>
+                    <td>${index}</td>
+                    <td>${item.name}</td>
+                    <td>${item.sex}</td>
+                    <td>${item.phone}</td>
+                    <td>${item.grade}</td>
+                </tr>
+              {@/each}
+</script>
+
+
+</body>
+　　
+</html>

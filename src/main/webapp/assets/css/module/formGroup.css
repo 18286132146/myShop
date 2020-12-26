@@ -1,0 +1,52 @@
+@charset "utf-8";
+
+/****----模块标题收放标志----****/
+.y-form-group .y-form-group-header .ui-form-title {
+	background-color: #fff;
+	line-height: 40px;
+	padding-left: 8px;
+	height: 40px;
+}
+
+.y-form-group .y-form-group-header .ui-form-title label {
+	font-size: 15px;
+	font-weight: bold;
+	padding-left: 10px;
+	width: 100%;
+}
+
+.y-form-group .y-form-group-header .ui-form-title label:before {
+	content: '';
+	position: absolute;
+	height: 14px;
+	width: 3px;
+	left: 0;
+	top: 14px;
+	background: #CACACA;
+	border-radius: 30px;
+}
+
+.y-form-group .y-form-group-header .ui-form-title .current label:before
+	{
+	background: #52B4F4;
+}
+
+/****----分栏模块标题样式----****/
+.ui-module-title{
+	height: 34px;
+	line-height: 34px;
+	position: relative;
+	padding-left: 20px;
+	color: #6A7277;
+	font-size: 13px;
+}
+.ui-module-title:before{
+	content: '';
+	position: absolute;
+	height: 14px;
+	width: 3px;
+	left: 8px;
+	top: 10px;
+	background: #52B4F4;
+	border-radius: 12px;
+}

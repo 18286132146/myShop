@@ -1,0 +1,319 @@
+*{
+    box-sizing: border-box;
+}
+body .page{
+    font-size: 13px;
+    /* font-family: PingFangSC-Regular; */
+}
+/*排序选项*/
+.y-sort-warp {
+     border-top: 1px #E8E8E8 solid;
+     position: relative;
+ }
+.y-sort-warp .y-sort p {
+     color: #454d79;
+     position: relative;
+ }
+.ui-tab>.ui-tab-nav li p{
+    font-size: 14px;
+    color: #444C7C;
+}
+.y-sort-warp .y-sort label:before,.y-sort-warp .y-sort label:after
+ {
+     font-family: "iconfont" !important;
+     font-size: 12px;
+     font-style: normal;
+     -webkit-font-smoothing: antialiased;
+     -moz-osx-font-smoothing: grayscale;
+     content: "\e635";
+     position: absolute;
+     transform: scale(0.6);
+     color: #DEDEDE;
+     top: -5px;
+     right: -14px;
+ }
+.y-sort-warp .y-sort label:after {
+     -webkit-transform: rotate(180deg) scale(0.6) translate(1.5px,0);
+     transform: rotate(180deg) scale(0.6) translate(1.5px,0);
+     top: 3px;
+ }
+.y-sort-warp .y-sort.sort-asc label:before {
+     color: #454d79;
+ }
+.y-sort-warp .y-sort.sort-desc label:before {
+     color: #DEDEDE;
+ }
+.y-sort-warp .y-sort.sort-desc label:after {
+     color: #454D79;
+ }
+/*理财列表*/
+.yui-final-wrap{
+    background: #fff;
+    padding: 16px 0 14px 16px;
+    position: relative;
+}
+.yui-final-wrap .yui-final-head{
+    color: #2C2C2C;
+}
+.yui-final-wrap .yui-final-head label{
+    position: absolute;
+    right: 0;
+    height: 22px;
+    line-height: 22px;
+    width: 40px;
+    background: url("../../img/nbcb/label_red.png") no-repeat;
+    background-size: 100% 100%;
+    padding-left: 12px;
+    font-size: 12px;
+    color: #FFFFFF;
+}
+.yui-final-wrap .yui-final-head label.yui-hot{
+    background-image: url("../../img/nbcb/label_yellow.png");
+    color: #2C2C2C;
+}
+.yui-final-wrap .yui-final-head span:nth-of-type(2){
+    padding: 2px 6px;
+    border: 1px solid #396EF6;
+    border-radius: 100px;
+    font-size: 12px;
+    color: #4F5FCE;
+    margin-left: 5px;
+}
+.yui-final-wrap .yui-final-content{
+    padding: 1px 0 6px 0;
+}
+.yui-final-wrap .yui-final-content li{
+    display: inline-block;
+}
+.yui-final-wrap .yui-final-content li:nth-of-type(2){
+    margin: 0 40px 0px 30px;
+}
+.yui-final-wrap .yui-final-content li h1{
+    display: block;
+    font-size: 16px;
+    color: #2C2C2C;
+}
+.yui-final-wrap .yui-final-content li:first-child h1{
+    /* font-family: SFUIDisplay-Medium; */
+    font-size: 26px;
+    color: #FF860F;
+    position: relative;
+    top: 5px;
+}
+.yui-final-wrap .yui-final-content li span{
+    font-size: 13px;
+    color: #888888;
+}
+.yui-final-wrap .yui-final-footer{
+    font-size: 14px;
+    color: #2C2C2C;
+}
+.yui-final-wrap .yui-final-footer:before{
+    display: inline-block;
+    margin-right: 4px;
+    content: "";
+    height: 14px;
+    width: 14px;
+    background: url("../../img/nbcb/cny_orange.png") no-repeat;
+    position: relative;
+    top:2px;
+}
+.yui-final-wrap .yui-final-footer span{
+    padding-left: 4px;
+    color: #FF860F;
+}
+/*底部菜单*/
+footer.ui-footer{
+    height: 53px;
+    line-height: 53px;
+    color: #4F5FCE;
+    font-size: 17px;
+    background: #FFFFFF;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,0.22);
+}
+footer.ui-footer .yui-vertical-col{
+    width:1px;
+}
+footer.ui-footer .yui-vertical-col>div{
+    height: 17px;
+    border-left: 1px solid #aaaaaa;
+}
+footer.ui-footer img{
+    width: 24px;
+    height:20px;
+    position: relative;
+    top:2px;
+    margin-right: 4px;
+}
+/*form表单行高                      待确定 50*/
+.ui-form .ui-form-item{
+    height: 50px;
+    line-height: 50px;
+}
+.ui-form .ui-form-item > .ui-select{
+    margin-left: 84px;
+}
+.ui-form .ui-form-item label:not(.ui-switch):not(.ui-checkbox):not(.ui-checkbox-s):not(.ui-radio):not(.ui-radio-s){
+    color: #666666;
+}
+.ui-form .ui-select select，.ui-form .ui-form-item label:not(.ui-switch):not(.ui-checkbox):not(.ui-checkbox-s):not(.ui-radio):not(.ui-radio-s){
+    font-size: 16px;
+}
+.ui-form .ui-select select{
+    color: #2C2C2C;
+}
+/*收益金额区间列表*/
+.yui-income-wrap{
+    min-height: 100%;
+    background: #FFFFFF;
+    position: relative;
+}
+.yui-income-head{
+    height: 35px;
+    line-height: 35px;
+    background: #EBEEFF;
+    font-size: 14px;
+    color: #6068A2;
+}
+.yui-income-head span:last-child,.yui-income-content div span:last-child{
+    position: absolute;
+    left: 50%;
+}
+.yui-income-head,.yui-income-content{
+    padding-left: 16px;
+}
+.yui-income-content{
+    font-size: 15px;
+    color: #2C2C2C;
+}
+.yui-income-content div{
+    height:46px;
+    line-height: 46px;
+    border-bottom: 1px solid #E6E6E6;
+}
+/*底部菜单按钮*/
+.ui-actionsheet.show .ui-actionsheet-cnt{
+    background: #F6F7F9;
+}
+.ui-actionsheet .ui-actionsheet-cnt{
+    padding: 0;
+    font-size: 17px;
+}
+.ui-actionsheet .ui-actionsheet-cnt button:last-child{
+    margin: 0;
+    margin-top: 6px;
+}
+.ui-actionsheet .ui-actionsheet-cnt button{
+    height:50px;
+    line-height: 50px;
+    color: #2C2C2C;
+    background: #fff;
+    border-radius: 0!important;
+    border-top: 1px solid #F6F7F9;;
+}
+.ui-actionsheet .ui-actionsheet-cnt button:first-child,.ui-actionsheet .ui-actionsheet-cnt button:last-child{
+    border: 0;
+}
+.ui-actionsheet .ui-popup-overlay{
+    z-index:initial;
+}
+.ui-actionsheet.show .ui-actionsheet-cnt.hide{
+    -webkit-transform: translateY(100%);
+}
+/*点击link 跳转*/
+.ui-form-item.yui-link{
+    height: 45px;
+    line-height: 45px;
+}
+.ui-form-item.yui-link label{
+    width:auto!important;
+    font-size: 15px!important;
+}
+.ui-form-link.yui-link:after{
+    color: #C0C3CE;
+    font-size: 20px;
+    right: 10px;
+}
+/*筛选下拉框*/
+div.yui-finalFilter{
+    height: 45px;
+    line-height: 45px;
+    background: #eeeeee;
+    padding-left: 16px;
+}
+div.yui-finalFilter .ui-select{
+    margin-left: 0;
+}
+div.yui-finalFilter select{
+    font-size: 15px;
+    color: #2C2C2C;
+}
+div.yui-finalFilter .ui-select:after{
+    content: '';
+    background: url("../../img/nbcb/arrow_down.png") no-repeat;
+    width: 22px;
+    height: 22px;
+    margin-top: 0;
+    top:25%;
+}
+/*底部按钮*/
+.yui-bottom-button.ui-footer{
+    height: 45px;
+    line-height: 45px;
+    color: #156be4;
+    font-size: 17px;
+    color: #4F5FCE;
+}
+.yui-bottom-button.ui-footer ul>li:first-child{
+    background: #EBEEFF;
+}
+.yui-bottom-button.ui-footer ul>li:last-child{
+    background: #4F5FCE;
+    color: #FFFFFF;
+}
+/*搜索框*/
+div.ui-searchbar-wrap{
+    height: 60px;
+    background: #FFFFFF;
+}
+div.ui-searchbar{
+    height:36px;
+    margin-left: 16px;
+    background: rgba(142,142,147,0.12);
+    border-radius: 100px;
+    border: none;
+}
+i.yui-icon-search{
+    height: 28px;
+    width: 28px;
+    background: url("../../img/nbcb/icon_top_search.png");
+    left:8px;
+    top: 2px;
+}
+div.ui-searchbar-input{
+    padding-left: 35px;
+}
+div.ui-searchbar-input input{
+    font-size: 15px;
+    color: #2C2C2C;
+}
+div.ui-searchbar-wrap .ui-searchbar-cancel{
+    font-size: 17px;
+    color: #AAAAAA;
+}
+.yui-datail-list{
+    padding-bottom: 0;
+}
+html,body,.page,#p_sample_main,#p_nbcb_demo_07_index{
+    height: 100%!important;
+}
+.yui-datail-list{
+    min-height: 100%;
+}
+.ui-form-item .ui-select:after{
+    content: '';
+    width: 22px;
+    height: 22px;
+    background: url("../../img/nbcb/arrow_down.png") no-repeat;
+    top:73%;
+}

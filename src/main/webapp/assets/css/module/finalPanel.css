@@ -1,0 +1,90 @@
+.yui-invest-panel{
+    padding: 16px 0 16px 0px;
+    background: url("../../img/nbcb/bg_invest.png") no-repeat;
+    background-size: 100% 100%;
+    text-align: center;
+}
+.yui-invest-head,.yui-invest-content{
+    position: relative;
+}
+.yui-invest-head li,.yui-invest-content li{
+    display: inline-block;
+}
+.yui-invest-head li:first-child,.yui-invest-head li:last-child{
+    position: absolute;
+    top:7px;
+}
+.yui-invest-head li:first-child{
+    color: #FFFFFF;
+    left:16px;
+}
+.yui-invest-head li:first-child:after{
+    display: inline-block;
+    margin-left: 4px;
+    content: "";
+    height: 14px;
+    width: 13px;
+    background: url("../../img/nbcb/icon_synopsis.png") no-repeat;
+    position: relative;
+    top:2px;
+}
+.yui-invest-head li:last-child{
+    right:0;
+    font-size: 12px;
+    color: #2C2C2C;
+    height: 22px;
+    line-height: 22px;
+    width: 40px;
+    background: url("../../img/nbcb/label_red.png") no-repeat;
+    background-size: 100% 100%;
+    padding-left: 12px;
+    font-size: 12px;
+    color: #FFFFFF;
+}
+.yui-invest-head li.yui-hot:last-child{
+    background-image: url("../../img/nbcb/label_yellow.png");
+    color: #2C2C2C;
+}
+.invest-head-md h1{
+   /*  font-family: SFUIDisplay-Medium; */
+    font-size: 26px;
+    color: #FFFFFF;
+}
+.invest-head-md span{
+    color: #FFFFFF;
+}
+.yui-invest-content{
+    margin-top: 18px;
+}
+.yui-invest-content h1{
+    font-size: 16px;
+    color: #FFFFFF;
+}
+.yui-invest-content span{
+    opacity: 0.5;
+    font-size: 13px;
+    color: #FFFFFF;
+}
+.yui-invest-content li:first-child{
+    position: absolute;
+    left:16px;
+}
+.yui-invest-content li:last-child{
+    position: absolute;
+    right:16px;
+}
+.yui-final-footer{
+    font-size: 15px;
+    color: #FFFFFF;
+    margin-top: 17px;
+}
+.yui-final-footer:before{
+    display: inline-block;
+    margin-right: 4px;
+    content: "";
+    height: 14px;
+    width: 14px;
+    background: url("../../img/nbcb/cny_white.png") no-repeat;
+    position: relative;
+    top:2px;
+}

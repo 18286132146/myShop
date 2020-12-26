@@ -91,18 +91,20 @@ public class ChatController {
     }
 
     @RequestMapping(value = "/goChatPan.do")
-    public String goChartPan(Model model, String receiverId, HttpSession session){
+    @ResponseBody
+    public Object goChartPan(String receiverId, HttpSession session){
         EntityWrapper ew=new EntityWrapper();
+        Map paramMap=new HashMap();
         ew.eq("receiver_id",receiverId);
         Needer loginNeeder=(Needer)session.getAttribute("loginNeeder");
         ew.or().eq("voicer_id",loginNeeder.getId());
         ew.orderBy("create_time",false);
-        model.addAttribute("detailList",neederTalkService.selectList(ew));
+        paramMap.put("detailList",neederTalkService.selectList(ew));
         EntityWrapper ew2=new EntityWrapper();
         ew2.eq("id",receiverId);
        Needer needer= neederService.selectOne(ew2);
-       model.addAttribute("receiver",needer);
-        model.addAttribute("sender",loginNeeder);
+        paramMap.put("receiver",needer);
+        paramMap.put("sender",loginNeeder);
         //刷新最后一次浏览消息中心时间
      /*   needer.setLastScan(new Date());
         neederService.update(needer,ew2);*/
@@ -115,7 +117,7 @@ public class ChatController {
             sdm.setFlash(true);//标记消息已查看
             senderMarkService.update(sdm,ew3);
         }
-        return "needers/chatPanel";
+        return paramMap;
     }
     @RequestMapping(value = "/afterMsg.do")
     @ResponseBody
@@ -183,6 +185,7 @@ public class ChatController {
         for(SenderMark mk: listSenMk){
             String senderId=mk.getSenderId();
             Needer needer=neederService.selectById(mk.getSenderId());
+            if(needer==null){continue;}
             String img=needer.getImgUrl();
             SenderMarkVo v= new SenderMarkVo();
             v.setHeadImg(img);//头像

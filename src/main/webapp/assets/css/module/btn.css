@@ -1,0 +1,80 @@
+@charset "utf-8";
+
+/****----按钮基础样式----****/
+.ui-form-item-r button {
+    text-align: center;
+    width: 80px;
+    height: 30px;
+    font-size: 0.14rem;
+    top: 7px;
+    right: 15px;
+    border-radius: 4px;
+    padding: 0 !important;
+}
+button.ui-border-l{
+	height: 22px;
+    line-height: 22px;
+    font-size: 12px;
+    top: 9px;
+    color: #fff;
+}
+.ui-sms-btn{
+	position: absolute;
+	height: 22px;
+    line-height: 22px;
+    font-size: 15px;
+    color: #4F5FCE;
+    width: 100px;
+    top: 15px;
+    right: 15px;
+    text-align: center;
+}
+.ui-sms-btn:active{
+	color: #676e9c;
+}
+@media screen and (-webkit-min-device-pixel-ratio: 2){
+	button.ui-border-l:before {
+	    border-radius: 6px;
+	}
+}
+
+.ui-form>.ui-form-item .ui-display-field button{
+	border: 1px solid #eb9500;
+    padding: 0 0.1rem;
+    color: #eb9500;
+    border-radius: 10px;
+    font-size: 0.1rem;
+    margin: 0 5px 0 5px;
+    line-height: 20px;
+}
+/*交易密码下按钮样式*/
+.yui-btn-wrap{
+	padding:0 10px;
+}
+
+.ui-switch {
+    margin-top: -14px;
+}
+
+/****----自定义按钮（余额查询、获取验证码）----****/
+.yui-btn-1 {
+    position: absolute;
+    right: 15px;
+    top: 8px;
+    height: 26px;
+    line-height: 26px;
+    border-radius: 5px;
+    padding: 0 5px;
+}
+@media screen and (-webkit-min-device-pixel-ratio: 2){
+	.yui-btn-1:before {
+	    border-radius: 25px;
+	    pointer-events: none;
+	}
+}
+.yui-btn-1-reg{
+ right: 0;
+}
+.ui-btn-s,.ui-btn,.ui-btn-lg {
+	border-radius: 25px;
+}

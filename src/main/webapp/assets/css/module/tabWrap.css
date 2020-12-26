@@ -1,0 +1,50 @@
+.ui-tab>.ui-tab-nav{
+    height:44px;
+}
+.ui-tab>.ui-tab-nav li{
+    /*height: 44px;*/
+    /*line-height: 44px;*/
+}
+.ui-tab>.ui-tab-nav li.current{
+   /*  border-bottom:none; */
+}
+.ui-tab-nav li>p, .ui-tab-nav li>span{
+    position: relative;
+    display: inline-block;
+    width: auto;
+    padding: 0px 5px;
+    height: 44px;
+    line-height: 44px;
+    padding: 0 6px;
+    font-size: 15px;
+    color: #888888;
+}
+.ui-tab>.ui-tab-nav li.current>span{
+    color: #444C7C;
+   /*  font-family: PingFangSC-Medium; */
+}
+.ui-tab-nav li.current>span:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #444C7C;;
+}
+.ui-tab-content li{
+    display: none;
+}
+.ui-tab-content li.current{
+    display: block;
+}
+
+/*tab差异样式  橘色tab，窄下边  加上class org即可*/
+.ui-tab.org>.ui-tab-nav li.current>span{
+    color: #F29438;
+}
+.ui-tab.org .ui-tab-nav li.current>span:before{
+    background: #F29438;
+    left: 20%;
+    width: 60%;
+}

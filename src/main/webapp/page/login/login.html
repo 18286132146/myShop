@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en"  style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <title>neederSpual</title>
+    <script src="../../js/ytfw.js"></script>
+    <script src="../../js/ytfw/device/web.js"></script>
+    <link href="../../css/common.css" rel="stylesheet"/>
+    <script src="../../js/jquery.min.js"/>
+    <!-- <script th:src="@{/jqury/jquery-2.1.4.min.js}"></script>-->
+    <script src="../../js/layer-v3.1.1/layer/layer.js"></script>
+    <link rel="stylesheet" href="../../js/layer-v3.1.1/layer/mobile/need/layer.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+
+        .eleInput {
+            height: 6rem;
+            width: 60%;
+            font-size: 3rem;
+        }
+        form div{
+            height: 10rem;
+        }
+        form div span{
+           font-size: 3rem;
+        }
+        .botton{
+            width: 60%;
+           height: 6rem;
+           border-radius: 0.5rem;
+            font-size: 3rem;
+       }
+        .bottonDiv{
+            margin-top: 20rem;
+            bottom: 10rem;
+            text-align: center;
+        }
+      body{background-image: url("../../img/wutai.jpg");
+          background-attachment: fixed;
+          background-size: cover;
+          background-repeat: no-repeat;
+          font-size: 2rem;
+      }
+      </style>
+</head>
+<body >
+<div style="margin-top: 1rem;margin-top: 40rem">
+    <form id="fm">
+        <div>
+            <span>账&nbsp;&nbsp;&nbsp;号：</span><input type="text" name="username" class="eleInput"
+                                                     required="" autofocus="">手机号/<span><img src="../../img/regist.png" style="width: 3rem;height: 3rem" onclick="goRegist()"/></span>
+        </div>
+        <div>
+            <span> 密&nbsp;&nbsp;&nbsp;码：</span><input id="password" name="password" type="password" class="eleInput"/>
+        </div>
+    </form>
+</div>
+<div class="bottonDiv">
+    <input id="submit" type="button" value="登&nbsp;&nbsp;&nbsp;录"  onclick="login()"  class="botton"/>
+</div>
+
+
+<script type="text/javascript">
+
+    var basePath = Fw.getBasePath();
+
+    function login() {
+        var formData=$("#fm").serialize();
+        $.ajax({
+            url: basePath + '/sys/login.do',
+            type: 'POST',
+            data: formData,
+            async: false,
+            success: function (data) {
+                console.log(data)
+                if(data.result=='yes'){
+                    window.location=basePath+'/page/needers/neederSqual.html'
+                }else{
+                    alert(data.msg);
+                }
+            }
+        })
+    }
+    function goRegist(){
+        window.location=basePath+"/needers/goAddNeeders.do"
+    }
+</script>
+</body>
+</html>

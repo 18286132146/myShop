@@ -1,0 +1,32 @@
+.yui-result-wrap{
+    text-align: center;
+    padding: 40px 0 30px 0;
+    background: #fff;
+}
+.yui-result-wrap p{
+    margin-top: 12px;
+    font-size: 16px;
+    color: #5D70F2;
+}
+.yui-result-wrap span{
+    display: block;
+    color: #999999;
+    height: 42px;
+    line-height: 42px;
+}
+/*结果列表*/
+.yui-result-list{
+    padding: 10px 16px 10px 16px;
+    font-size: 14px;
+}
+.yui-result-list div{
+	height:35px;
+    line-height: 35px;
+}
+.yui-result-list label{
+    float: left;
+}
+.yui-result-list p{
+    margin-left: 106px;
+    word-wrap: break-word;
+}

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <title>neederSpual</title>
+    <script src="../../js/ytfw.js"></script>
+    <script src="../../js/ytfw/device/web.js"></script>
+    <script src="../../js/jquery/jquery-2.1.1.js"></script>
+    <!-- <script th:src="@{/jqury/jquery-2.1.4.min.js}"></script>-->
+    <script src="../../js/layer-v3.1.1/layer/layer.js"></script>
+    <script src="../../js/commonJs.js"></script>
+    <link rel="stylesheet" href="../../js/layer-v3.1.1/layer/mobile/need/layer.css">
+    <link href="../../css/common.css" rel="stylesheet"/>
+    <style>
+        ul {
+            /* width: 17rem;
+                       height: 17rem;*/
+            padding: 0rem;
+            margin: 0rem;
+            padding-left: 2.5rem;
+        }
+
+        .neederLi {
+            margin: 0.2rem;
+            padding: 0;
+            list-style: none;
+            float: left;
+            display: inline;
+            text-align: center;
+        }
+
+        .imgDiv {
+            width: 18rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .neederImg {
+            width: 16rem;
+            height: 18rem;
+        }
+
+        .layui-m-layercont img {
+            width: 60rem;
+            height: 80rem;
+        }
+
+        .ulDiv {
+            text-align: center;
+        }
+
+        /*   ul{text-align: center;}*/
+        .neederUl div {
+            font-size: 2rem;
+        }
+
+        .page div {
+            display: inline-block;
+            background: #287cff;
+            width: 30rem;
+            height: 6rem;
+            line-height: 5rem;
+            border-radius: 0.8rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .header {
+            background: #00d4d4;
+            height: 6rem;
+            color: #fff;
+            line-height: 5rem;
+            font-size: 1.5rem;
+            padding: 0 10px;
+        }
+
+        .back {
+            height: 6rem;
+            width: 6rem
+        }
+
+        /*消息闪烁*/
+        .redMsg {
+            display: none;
+            width: 4rem;
+            height: 4rem;
+        }
+
+        .grMsg {
+            /* display: none;*/
+            width: 4rem;
+            height: 4rem;
+        }
+        .lan{margin-right:2rem; }
+        .lan img{width: 4rem;height: 4rem}
+        /*消息闪烁*/
+    </style>
+</head>
+<body>
+<div class="container" id="pageA">
+    <div class="header">
+        <span style="float: left;"><img class="back" src="../../img/back.png" onclick="back()"/></span>
+        <span style="float: right;font-size: 2rem" onclick="goMyCenter.call(this)">个人中心</span>
+        <span style="margin-top:1rem;margin-right:3rem;display:inline-block;float: right" onclick="goMarketCenter()">
+          <img class="jishi" style="height:4rem;width:4rem;" src="../../img/jishi.png"/>
+        </span>
+        <span style="margin-top:1rem;margin-right:2rem;display:inline-block;float: right" onclick="goMsgCenter()">
+            <img class="grMsg" src="../../img/chat/grMsg.png"/>
+            <img class="redMsg" src="../../img/chat/redMsg.png"/>
+        </span>
+    </div>
+    <div class="ulDiv" style="display: inline-block;background: rgba(30,159,255,0.29);">
+        <ul class="neederUl" id="neederImgs">
+
+        </ul>
+    </div>
+    <div class="page" style="background: rgba(30,159,255,0.29);position: fixed;bottom: 2%;width: 100%">
+        <div class="uPagee" id="uPage" onclick="changePage.call(this)">上一页</div>
+        <div class="dPagee" style="float: right;margin-right:1rem" id="dPage" onclick="changePage.call(this)">下一页</div>
+    </div>
+</div>
+<div class="container" style="display: none;" id="pageB">
+    <input type="hidden" id="neederId"/>
+    <div class="header">
+        <span style="float: left;"><img class="back" id="backA" src="../../img/back.png" onclick="back.call(this)"/></span>
+        <span style="float: right;font-size: 2rem" onclick="goMyCenter.call(this)">个人中心</span>
+        <span style="margin-top:1rem;margin-right:3rem;display:inline-block;float: right" onclick="goMarketCenter()">
+          <img class="jishi" style="height:4rem;width:4rem;" src="../../img/jishi.png"/>
+        </span>
+        <span style="margin-top:1rem;margin-right:2rem;display:inline-block;float: right" onclick="goMsgCenter()">
+            <img class="grMsg" src="../../img/chat/grMsg.png"/>
+            <img class="redMsg" src="../../img/chat/redMsg.png"/>
+        </span>
+    </div>
+    <div class="neederDetail" id="neederDetail" style="width: 100%;height:50rem;">
+
+
+    </div>
+    <div class="neederInfo" style="width: 100%;height:50rem;font-size: 2.5rem">
+        <div>
+            格言：
+            <div></div>
+        </div>
+        <div style="height: 3rem;position: fixed;z-index: 999;bottom: 8rem">
+                <pan class="lan">送玫瑰：<span><img src="../../img/needers/rose.png"></span></pan>
+
+                <pan class="lan">聊天：<span><img src="../../img/chat/grMsg.png" class="neederDetail" onclick="goChat.call(this)"></span></pan>
+
+                <pan class="lan">赞： <span><img src="../../img/needers/xindong.png" onclick='brightHeart.call(this);'></span></pan>
+
+                <pan class="lan">私信：<span><img src="../../img/needers/ongAsk.png"></span></pan>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

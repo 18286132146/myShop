@@ -16,7 +16,8 @@
 		return value ? value[1] : null;
 	}; 
 	// 外部库
-	var plugins = ["jquery/jquery-2.1.1.min","juicer/juicer-1.0.min", "seajs/sea-min", "seajs/seajs-css"];
+	var plugins = ["jquery/jquery-2.1.1.min","juicer/juicer-1.0.min", "seajs/sea-min", "seajs/seajs-css","layer-v3.1.1/layer/layer",
+	"jquery/jquery-2.1.1"];
 	for (var i = 0, j = plugins.length; i < j; i++) {
 		document.write('<script src="' + basePath + '/js/' + plugins[i] + '.js"></script>');
 	}

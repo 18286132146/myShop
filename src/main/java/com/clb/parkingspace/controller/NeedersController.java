@@ -122,7 +122,7 @@ public class NeedersController extends CommonController {
         Needer needer2 = neederService.selectById(needer.getId());
 
         modle.addAttribute("needer", needer2);
-        return "needers/editNeeders";
+        return "/page/needers/editNeeders.html";
     }
 
     @RequestMapping(value = "/addNeeders.do", method = RequestMethod.POST)

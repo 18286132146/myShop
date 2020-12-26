@@ -4,7 +4,7 @@
             $(showPage).css("display", "block");
             for (var i = 0; i < pages.length; i++) {
                 if (!showPage.is(pages[i])) {
-                    pages[i].css("display", "none");
+                    $(pages[i]).css('display', 'none');
                 }
             }
             $(".web-title").html(showPage.attr('title'));

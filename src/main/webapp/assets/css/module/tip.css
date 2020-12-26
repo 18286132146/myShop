@@ -1,0 +1,33 @@
+.yui-tip-wrap{
+    padding: 13px 16px 25px 16px;
+}
+.yui-tip-wrap h1{
+    /* font-family: PingFangSC-Medium; */
+    font-size: 16px;
+    color: #2C2C2C;
+    font-weight: bold;
+}
+.yui-tip-wrap span{
+    display: inline-block;
+    margin: 10px 0;
+    margin-right: 5px;
+    width: 30%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 100px;
+    background: #f1eded;
+    font-size: 13px;
+    color: #666666;
+}
+span.yui-tip-stress{
+    background: #EBEEFF;
+}
+.yui-tip-wrap>div span:nth-of-type(3n){
+    margin-right: 0;
+}
+/*不规整tip宽度  加上class yui-tip-otherWrap*/
+.yui-tip-otherWrap span{
+    width: auto;
+    padding: 0 18px;
+}

@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+.yui-logo-5200 {
+    background: url(../../../nxy/img/bank/5200/logo.png) no-repeat;
+    background-size: 100%;
+}
+
+/** ---沈阳银行 --2200-- **/
+.yui-logo-bg-2200 {
+    background: #ffffff;
+    background-size: 100% 54px;
+}
+.yui-logo-2200 {
+    background: url(../../../nxy/img/bank/2200/logo-2200.png) no-repeat;
+    background-size: 100%;
+}

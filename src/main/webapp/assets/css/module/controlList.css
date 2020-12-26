@@ -1,0 +1,36 @@
+.yui-datail-list {
+    padding: 16px 16px 8px 16px;
+    line-height: 28px;
+    font-size: 15px;
+}
+.yui-datail-list .yui-datail-item:after {
+    display: block;
+    content: ' ';
+    clear: both;
+}
+.yui-datail-list .yui-datail-item label, .yui-datail-list .yui-datail-item p {
+    display: inline-block;
+}
+.yui-datail-list .yui-datail-item label {
+    color: #666666;
+    width: 146px;
+    float: left;
+}
+.yui-datail-list .yui-datail-item p {
+    text-align: left;
+    color: #2C2C2C;
+    width: 53%;
+}
+.stretch-button{
+    height:40px;
+    line-height: 40px;
+    font-size: 15px;
+    color: #4F5FCE;
+    background: #EBEEFF;
+    text-align: center;
+}
+
+/*子类下边距*/
+.yui-datail-subclass{
+    padding-bottom: 10px;
+}

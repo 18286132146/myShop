@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html>
+　　
+<head>
+    <meta charset="UTF-8">
+    <!-- <script src="../js/jquery.min.js"></script>-->
+    <script src="../../js/ytfw.js"></script>
+    <script src="../../js/ytfw/device/web.js"></script>
+    <link rel="stylesheet" href="../../assets/css/core/frozen.css">
+    <link rel="stylesheet" href="../../assets/css/core/web.css">
+    <link rel="stylesheet" href="../../assets/css/core/core.css">
+
+    <style type="text/css">
+        select{font-size: 0.4rem;width: 4rem;height: 1rem}
+        option{font-size: 0.4rem}
+        input{font-size: 0.4rem;
+            width: 4rem;
+            height: 0.6rem;}
+        .sex{width: 0.5rem}
+        .submit{background: #a1a1d0;
+            border-radius: 0.2rem;
+            width: 50%;
+            text-align: center;
+            bottom: 10%;
+            margin-left: 2rem;
+            position: absolute;}
+    </style>
+
+</head>
+<body style="font-size: 0.6rem">
+<div id="gz18">
+    <div id="pageA" title="添加顾客"
+         data-btnLeft="true|&nbsp;|YT.prevPage()" data-btnRight="true|添加|GZ18.toAdd()">
+        <div>
+            <form id="fm">
+                <div class="inDiv">
+                    <span>姓&nbsp;&nbsp;&nbsp;名：</span><input id="name" name="name" class="eleInput"/>
+                </div>
+                <div class="inDiv">
+                    <span> 性&nbsp;&nbsp;&nbsp;别：</span>
+                    <input  class="sex" id="sex" name="sex" checked type="radio"/>男
+                    <input class="sex" name="sex" type="radio"/>女
+                </div>
+                <div class="inDiv">
+                    <span> 年&nbsp;&nbsp;&nbsp;龄：</span><input class="eleInput" id="age" name="age" type="number"/>
+                </div>
+                <div class="inDiv">
+                    <span>手机号：</span><input id="phone" name="phone" class="eleInput"/>
+                </div>
+                <div class="area" id="area" name="area">
+                    <span>居住地:</span>
+                    <div>
+                        <select id="province" name="province">
+                            <option selected>--请选择--</option>
+                        </select>省
+                    </div>
+                    <div><select id="city" name="city"></select>市</div>
+                    <div><select id="county" name="county"></select>县/区</div>
+                    <div><input id="detail" name="detail" class="eleInput"/>详细地址</div>
+                </div>
+                <div class="pageB">
+                    <section class="upload-section">
+                        <div class="submit" onclick="App.submit()">
+                            下一步
+                        </div>
+                    </section>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+</body>
+　　
+</html>

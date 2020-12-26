@@ -1,21 +1,21 @@
 var Fw = {
 
-    getBasePath:function() {
+    getBasePath: function () {
         return window.basePath;
     },
-    idSeed : 10000,
+    idSeed: 10000,
     /**
      * 返回ID
      * @param {Object} v
      */
-    id : function() {
+    id: function () {
         return 'fw-gen-' + (++Fw.idSeed);
     },
     /**
      * 返回UUID
      * @param {int} len
      */
-    uuid: function(len){
+    uuid: function (len) {
         var uuid = [], me = arguments.callee, c = me.chars;
         len = len || 32;
         if (!c) c = me.chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
@@ -27,38 +27,38 @@ var Fw = {
      * @param info
      * @param tag
      */
-    log: function(info, tag){
-        if(console) {
+    log: function (info, tag) {
+        if (console) {
             console.log(tag, '\t', info);
         }
     },
     /**
      * 空白函数
      */
-    emptyFn : function() {
+    emptyFn: function () {
     },
     /**
      * 定义命名空间
      */
-    namespace : function() {
+    namespace: function () {
         var space = null, path;
-        Fw.each(arguments, function(v) {
+        Fw.each(arguments, function (v) {
             path = v.split('.');
             space = window[path[0]] = window[path[0]] || {};
-            Fw.each(path.slice(1), function(v2) {
+            Fw.each(path.slice(1), function (v2) {
                 space = space[v2] = space[v2] || {};
             });
         });
         return space;
     },
-  //页面下拉框渲染 公共模型
-    querySelectViewCM:function(selectObj,selectValue,selectFlg,flag){
-		var comboBoxTpl = Fw.template([
-           '{@each data as item,index}',
-               '<option value="${item.parValue}">${item.parName}</option>',
-           '{@/each}'
-		                            ]);
-	    	//参数依次为下拉框对象，下拉框选中值，下拉框后台接受渲染标志,
+    //页面下拉框渲染 公共模型
+    querySelectViewCM: function (selectObj, selectValue, selectFlg, flag) {
+        var comboBoxTpl = Fw.template([
+            '{@each data as item,index}',
+            '<option value="${item.parValue}">${item.parName}</option>',
+            '{@/each}'
+        ]);
+        //参数依次为下拉框对象，下拉框选中值，下拉框后台接受渲染标志,
         Fw.util.Ajax.query({
             //数据源
             service: 'wdCustService',
@@ -69,19 +69,19 @@ var Fw = {
                 flag: selectFlg
             },
             sort: [{
-                property : 'parValue',
-                direction : 'asc'
+                property: 'parValue',
+                direction: 'asc'
             }],
 //            async:false,//异步加载
             //请求成功后回调
-            success: function(data, result) {
-            	 //插入一条
-            	if(!flag){
-    				data.splice(0, 0, {
-    					parId: '',
-    					parName: '请选择'
-    				});
-    			}
+            success: function (data, result) {
+                //插入一条
+                if (!flag) {
+                    data.splice(0, 0, {
+                        parId: '',
+                        parName: '请选择'
+                    });
+                }
                 var html = comboBoxTpl.render({
                     data: data
                 });
@@ -97,7 +97,7 @@ var Fw = {
      * @param {} config
      * @param {} defaults
      */
-    apply : function(object, config, defaults) {
+    apply: function (object, config, defaults) {
         if (defaults) {
             Fw.apply(object, defaults);
         }
@@ -113,7 +113,7 @@ var Fw = {
      * @param {} object
      * @param {} config
      */
-    applyIf : function(object, config) {
+    applyIf: function (object, config) {
         if (object) {
             for (var p in config) {
                 if (!Fw.isDefined(object[p])) {
@@ -126,8 +126,8 @@ var Fw = {
     /**
      * 继承
      */
-    extend : function() {
-        var objectConstructor = Object.prototype.constructor, inlineOverrides = function(o) {
+    extend: function () {
+        var objectConstructor = Object.prototype.constructor, inlineOverrides = function (o) {
             for (var m in o) {
                 if (!o.hasOwnProperty(m)) {
                     continue;
@@ -135,7 +135,7 @@ var Fw = {
                 this[m] = o[m];
             }
         };
-        return function(subclass, superclass, overrides) {
+        return function (subclass, superclass, overrides) {
             /*
             if(Fw.isString(subclass)){
                 var className = subclass;
@@ -152,7 +152,7 @@ var Fw = {
             if (Fw.isObject(superclass)) {
                 overrides = superclass;
                 superclass = subclass;
-                subclass = overrides.constructor !== objectConstructor ? overrides.constructor : function() {
+                subclass = overrides.constructor !== objectConstructor ? overrides.constructor : function () {
                     superclass.apply(this, arguments);
                 };
             }
@@ -160,7 +160,7 @@ var Fw = {
                 return null;
             }
             //
-            var F = function() {
+            var F = function () {
             };
             var subclassProto, superclassProto = superclass.prototype;
             F.prototype = superclassProto;
@@ -170,13 +170,13 @@ var Fw = {
             if (superclassProto.constructor === objectConstructor) {
                 superclassProto.constructor = superclass;
             }
-            subclass.override = function(overrides) {
+            subclass.override = function (overrides) {
                 Fw.override(subclass, overrides);
             };
             subclassProto.override = inlineOverrides;
             subclassProto.proto = subclassProto;
             subclass.override(overrides);
-            subclass.extend = function(o) {
+            subclass.extend = function (o) {
                 return Fw.extend(subclass, o);
             };
             return subclass;
@@ -187,21 +187,21 @@ var Fw = {
      * @param {} cls
      * @param {} overrides
      */
-    override : function(cls, overrides) {
+    override: function (cls, overrides) {
         Fw.apply(cls.prototype, overrides);
     },
     /**
      * 转换为字符
      * @param {Object} v
      */
-    toString : function(v) {
+    toString: function (v) {
         return Object.prototype.toString.apply(v);
     },
     /**
      * 是否已定义
      * @param {} v
      */
-    isDefined : function(v) {
+    isDefined: function (v) {
         return typeof v !== 'undefined';
     },
     /**
@@ -209,15 +209,15 @@ var Fw = {
      * @param {} v
      * @param {} allowBlank
      */
-    isEmpty : function(v, allowBlank) {
-        if(Fw.isObject(v)){
+    isEmpty: function (v, allowBlank) {
+        if (Fw.isObject(v)) {
             var name;
             for (name in v) {
                 return false;
             }
             return true;
         }
-        if(Fw.isArray(v)){
+        if (Fw.isArray(v)) {
             return !v.length;
         }
         return v === null || v === undefined || String(v).toUpperCase() === 'NULL' || (!allowBlank ? v === '' : false);
@@ -226,13 +226,13 @@ var Fw = {
      * 是否相等
      * 支持各种类型比较
      */
-    isEqual : function(value, value2){
+    isEqual: function (value, value2) {
         //都是NULL
-        if(Fw.isEmpty(value) && Fw.isEmpty(value2)){
+        if (Fw.isEmpty(value) && Fw.isEmpty(value2)) {
             return true;
         }
         //其中一个是NULL
-        else if(Fw.isEmpty(value) || Fw.isEmpty(value2)){
+        else if (Fw.isEmpty(value) || Fw.isEmpty(value2)) {
             return false;
         }
         //数组
@@ -244,10 +244,10 @@ var Fw = {
             return value.getTime() === value2.getTime();
         }
         //非Object（Object只做简单比较）
-        else if(!Fw.isObject(value) && !Fw.isObject(value)){
+        else if (!Fw.isObject(value) && !Fw.isObject(value)) {
             return String(value) === String(value2);
         }
-        
+
         //
         return value === value2;
     },
@@ -255,63 +255,63 @@ var Fw = {
      * 是否是数组
      * @param {} v
      */
-    isArray : function(v) {
+    isArray: function (v) {
         return Fw.toString(v) === '[object Array]';
     },
     /**
      * 是否是日期
      * @param {} v
      */
-    isDate : function(v) {
+    isDate: function (v) {
         return Fw.toString(v) === '[object Date]';
     },
     /**
      * 是否是对象
      * @param {} v
      */
-    isObject : function(v) {
+    isObject: function (v) {
         return !!v && Fw.toString(v) === '[object Object]' && !Fw.isNumber(v.length) && !Fw.isFunction(v.splice) && (!Fw.isFunction(v.propertyIsEnumerable) || !v.propertyIsEnumerable('splice'));
     },
     /**
      * 是否是函数
      * @param {} v
      */
-    isFunction : function(v) {
+    isFunction: function (v) {
         return Fw.toString(v) === '[object Function]';
     },
     /**
      * 是否是数值型
      * @param {} v
      */
-    isNumber : function(v) {
+    isNumber: function (v) {
         return typeof v === 'number' && isFinite(v);
     },
     /**
      * 是否是字符型
      * @param {} v
      */
-    isString : function(v) {
+    isString: function (v) {
         return typeof v === 'string';
     },
     /**
      * 是否是布尔型
      * @param {} v
      */
-    isBoolean : function(v) {
+    isBoolean: function (v) {
         return typeof v === 'boolean';
     },
     /**
      * 是否是原始类型
      * @param {} v
      */
-    isPrimitive : function(v) {
+    isPrimitive: function (v) {
         return Fw.isString(v) || Fw.isNumber(v) || Fw.isBoolean(v);
     },
     /**
      * 是否可迭代
      * @param {} v
      */
-    isIterable : function(v) {
+    isIterable: function (v) {
         return (v && typeof v !== 'string') ? Fw.isDefined(v.length) : false;
     },
     /**
@@ -319,7 +319,7 @@ var Fw = {
      * @param {} v
      * @return {}
      */
-    isURL : function(v) {
+    isURL: function (v) {
         return Fw.util.VTypes.url(v);
     },
     /**
@@ -327,7 +327,7 @@ var Fw = {
      * @param {} str
      * @return {}
      */
-    trim : function(str){
+    trim: function (str) {
         var reg = '/(^\s*)|(\s*$)/';
         return str.replace(reg, '');
     },
@@ -337,17 +337,18 @@ var Fw = {
      * @param {} params
      * @param {} local（如果是向后抬提交请求，则应设置为false）
      */
-    redirect : function(url, params, local) {
+    redirect: function (url, params, local) {
+        window.localStorage.clear();
         if (Fw.isEmpty(params)) {
-        	params = {};
+            params = {};
         }
-        var ps = encodeURIComponent(Fw.encode(params));
+        var ps = params;
         //本地存储
-        if(local !== false){
-            window.LS.set('_parameters', ps);
+        if (local !== false) {
+            window.localStorage.setItem("params", JSON.stringify(params));
         }
         //在url中存储（一般用于提交到后台）
-        else{
+        else {
             var search = document.location.search;
             if (!Fw.isEmpty(search)) {
                 search = search.replace(/(&?)t=[^&]+/g, '');
@@ -358,32 +359,23 @@ var Fw = {
         }
         ///
         url += (url.indexOf('?') > 0 ? '&' : '?') + 't=' + new Date().getTime();
-        document.location.href = url;
+        document.location.href = Fw.getBasePath() + "/" + url;
     },
-    
+
     /**
      * 返回parameters参数
      * 特指页面跳转间传递的参数
      */
-    getParameters : function(key) {
-        if(key){
-            return Fw.getParameters() ? Fw._parameters[key] : Fw.getParameter(key) || null;
-        }
-        else{
-            if (Fw._parameters) {
-                return Fw._parameters;
+    getParameters: function (key) {
+        var params = window.localStorage.getItem("params");
+        if (params) {
+            var paraObj = eval('(' + params + ')');
+            if (paraObj && key) {
+                return paraObj[key] ? paraObj[key] : null;
             }
-            else{
-                var ps1 = window.LS.get('_parameters') || Fw.getParameter('parameters');
-                ps1 = Fw.isEmpty(ps1) ? {} : Fw.decode(decodeURIComponent(ps1));
-                var ps2 = Fw.getParameter();
-                if(!Fw.isEmpty(ps2)){
-                    Fw.apply(ps1, ps2);
-                }
-                Fw._parameters = Fw.isEmpty(ps1) ? null : ps1;
-                return Fw._parameters;
-            }
+            return null;
         }
+        return null;
     },
     /**
      * 遍历数组
@@ -391,7 +383,7 @@ var Fw = {
      * @param {} fn
      * @param {} scope
      */
-    each : function(value, fn, scope) {
+    each: function (value, fn, scope) {
         if (Fw.isEmpty(value)) {
             return;
         }
@@ -404,7 +396,8 @@ var Fw = {
                 if (value.hasOwnProperty(prop)) {
                     if (fn.call(scope || value, prop, value[prop], i++, value) === false) {
                         return;
-                    };
+                    }
+                    ;
                 }
             }
         } else {
@@ -414,7 +407,8 @@ var Fw = {
             for (var i = 0, len = value.length; i < len; i++) {
                 if (fn.call(scope || value[i], value[i], i, value) === false) {
                     return i;
-                };
+                }
+                ;
             }
         }
     },
@@ -425,13 +419,13 @@ var Fw = {
      * @param {} args
      * @return {}
      */
-    bind : function(fn, scope, args, appendArgs) {
+    bind: function (fn, scope, args, appendArgs) {
         if (!Fw.isFunction(fn)) {
             return fn;
         }
-        if(args){
+        if (args) {
             var method = fn, slice = Array.prototype.slice;
-            return function() {
+            return function () {
                 var callArgs = args || arguments;
                 if (appendArgs === true) {
                     callArgs = slice.call(arguments, 0);
@@ -440,46 +434,46 @@ var Fw = {
                 return method.apply(scope, callArgs);
             };
         }
-        else{
-            return function() {
+        else {
+            return function () {
                 return fn.apply(scope, arguments);
             };
         }
     },
     /**
-     * 触发回调函数 
+     * 触发回调函数
      * @param {} fn
      * @param {} scope
      * @param {} args
      */
-    call: function(fn, scope, args){
-        if(!fn){
+    call: function (fn, scope, args) {
+        if (!fn) {
             return fn;
         }
-        else if(Fw.isFunction(fn)){
-            if(scope){
-                if(args){
+        else if (Fw.isFunction(fn)) {
+            if (scope) {
+                if (args) {
                     return fn.apply(scope, args);
                 }
-                else{
+                else {
                     return fn.call(scope);
                 }
             }
-            else{
+            else {
                 return Fw.call(fn, fn, args);
             }
         }
-        else if(Fw.isObject(fn) && fn.fn){
+        else if (Fw.isObject(fn) && fn.fn) {
             return Fw.call(fn.fn, scope || fn.scope, args || fn.args);
         }
-        else{
+        else {
             return fn;
         }
     },
     /**
-     * 延时执行 
+     * 延时执行
      */
-    defer: function(fn, millis, scope) {
+    defer: function (fn, millis, scope) {
         fn = Fw.bind(fn, scope);
         if (millis > 0) {
             return setTimeout(function () {
@@ -493,7 +487,7 @@ var Fw = {
      * 页面加载完毕后，初始化应用
      * @param {} app
      */
-    onReady : function(app) {
+    onReady: function (app) {
         if (app.init) {
             var deps = seajs.parseDependencies(app.init.toString());
             if (Fw.isArray(deps)) {
@@ -518,7 +512,7 @@ var Fw = {
      * @param {} deps
      * @param {} factory
      */
-    define : function() {
+    define: function () {
         define.apply(this, arguments);
     },
     /**
@@ -526,30 +520,30 @@ var Fw = {
      * 桥接Juicer
      * http://juicer.name
      */
-    template : function() {
+    template: function () {
         var tpl = arguments[0];
-        if(Fw.isArray(tpl)){
-            if(tpl.length > 1){
+        if (Fw.isArray(tpl)) {
+            if (tpl.length > 1) {
                 var arr = [], funs = {};
                 //从模版中分出自定义函数
-                Fw.each(tpl, function(item){
-                    if(Fw.isObject(item)){
+                Fw.each(tpl, function (item) {
+                    if (Fw.isObject(item)) {
                         Fw.apply(funs, item);
                     }
-                    else{
+                    else {
                         arr.push(item);
                     }
                 });
                 //注册自定义函数
-                Fw.each(funs, function(prop, fun){
-                    if(Fw.isFunction(fun)){
+                Fw.each(funs, function (prop, fun) {
+                    if (Fw.isFunction(fun)) {
                         juicer.register(prop, fun);
                     }
                 });
                 //
                 arguments[0] = arr.join('');
             }
-            else{
+            else {
                 arguments[0] = tpl[0];
             }
         }
@@ -558,14 +552,14 @@ var Fw = {
 };
 
 //父窗口
-if(self != top){
+if (self != top) {
     Fw.TOP_WINDOW = parent.window;
 }
 
 //浏览器判断
 //是否IE
 Fw.isIE = !!document.documentMode;
-Fw.each([7, 8, 9, 10, 11], function(v){
+Fw.each([7, 8, 9, 10, 11], function (v) {
     Fw['isIE' + v] = Fw.isIE && document.documentMode === v;
 });
 

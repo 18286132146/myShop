@@ -131,9 +131,15 @@
     var num= area.replace(/[^0-9]/ig,"");
     var detail=area.split(num)[1]
     $(function () {
-        findAreas('province', '0', provinceId);
-        findAreas('city', provinceId, city);
-        findAreas('county', city, num);
+        findAreas('province', '0');
+        $("#province").change(function () {
+            var proId = $("#province option:selected").val();
+            findAreas('city', proId);
+        })
+        $("#city").change(function () {
+            var proId = $("#city option:selected").val();
+            findAreas('county', proId);
+        });
         $("#detail").val(detail);
         var userImg= $("#userImg").attr('value');
         //alert(userImg);
@@ -147,7 +153,7 @@
 
     })
 
-    function findAreas(grade, pid, rebackId) {
+    function findAreas(grade, pid) {
         $.ajax({
             url: basePath + '/common/findAreaData',
             type: 'POST',
@@ -158,11 +164,7 @@
                         $("#province").html('');
                         var html = '<option>--请选择--</option>';
                         $.each(data, function (index, val) {
-                            if (rebackId == val.id) {
-                                html += '<option value="' + val.id + '" selected=true>' + val.areaName + '</option>';
-                            } else {
-                                html += '<option value="' + val.id + '">' + val.areaName + '</option>';
-                            }
+                            html += '<option value="' + val.id + '">' + val.areaName + '</option>';
                         })
                         $("#province").html(html);
                         break;
@@ -172,11 +174,6 @@
                         var html = '<option>--请选择--</option>';
                         $.each(data, function (index, val) {
                             html += '<option value="' + val.id + '">' + val.areaName + '</option>';
-                            if (rebackId == val.id) {
-                                html += '<option value="' + val.id + '" selected=true>' + val.areaName + '</option>';
-                            } else {
-                                html += '<option value="' + val.id + '">' + val.areaName + '</option>';
-                            }
                         })
                         $("#city").html(html);
                         break;
@@ -184,11 +181,7 @@
                         $("#county").html('');
                         var html = '<option>--请选择--</option>';
                         $.each(data, function (index, val) {
-                            if (rebackId == val.id) {
-                                html += '<option value="' + val.id + '" selected=true>' + val.areaName + '</option>';
-                            } else {
-                                html += '<option value="' + val.id + '">' + val.areaName + '</option>';
-                            }
+                            html += '<option value="' + val.id + '">' + val.areaName + '</option>';
                         })
                         $("#county").html(html);
                         break;
