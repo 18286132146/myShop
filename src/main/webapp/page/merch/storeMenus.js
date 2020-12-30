@@ -2,7 +2,11 @@ var App = {
     current: 0,
     size: 20,
     pages: null,
+    storeId: null,
+    storeName:null,
+    data:null,
     init: function () {
+        App.storeId=Fw.getParameters("storeId");
         $(".titlebar-left-btn").bind('click', function () {
             window.history.back();
         });
@@ -14,11 +18,24 @@ var App = {
         $(".cust").bind("click", function () {
             window.location = Fw.getBasePath() + "/page/merch/driCustList.html";
         })
+        App.showWaresBySId(App.storeId);
     },
-    success: function (data) {
-        /*     var tpl=$("#tpl").html();
-           var html = juicer(tpl, {"data":data});
-           $("#tbody").html(html);*/
+   showWaresBySId: function(storeId){
+       $.ajax({
+           url: Fw.getBasePath() + '/market/listStoresForMenus.do',
+           type: 'POST',
+           data:{"storeid":App.storeId},
+           success: function (data) {
+               App.showPageMenus(data);
+           }
+       })
+     //  Fw.ajax("/market/listStoresForMenus.do",{storeId:App.storeId},"App.showPageMenus()");
+
+   },
+    showPageMenus: function (data){
+          var tpl=$("#templ").html();
+           var html = juicer(tpl, {"dataList":data[0].waresList});
+           $("#menuUl").html(html);
     },
     search: function () {
     },
@@ -41,7 +58,6 @@ var App = {
             data: {},
             success: function (data) {
                 if (data.result == 'yes') {
-                    //查询是否存在手机客户
                     Fw.redirect("page/merch/chatPanel.html", {receiver: $("#merchId").attr("name")});
                 } else if (data.result == 'no') {
                     //在这里面输入任何合法的js语句

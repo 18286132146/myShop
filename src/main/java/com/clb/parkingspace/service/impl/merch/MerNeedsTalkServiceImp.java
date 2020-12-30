@@ -1,17 +1,17 @@
-package com.clb.parkingspace.service.impl.drink;
+package com.clb.parkingspace.service.impl.merch;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.clb.parkingspace.dao.NeederTalkMapper;
-import com.clb.parkingspace.dao.drink.DriNeederTalkMapper;
+import com.clb.parkingspace.dao.merch.MerNeederTalkMapper;
 import com.clb.parkingspace.po.merch.MerNeederTalk;
-import com.clb.parkingspace.service.drink.IMerNeederTalkService;
+import com.clb.parkingspace.service.merch.IMerNeederTalkService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
 
 @Service
-public class MerNeedsTalkServiceImp extends ServiceImpl<DriNeederTalkMapper,MerNeederTalk> implements IMerNeederTalkService {
+public class MerNeedsTalkServiceImp extends ServiceImpl<MerNeederTalkMapper,MerNeederTalk> implements IMerNeederTalkService {
 @Resource
   private NeederTalkMapper neederTalkMapper;
 

@@ -24,15 +24,22 @@ public class MyHandlerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
-       Object loginNeeder=request.getSession().getAttribute("loginNeeder");
-       if(loginNeeder==null){
-           request.setAttribute("msg","没有权限请先登录");
-           request.getRequestDispatcher("/sys/toLogin.do").forward(request,response);
-           return false;
-       }else {
-           //已经登录
-           return true;
-       }
+
+        String path=request.getServletPath();
+        if(path.contains("/needers/")){
+            Object loginNeeder=request.getSession().getAttribute("loginNeeder");
+            if(loginNeeder==null){
+                request.setAttribute("msg","没有权限请先登录");
+                String basePath=request.getContextPath();
+                response.sendRedirect(basePath+"/page/login/login.html");
+                return false;
+            }else {
+                //已经登录
+                return true;
+            }
+        }
+        //已经登录
+        return true;
     }
 
     @Override

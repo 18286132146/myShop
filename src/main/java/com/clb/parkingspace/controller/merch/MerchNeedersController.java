@@ -5,13 +5,10 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.clb.parkingspace.controller.CommonController;
 import com.clb.parkingspace.po.Needer;
-import com.clb.parkingspace.po.NeederTalk;
 import com.clb.parkingspace.po.merch.MerNeeder;
 import com.clb.parkingspace.po.merch.MerNeederTalk;
-import com.clb.parkingspace.service.INeederService;
-import com.clb.parkingspace.service.INeederTalkService;
-import com.clb.parkingspace.service.drink.IMerNeederService;
-import com.clb.parkingspace.service.drink.IMerNeederTalkService;
+import com.clb.parkingspace.service.merch.IMerNeederService;
+import com.clb.parkingspace.service.merch.IMerNeederTalkService;
 import com.clb.parkingspace.util.FileUtil;
 import com.clb.parkingspace.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +34,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/merNeeders")

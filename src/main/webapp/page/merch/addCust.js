@@ -6,6 +6,9 @@ var App={
     pageB:$("#pageB"),
     pageC:$("#pageC"),
     init:function(){
+        $(".titlebar-left-btn").bind('click', function () {
+            window.history.back();
+        });
         App.pages=[App.pageA];
         WY.showPages(App.pageA,App.pages);
         //初始化区县数据

@@ -2,7 +2,7 @@
 <html lang="en" >
 <head>
     <meta charset="UTF-8">
-    <title>聊天</title>
+    <title>好酒</title>
     <script src="../../js/ytfw.js"></script>
     <script src="../../js/ytfw/device/web.js"></script>
     <link href="../../css/common.css" rel="stylesheet"/>
@@ -210,7 +210,7 @@
         function sendMsg() {
             var txt = $("#text").val();
             $.ajax({
-                    url: basePath + '/chat/sendMsg.do',
+                    url: basePath + '/merchChat/sendMsg.do',
                     type: 'POST',
                     data: {"receiverId": receiver.id, "senderId": sender.id, "txt": txt},
                     success: function (data) {
@@ -232,7 +232,7 @@
             var img = content.getElementsByTagName('img');
             var span = content.getElementsByTagName('span');
             $.ajax({
-                    url: basePath + '/chat/afterMsg.do',
+                    url: basePath + '/merchChat/afterMsg.do',
                     type: 'POST',
                     data: {"receiverId": receiver.id, "senderId": sender.id, "sinceTime": sinceTime},
                     success: function (data) {
@@ -272,7 +272,7 @@
 
         function checkLeave() {
             $.ajax({
-                url: basePath + '/chat/leaveDialog.do',
+                url: basePath + '/merchChat/leaveDialog.do',
                 type: 'POST',
                 data: {"receiverId": receiver.id},
                 success: function (data) {

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clb.parkingspace.dao.merch.MerStoresMapper">
+    <resultMap type="com.clb.parkingspace.po.merch.MerStore" id="areaMap">
+        <id property="id" column="sId"/>
+        <result property="name" column="sName"/>
+        <result property="sellerId" column="seller_id"/>
+        <result property="iconImg" column="icon_img"/>
+        <result property="createTime" column="create_time"/>
+        <result property="privalege" column="privalege"/>
+        <result property="mainUrl" column="main_url"/>
+        <collection property="waresList" ofType="com.clb.parkingspace.po.merch.MerWares" column="sId">
+            <id column="bId" property="id"/>
+            <result column="bName" property="name"/>
+            <result column="price" property="price"/>
+            <result column="min_price" property="minPrice"/>
+            <result column="img_url" property="imgUrl"/>
+            <result column="store_id" property="storeId"/>
+            <result column="manager_id" property="managerId"/>
+        </collection>
+
+    </resultMap>
+
+
+    <select id="selectStoreWaresList" parameterType="java.lang.String" resultMap="areaMap">
+        select a.id as sId,a.name as sName,a.seller_id,a.icon_img,a.create_time,a.privalege,a.main_url,
+        b.id as bId,b.name as bName,b.price,b.min_price,b.img_url,b.store_id,b.manager_id
+
+
+        from mer_store a left join mer_wares b on a.id=b.store_id
+        where 1=1
+        <if test="storeId!=null">
+            And a.id=#{storeId}
+        </if>
+
+
+    </select>
+    <select id="selectWares" resultType="com.clb.parkingspace.po.merch.MerWares">
+      select * from mer_wares
+    </select>
+
+</mapper>

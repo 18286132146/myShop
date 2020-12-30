@@ -1,4 +1,4 @@
-package com.clb.parkingspace.dao.drink;
+package com.clb.parkingspace.dao.merch;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.clb.parkingspace.po.merch.MerNeederTalk;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface DriNeederTalkMapper extends BaseMapper<MerNeederTalk> {
+public interface MerNeederTalkMapper extends BaseMapper<MerNeederTalk> {
 
 
     @Select(

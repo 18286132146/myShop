@@ -2,7 +2,7 @@
 <html lang="en" style="height: 100%">
 <head>
     <meta charset="UTF-8">
-    <title>老酒</title>
+    <title>App.storeName</title>
     <script src="../../js/ytfw.js"></script>
     <script src="../../js/ytfw/device/web.js"></script>
     <link rel="stylesheet" href="../../assets/css/core/frozen.css">
@@ -23,7 +23,7 @@
         }
 
         .menuLi {
-            float: right;
+            float: left;
             display: inline;
             text-align: center;
             margin-right: 0.8%;
@@ -36,55 +36,32 @@
             margin-right: 0.12rem;
         }
 
-        body{
+        body {
             font-size: 0.4rem
         }
 
         #goodsImg {
             background: url("../../img/alcohol/6c494a5fe7108597f8548605ae59f04.jpg") no-repeat;
             background-size: 100%, 100%;
-            height:41%;width: 100%;
+            height: 41%;
+            width: 100%;
 
         }
-        .lan img{width: 0.6rem;height:0.6rem}
+
+        .lan img {
+            width: 0.6rem;
+            height: 0.6rem
+        }
     </style>
 </head>
 <body>
 
 
 <div id="gz18" style="height: 100%">
-    <div id="pageA" title="老酒"
+    <div id="pageA" title="App.storeName"
          data-btnLeft="true|&nbsp;|YT.prevPage()" data-btnRight="true|添加|GZ18.toAdd()">
         <div class="menus">
-            <ul class="" id="">
-                <li class="menuLi">
-                    <div class="menuDiv" onclick="App.showDetail('merchId')">
-                        <img class="menuImg" src="../../img/alcohol/6c494a5fe7108597f8548605ae59f04.jpg"
-                             onclick="App.showDetail"/>
-                        <div class="menuInf">老酒</div>
-                    </div>
-
-                </li>
-                <li class="menuLi">
-                    <div class="menuDiv" onclick="App.showDetail()">
-                        <img class="menuImg" src="../../img/alcohol/58d9cb0623348ac915d1a54e0069630.jpg"
-                             onclick="App.showDetail"/>
-                        <div class="menuInf">老酒</div>
-                    </div>
-                </li>
-                <li class="menuLi">
-                    <div class="menuDiv" onclick="App.showDetail()">
-                        <img class="menuImg" src="../../img/alcohol/ece9110e5a1893135336c3e009cd09e.jpg"
-                             onclick="App.showDetail"/>
-                        <div class="menuInf">老酒</div>
-                    </div>
-                <li class="menuLi">
-                    <div class="menuDiv" onclick="App.showDetail()">
-                        <img class="menuImg" src="../../img/alcohol/f7fb12ed6d546806b26d121b83ace59.jpg"
-                             onclick="App.showDetail"/>
-                        <div class="menuInf">老酒</div>
-                    </div>
-                </li>
+            <ul class="" id="menuUl">
             </ul>
             <div class="page" style="background: rgba(30,159,255,0.29);position: fixed;bottom: 2%;width: 100%">
                 <div class="uPagee" id="uPage" onclick="changePage.call(this)">上一页</div>
@@ -95,7 +72,7 @@
         </div>
 
     </div>
-    <div id="pageB" title="详细信息" style="height: 100%"
+    <div id="pageB" title="详细信息" style="height: 100%;display: none"
          data-btnLeft="true|&nbsp;|YT.prevPage()" data-btnRight="true|添加|GZ18.toAdd()">
         <div class="goods_detail" id="goodsImg">
 
@@ -103,23 +80,27 @@
         </div>
         <div id="goodsInfo">
             <div style="height: 1rem;">
-             <img src="../../img/alcohol/renmingbi.png" style="width: 0.4rem;height: 0.4rem"/><span style="font-size: 0.5rem;color: red">51.6</span>
+                <img src="../../img/alcohol/renmingbi.png" style="width: 0.4rem;height: 0.4rem"/><span
+                    style="font-size: 0.5rem;color: red">51.6</span>
             </div>
             <div>
                 紫红冠酱
             </div>
         </div>
         <div style="height: 1rem;width:100%;position: fixed;z-index: 999;bottom: 0rem;background: #ff090c;font-size: 0.3rem">
-            <input type="text" id="merchId" name="ae5e940187c64a5598563ef31f9b2375"/>
-            <pan>联系商家：</pan><span  class="lan"><img src="../../img/merch/merchant.png" class="neederDetail" onclick="App.linkMerch.call(this)"></span>
-            <pan>收藏：</pan><span class="lan"><img src="../../img/merch/collect.png" onclick='brightHeart.call(this);'></span>
+            <input type="hidden" id="merchId" name="ae5e940187c64a5598563ef31f9b2375"/>
+            <pan>联系商家：</pan>
+            <span class="lan"><img src="../../img/merch/merchant.png" class="neederDetail"
+                                   onclick="App.linkMerch.call(this)"></span>
+            <pan>收藏：</pan>
+            <span class="lan"><img src="../../img/merch/collect.png" onclick='brightHeart.call(this);'></span>
 
         </div>
 
     </div>
     <div id="pageC" title="联系卖家" style="height: 100%"
          data-btnLeft="true|&nbsp;|YT.prevPage()" data-btnRight="true|添加|GZ18.toAdd()">
-           <input/>
+
 
     </div>
 </div>
@@ -180,8 +161,17 @@
     function back() {
         window.history.back();
     }
+</script>
+<script id="templ" type="text/juicer">
+        {@each dataList as item,index}
+         <li class="menuLi">
+                    <div class="menuDiv" onclick="App.showDetail('${item.id}')">
+                        <img class="menuImg" src="${item.imgUrl}"/>
+                        <div class="menuInf">${item.name}</div>
+                    </div>
 
-
+         </li>
+        {@/each}
 </script>
 </body>
 </html>

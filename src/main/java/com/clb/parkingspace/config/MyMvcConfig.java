@@ -6,6 +6,7 @@ import com.clb.parkingspace.interceptor.MyHandlerInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -26,7 +27,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
             public void addInterceptors(InterceptorRegistry registry) {
                 registry.addInterceptor(new MyHandlerInterceptor())
                         .addPathPatterns("/**")
-                        .excludePathPatterns("/css/**", "/js/**","/jqury/**","/**/layer-v3.1.1/**","/**/login.do","/**/img/**","/**/**.js","/**/*.html")
+                        .excludePathPatterns("/css/**", "/js/**","/jqury/**","/**/layer-v3.1.1/**","/**/login.do","/**/img/**","/**/**.js")
                         .excludePathPatterns("/**/login.html","/**/sys/toLogin.do","/**/addNeeders.do","/**/goAddNeeders.do","/**/findAreaData");
 
             }

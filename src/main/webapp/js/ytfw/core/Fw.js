@@ -377,6 +377,24 @@ var Fw = {
         }
         return null;
     },
+     ajax:function(url,params,callback){
+         $.ajax({
+             url: Fw.getBasePath() + url,
+             type: 'POST',
+             data: params,
+             processData: false,
+             contentType: false,
+             async: false,
+             success: function (data) {
+                 App.data=data;
+                 if(callback){
+                     eval(callback);
+                 }
+             }
+         })
+
+     },
+
     /**
      * 遍历数组
      * @param {} value

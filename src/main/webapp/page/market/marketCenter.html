@@ -8,12 +8,6 @@
     <link rel="stylesheet" href="../../assets/css/core/frozen.css">
     <link rel="stylesheet" href="../../assets/css/core/web.css">
     <link rel="stylesheet" href="../../assets/css/core/core.css">
-    <!--    <script src="../../js/jquery/jquery-2.1.1.js"></script>
-        &lt;!&ndash; <script th:src="@{/jqury/jquery-2.1.4.min.js}"></script>&ndash;&gt;
-        <script src="../../js/layer-v3.1.1/layer/layer.js"></script>
-        <script src="../../js/commonJs.js"></script>
-        <link rel="stylesheet" href="../../js/layer-v3.1.1/layer/mobile/need/layer.css">
-        <link rel="stylesheet" href="../../css/common.css">-->
     <style>
         .menuImg {
             height: 1.4rem;
@@ -29,7 +23,7 @@
         }
 
         .menuLi {
-            float: right;
+            float: left;
             display: inline;
             text-align: center;
             margin-right: 0.8%;
@@ -38,10 +32,13 @@
         .menuDiv {
             text-align: center;
             width: 2rem;
-            height:2.5rem;
-            margin-right:0.12rem;
+            height: 2.5rem;
+            margin-right: 0.12rem;
         }
-        .menuInf{font-size: 0.4rem};
+
+        .menuInf {
+            font-size: 0.4rem
+        }
     </style>
 </head>
 <body>
@@ -51,31 +48,7 @@
     <div id="pageA" title="集市"
          data-btnLeft="true|&nbsp;|YT.prevPage()" data-btnRight="true|添加|GZ18.toAdd()">
         <div class="menus">
-            <ul class="" id="">
-                <li class="menuLi">
-                    <div class="menuDiv">
-                        <img class="menuImg" src="../../img/alcohol128.png" onclick="goDetail()"/>
-                        <div class="menuInf">老酒</div>
-                    </div>
-
-                </li>
-                <li class="menuLi">
-                    <div class="menuDiv">
-                        <img class="menuImg" src="../../img/alcohol128.png" onclick="goDetail()"/>
-                        <div class="menuInf">老酒</div>
-                    </div>
-                </li>
-                <li class="menuLi">
-                    <div class="menuDiv">
-                        <img class="menuImg" src="../../img/alcohol128.png" onclick="goDetail()"/>
-                        <div class="menuInf">老酒</div>
-                    </div>
-                <li class="menuLi">
-                    <div class="menuDiv">
-                        <img class="menuImg" src="../../img/alcohol128.png" onclick="goDetail()"/>
-                        <div class="menuInf">老酒</div>
-                    </div>
-                </li>
+            <ul class="" id="storeUl">
             </ul>
             <div class="page" style="background: rgba(30,159,255,0.29);position: fixed;bottom: 2%;width: 100%">
                 <div class="uPagee" id="uPage" onclick="changePage.call(this)">上一页</div>
@@ -101,13 +74,6 @@
         goPage(pageNo);
     })
     var index = null;
-
-
-    /*去聊天*/
-    function goDetail() {
-        var id = $(this).attr('class');
-        window.location = basePath + "/page/drink/alcoholMenus.html";
-    }
 
 
     function closeLayer() {
@@ -145,6 +111,17 @@
         window.history.back();
     }
 
+
+</script>
+<script id="tpl" type="text/juicer">
+ {@each data as item,index}
+   <li class="menuLi">
+     <div class="menuDiv">
+       <img class="menuImg" src="${item.iconImg}" onclick="App.storeMenus('${item.mainUrl}','${item.id}')"/>
+          <div class="menuInf">${item.name}</div>
+     </div>
+    </li>
+{@/each}
 
 </script>
 </body>

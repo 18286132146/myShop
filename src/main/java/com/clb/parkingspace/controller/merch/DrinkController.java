@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.clb.parkingspace.controller.CommonController;
 import com.clb.parkingspace.po.Needer;
 import com.clb.parkingspace.po.merch.DriCust;
-import com.clb.parkingspace.service.drink.IDriCustService;
+import com.clb.parkingspace.service.merch.IDriCustService;
 import com.clb.parkingspace.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

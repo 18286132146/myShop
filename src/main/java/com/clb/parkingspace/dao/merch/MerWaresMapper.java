@@ -1,9 +1,10 @@
-package com.clb.parkingspace.dao.drink;
+package com.clb.parkingspace.dao.merch;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.clb.parkingspace.po.merch.DriCust;
+import com.clb.parkingspace.po.merch.MerWares;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface DriCustMapper extends BaseMapper<DriCust> {
+public interface MerWaresMapper extends BaseMapper<MerWares> {
 }
