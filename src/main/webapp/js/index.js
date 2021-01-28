@@ -1,13 +1,6 @@
-
-var App={
-    formData:null
-}
-
-
 var picmax =1; //限制上传数量
 function imgChange() {
-	//如果是编辑状态图片回显
-	//var userImg=document.getElementById('userImg');
+    clearFiles();//界面清除原有图片
     //如果是编辑状态图片回显
 	var file = document.getElementById('file').files;
   /*  if(userImg!=null){
@@ -34,12 +27,13 @@ function imgChange() {
 function clearFiles(){
     $("#file").files=null;
 $(".upload-Picitem").remove();
+ App.isDelPic=true;
     closeLayer();
 }
 var index = null;
 function previewImg() {
-    var content = "<div style='text-align: center'>" +
-        "<img class='showImg' src='" + $(this).attr("src") + "'/> <br/>" +
+    var content = "<div style='text-align: center;width: 100%;height: 100%'>" +
+        "<img class='showImg' src='" + $(this).attr("src") + "' style='width: 100%;height: 90%'/> <br/>" +
         "<div style='width:4rem;height:2rem;font-size: 1.5rem;text-align: center; display: inline-block;line-height: normal' onclick='closeLayer();'>返回</div>" +
         "<div style='width:4rem;height:2rem;font-size: 1.5rem;text-align: center; display: inline-block;line-height: normal' onclick='clearFiles();'>删除</div>" +
         "</div>"
@@ -47,7 +41,7 @@ function previewImg() {
     index = layer.open({
         type: 1,
         closeBtn: 1,
-        area: ['60%', '60%'],
+        area: ['70%', '60%'],
         skin: 'layui-layer-nobg', //没有背景色
         shadeClose: true,
         content: content

@@ -158,6 +158,11 @@ public class ChatController {
         //查询当前用户是否有新消息
            int i=new java.util.Random().nextInt(10);
         Map data=new HashMap<String,Boolean>();
+       Object nob= session.getAttribute("loginNeeder");
+        if(nob==null){
+            data.put("hasNewMsg",true);
+            return  data;
+        }
         Needer loginNeeder=(Needer)session.getAttribute("loginNeeder");
         String userId=loginNeeder.getId();
         Needer needer=neederService.selectById(userId);

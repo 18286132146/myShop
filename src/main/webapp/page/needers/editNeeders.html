@@ -14,9 +14,8 @@
     <script src="../../js/commonJs.js"></script>
     <link rel="stylesheet" href="../../js/layer-v3.1.1/layer/mobile/need/layer.css">
     <link href="../../css/common.css" rel="stylesheet"/>
+    <script src="../../js/index.js"></script>
     <script type="text/javascript">
-        /*  document.documentElement.style.fontSize = window.innerWidth/3.75 + 'px';*/
-        /*   document.documentElement.style.fontSize = window.innerWidth/25 + 'px';*/
     </script>
     <style>
         select {
@@ -47,25 +46,24 @@
     <div style="margin-top: 1rem">
         <form id="fm">
             <div>
-                <span>姓&nbsp;&nbsp;&nbsp;名：</span><input id="name" name="name" value="${needer.name}"
+                <span>姓&nbsp;&nbsp;&nbsp;名：</span><input id="name" name="name"
                                                          class="eleInput"/>
             </div>
             <div>
                 <span> 性&nbsp;&nbsp;&nbsp;别：</span>
-                <input id="sex" name="sex" type="radio" value="0" attr="checked=${needer.sex =='0' ?true:false}"/>男
+                <input id="boy" name="sex" type="radio" value="0"/>男
                 <!-- th:attr="value=${needer.sex =='0'?'0':'1'}"-->
 
-                <input name="sex" type="radio" value="1" attr="checked=${needer.sex =='1' ?true:false}"/>女
+                <input id="girl" name="sex" type="radio" value="1"/>女
             </div>
             <div>
-                <span> 年&nbsp;&nbsp;&nbsp;龄：</span><input class="eleInput" id="age" name="age" type="number"
-                                                         value="${needer.age}"/>
+                <span> 年&nbsp;&nbsp;&nbsp;龄：</span><input class="eleInput" id="age" name="age" type="number"/>
             </div>
             <div>
-                <span>手机号：</span><input id="phone" name="phone" class="eleInput" value="${needer.phone}"/>
+                <span>手机号：</span><input id="phone" name="phone" class="eleInput"/>
             </div>
             <div>
-                <span> 身份证：</span><input id="idCard" name="idCard" class="eleInput" value="${needer.idCard}"/>
+                <span> 身份证：</span><input id="idCard" name="idCard" class="eleInput" />
             </div>
             <div class="area" id="area" name="area">
                 <span>居住地:</span>
@@ -82,16 +80,16 @@
                 <section class="upload-section">
                     <article class="upload-article-text">
                         <textarea id='memo' name="memo" oninput="autoTextarea(this)" placeholder="格言"
-                                  class="upload-textarea" utext="${needer.memo}"></textarea>
+                                  class="upload-textarea"></textarea>
                     </article>
                     <article class="upload-piclist">
                         <div class="upload-file">
-                            <input id="userImg" hidden value="${needer.imgUrl}"/>
+                            <input id="userImg" hidden/>
                             <input type="file" id="file" name="file" accept="img/needers/*}" multiple
                                    onchange="imgChange()"/>
                         </div>
                     </article>
-                    <div class="submit" onclick="submit1()">
+                    <div class="submit" onclick="App.submit1()">
                         发布
                     </div>
                 </section>
@@ -119,120 +117,6 @@
     <span style="margin-top: 4rem;color: red" onclick="goNeederSqual()">点击这里进入广场</span>
 </div>
 <script type="text/javascript">
-
-    var basePath = Fw.getBasePath();
-
-/*    function goTo(){
-        var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
-        console.log( myreg.test((this.input)) )
-    }*/
-
-    //初始化区县数据
-    var provinceId = [[${needer.province}]];
-    var city = [[${needer.city}]];
-    var area = [[${needer.area}]];
-    var num= area.replace(/[^0-9]/ig,"");
-    var detail=area.split(num)[1]
-    $(function () {
-        findAreas('province', '0');
-        $("#province").change(function () {
-            var proId = $("#province option:selected").val();
-            findAreas('city', proId);
-        })
-        $("#city").change(function () {
-            var proId = $("#city option:selected").val();
-            findAreas('county', proId);
-        });
-        $("#detail").val(detail);
-        var userImg= $("#userImg").attr('value');
-        //alert(userImg);
-        //$("#file").attr("value",basePath+"/needers/findPic?fileName="+userImg);//头像回显
-        ////头像回显
-        var piclist = document.getElementsByClassName('upload-piclist')[0];
-        var html = document.createElement('div');
-        html.className = 'upload-Picitem';
-        html.innerHTML = '<img onclick="previewImg.call(this)" src=' + basePath+"/needers/findPic?fileName="+userImg+ ' alt="pic">';
-        piclist.appendChild(html);
-
-    })
-
-    function findAreas(grade, pid) {
-        $.ajax({
-            url: basePath + '/common/findAreaData',
-            type: 'POST',
-            data: {'pId': pid},
-            success: function (data) {
-                switch (grade) {
-                    case 'province':
-                        $("#province").html('');
-                        var html = '<option>--请选择--</option>';
-                        $.each(data, function (index, val) {
-                            html += '<option value="' + val.id + '">' + val.areaName + '</option>';
-                        })
-                        $("#province").html(html);
-                        break;
-
-                    case 'city':
-                        $("#city").html('');
-                        var html = '<option>--请选择--</option>';
-                        $.each(data, function (index, val) {
-                            html += '<option value="' + val.id + '">' + val.areaName + '</option>';
-                        })
-                        $("#city").html(html);
-                        break;
-                    case 'county':
-                        $("#county").html('');
-                        var html = '<option>--请选择--</option>';
-                        $.each(data, function (index, val) {
-                            html += '<option value="' + val.id + '">' + val.areaName + '</option>';
-                        })
-                        $("#county").html(html);
-                        break;
-                }
-            }
-        })
-    }
-
-
-    //提交
-    function submit1() {
-        var imglist = []
-        var text = document.getElementsByClassName('upload-textarea')[0].value
-        var piclist = document.querySelectorAll('.upload-Picitem');
-        /*	for (let i = 0; i < piclist.length; i++) {
-                imglist.push(piclist[i].lastChild.src)
-            }*/
-        submit2();
-    }
-
-
-    function submit2() {
-        // var formData = new FormData();
-        // var file=document.getElementById('file').files[0];
-        // var f=$("file");
-        var formData = new FormData(document.getElementById("fm"));
-        $.ajax({
-            url: basePath + '/needers/editNeeders.do',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            async: false,
-            success: function (data) {
-                if(data.result=="success"){
-                    $("#pageA").css('display', 'none');
-                    $("#pageB").css('display', "block");
-                }else{
-                    alert("更新失败！");
-                }
-            }
-
-        })
-    }
-
-    function goNeederSqual() {
-        window.location = basePath + "/needers/goNeederSqual"
-    }
 
 </script>
 </body>

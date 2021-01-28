@@ -94,7 +94,7 @@
 }
 #web_titlebar .titlebar-right-btn{
 	position: absolute;
-	right:15px;
+	right:0.2rem;
 	top:10px;
 }
 

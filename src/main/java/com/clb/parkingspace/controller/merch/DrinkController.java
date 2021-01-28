@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.clb.parkingspace.controller.CommonController;
 import com.clb.parkingspace.po.Needer;
 import com.clb.parkingspace.po.merch.DriCust;
+import com.clb.parkingspace.po.merch.MerNeeder;
 import com.clb.parkingspace.service.merch.IDriCustService;
 import com.clb.parkingspace.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +49,9 @@ public class DrinkController extends CommonController {
             @RequestParam(value = "name", required = false)String name,
             @RequestParam(value = "phone", required = false)String phone,
             HttpSession session, Model modle,HttpServletRequest request) {
-
         EntityWrapper<DriCust> en=new EntityWrapper();
-        Needer user=(Needer)session.getAttribute("loginNeeder");
+        Object o=session.getAttribute("merLoginNeeder");
+        MerNeeder user=(MerNeeder)o;
         en.eq("ownner",user.getId());
         if(name!=null&& !StringUtils.isEmpty(name)){
             en.and().like("name","%"+name+"%");
@@ -59,7 +60,6 @@ public class DrinkController extends CommonController {
             en.and().eq("phone",phone);
         }
         int intotal=driCustService.selectCount(en);
-        //driCustService.selectList(en);
         Page p=new Page<DriCust>(current,size);
         Page page=driCustService.selectPage(p,en);
 
@@ -86,7 +86,7 @@ public class DrinkController extends CommonController {
         ew.eq("phone", phone);
         List<DriCust> list = driCustService.selectList(ew);
         if (list.size() > 0) {
-            map.put("result", "no");
+            map.put("status", "500");
             map.put("msg", "该顾客已存在！");
             return map;
         }
@@ -96,13 +96,13 @@ public class DrinkController extends CommonController {
         cust.setCustId(id);
         cust.setAge(age);
         cust.setSex(sex);
-        cust.setArea(county + detail);
+        cust.setArea(county + ","+detail);
         cust.setCity(city);
         cust.setRemark(memo);
         cust.setName(name);
         cust.setProvince(province);
         cust.setPhone(phone);
-        Needer ned=(Needer)request.getSession().getAttribute("loginNeeder");
+        MerNeeder ned=(MerNeeder)request.getSession().getAttribute("merLoginNeeder");
         cust.setOwnner(ned.getId());
         driCustService.insert(cust);
         map.put("result", "success");

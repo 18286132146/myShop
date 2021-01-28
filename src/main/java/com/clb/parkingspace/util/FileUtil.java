@@ -5,13 +5,14 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 
 public class FileUtil {
-    public synchronized static boolean writeFile(String path, String fileName, MultipartFile file) {
+    public  static boolean writeFile(String path, String fileName, MultipartFile file) {
         File filePath = new File(path);
         if (filePath.isDirectory()) {
             filePath.mkdirs();
         }
         FileOutputStream outp = null;
         FileInputStream inp = null;
+        InputStream in=null;
         try {
             //文件不存在就创建
             File fileLocal = new File(path+ fileName);
@@ -20,7 +21,7 @@ public class FileUtil {
             }
             outp = new FileOutputStream(fileLocal);
             byte[] buffer = new byte[1024];
-          InputStream in= file.getInputStream();
+           in= file.getInputStream();
            // BufferedInputStream b= new BufferedInputStream(in);
             int i =-1;
            while ((i = in.read(buffer)) !=-1) {
@@ -43,6 +44,14 @@ public class FileUtil {
             if (inp != null) {
                 try {
                     inp.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+            if (in != null) {
+                try {
+                    in.close();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

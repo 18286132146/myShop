@@ -338,7 +338,7 @@ var Fw = {
      * @param {} local（如果是向后抬提交请求，则应设置为false）
      */
     redirect: function (url, params, local) {
-        window.localStorage.clear();
+        YT.openWaitPanel();
         if (Fw.isEmpty(params)) {
             params = {};
         }
@@ -377,23 +377,6 @@ var Fw = {
         }
         return null;
     },
-     ajax:function(url,params,callback){
-         $.ajax({
-             url: Fw.getBasePath() + url,
-             type: 'POST',
-             data: params,
-             processData: false,
-             contentType: false,
-             async: false,
-             success: function (data) {
-                 App.data=data;
-                 if(callback){
-                     eval(callback);
-                 }
-             }
-         })
-
-     },
 
     /**
      * 遍历数组

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>信息修改</title>
+    <!--<link rel="stylesheet" type="text/css" href="../resource/static/css/style.css"/>-->
+    <script src="../../js/ytfw.js"></script>
+    <script src="../../js/ytfw/device/web.js"></script>
+    <link href="../../css/style.css" rel="stylesheet"/>
+    <script src="../../js/jquery/jquery-2.1.1.js"></script>
+    <!-- <script th:src="@{/jqury/jquery-2.1.4.min.js}"></script>-->
+    <script src="../../js/layer-v3.1.1/layer/layer.js"></script>
+    <script src="../../js/commonJs.js"></script>
+    <link rel="stylesheet" href="../../js/layer-v3.1.1/layer/mobile/need/layer.css">
+    <link href="../../css/common.css" rel="stylesheet"/>
+    <script src="../../js/index.js"></script>
+    <script type="text/javascript">
+        /*  document.documentElement.style.fontSize = window.innerWidth/3.75 + 'px';*/
+        /*   document.documentElement.style.fontSize = window.innerWidth/25 + 'px';*/
+    </script>
+    <style>
+        * {
+            margin: 0.4rem 0.1rem
+        }
+
+        select {
+            padding: 0.7rem 0;
+            height: 3rem;
+            width: 65%;
+            border: 0.1rem solid #287cff;
+        }
+
+        .eleInput {
+            height: 2rem;
+            width: 65%;
+            border: 0.1rem solid #287cff;
+        }
+
+        .area div {
+            margin-left: 4rem;
+        }
+
+        .inDiv {
+            padding: 0.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+    </style>
+</head>
+<body style="padding-top: 0rem">
+<div id="pageA" style="padding: 1rem">
+    <header class="upload-hedaer">
+        <a href="javaScript:history.back(-1)" class="upload-fh"></a>
+        <div>用户注册</div>
+        <div>···</div>
+    </header>
+    <div style="margin-top: 1rem">
+        <form id="fm">
+            <div class="inDiv">
+                <span>姓&nbsp;&nbsp;&nbsp;名：</span><input id="name" name="name" class="eleInput"/>
+            </div>
+            <div class="inDiv">
+                <span> 性&nbsp;&nbsp;&nbsp;别：</span>
+                <input id="sex" name="sex" checked type="radio"/>男
+                <input name="sex" type="radio"/>女
+            </div>
+            <div class="inDiv">
+                <span> 年&nbsp;&nbsp;&nbsp;龄：</span><input class="eleInput" id="age" name="age" type="number"/>
+            </div>
+            <div class="inDiv">
+                <span>手机号：</span><input id="phone" name="phone" class="eleInput"/><img id="phoneImg" src=""
+                                                                                       style="width: 1rem;height:1rem;"/>
+            </div>
+            <div class="inDiv">
+                <span> 身份证：</span><input id="idCard" name="idCard" class="eleInput"/>
+            </div>
+            <div class="area" id="area" name="area">
+                <span>居住地:</span>
+                <div>
+                    <select id="province" name="province">
+                        <option selected>--请选择--</option>
+                    </select>省
+                </div>
+                <div><select id="city" name="city"></select>市</div>
+                <div><select id="county" name="county"></select>县/区</div>
+                <div><input id="detail" name="detail" class="eleInput"/>详细地址</div>
+            </div>
+            <div class="pageB">
+                <section class="upload-section">
+                    <article class="upload-article-text">
+                        <textarea id='memo' name="memo" oninput="autoTextarea(this)" placeholder="格言或者对另一半的期望"
+                                  class="upload-textarea"></textarea>
+                    </article>
+                    <article class="upload-piclist">
+                        <div class="upload-file">
+                            <input type="file" id="file" name="file" accept="img/needers/*}" multiple
+                                   onchange="imgChange()"/>
+                        </div>
+                    </article>
+                    <div class="submit" onclick="next()">
+                        下一步
+                    </div>
+                </section>
+                <div class="upload-sm">
+                    <p>说明：</p>
+                    <ol>
+                        <li>请完善登录信息</li>
+
+                    </ol>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="pageB" style="display: none;text-align: center;">
+    <header class="upload-hedaer">
+        <a onclick="backA()" class="upload-fh"></a>
+        <div>设置密码</div>
+        <div>···</div>
+    </header>
+    <section>
+        <div class="inDiv">
+            <span> 设置密码：</span><input class="eleInput" id="sureP" name="sureP" type="password"/>
+        </div>
+        <div class="inDiv">
+            <span>确认密码：</span><input id="resure" name="password" oninput="ensurePass()" class="eleInput"/><img
+                id="passEn" src="" style="width: 1rem;height:1rem;"/>
+        </div>
+    </section>
+    <!--  <footer>
+          <div class="submit" onclick="submit2()">
+              提 交
+          </div>
+      </footer>-->
+</div>
+<div id="pageC" style="display: none;text-align: center;">
+    <header class="upload-hedaer">
+        <a href="javaScript:history.back(-1)" class="upload-fh"></a>
+        <div>上传信息</div>
+        <div>···</div>
+    </header>
+    <img src="../../img/needers/success.png" height="200" width="200" style="margin-top: 6rem"/>
+    <div style="text-align: center;height: 6rem;font-size:1.8rem"> 您的信息已经提交，赶快去相亲广场逛逛吧！</div>
+    <span style="margin-top: 4rem;color: red" onclick="goNeederSqual()">点击这里进入广场</span>
+</div>
+
+<script type="text/javascript">
+    var basePath = Fw.getBasePath();
+    //初始化区县数据
+    $(function () {
+        findAreas('province', '0');
+        $("#province").change(function () {
+            var proId = $("#province option:selected").val();
+            findAreas('city', proId);
+        })
+        $("#city").change(function () {
+            var proId = $("#city option:selected").val();
+            findAreas('county', proId);
+        });
+    })
+
+
+    function findAreas(grade, pid) {
+        $.ajax({
+            url: basePath + '/common/findAreaData',
+            type: 'POST',
+            data: {'pId': pid},
+            success: function (data) {
+                switch (grade) {
+                    case 'province':
+                        $("#province").html('');
+                        var html = '<option>--请选择--</option>';
+                        $.each(data, function (index, val) {
+                            html += '<option value="' + val.id + '">' + val.areaName + '</option>';
+                        })
+                        $("#province").html(html);
+                        break;
+
+                    case 'city':
+                        $("#city").html('');
+                        var html = '<option>--请选择--</option>';
+                        $.each(data, function (index, val) {
+                            html += '<option value="' + val.id + '">' + val.areaName + '</option>';
+                        })
+                        $("#city").html(html);
+                        break;
+                    case 'county':
+                        $("#county").html('');
+                        var html = '<option>--请选择--</option>';
+                        $.each(data, function (index, val) {
+                            html += '<option value="' + val.id + '">' + val.areaName + '</option>';
+                        })
+                        $("#county").html(html);
+                        break;
+                }
+            }
+        })
+    }
+
+    //下一步
+    function next() {
+        if (goTo()) {
+            if (checkPho()) {
+                $("#pageA").css("display", "none");
+                $("#pageB").css("display", "block");
+            }
+
+        } else {
+            $("#phoneImg").attr("src", basePath + "/img/false.png");
+        }
+    }
+    function backA() {
+        $("#pageA").css("display", "block");
+        $("#pageB").css("display", "none");
+    }
+    //检查是否已经上传图片
+    function checkPho() {
+        var f = $("#file").val();
+        if (!f) {
+            alert("请上传一张靓照,能尽快脱单哦!");
+            return false;
+        }
+        return true;
+    }
+
+
+    //手机号验证
+    function goTo() {
+        var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+        return myreg.test($("#phone").val());
+
+    }
+
+    //提交
+    function submit1() {
+        var imglist = []
+        var text = document.getElementsByClassName('upload-textarea')[0].value
+        var piclist = document.querySelectorAll('.upload-Picitem');
+        /*	for (let i = 0; i < piclist.length; i++) {
+                imglist.push(piclist[i].lastChild.src)
+            }*/
+        submit2();
+    }
+
+    function ensurePass() {
+
+        var sureP = $("#sureP").val();
+        //密码检查
+        var password = $("#resure").val();
+        if (password == sureP) {
+            submit1();
+        } else {
+            $("#passEn").attr("src", basePath + "/img/false.png");
+        }
+    }
+
+
+    function submit2() {
+        // var formData = new FormData();
+        // var file=document.getElementById('file').files[0];
+        // var f=$("file");
+        var formData = new FormData(document.getElementById("fm"));
+        var password=$("#resure").val();
+        formData.append("password",password);
+        $.ajax({
+            url: basePath + '/merNeeders/addNeeders.do',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            async: false,
+            success: function (data) {
+                console.log(data);
+                if(data.result=='success'){
+                    $("#pageB").css('display', 'none');
+                    $("#pageC").css('display', "block");
+                }else{
+                    alert(data.msg);
+                }
+
+            }
+        })
+    }
+
+
+    function goNeederSqual() {
+      /*  window.location = basePath + "/needers/goNeederSqual"*/
+      Fw.redirect("page/market/marketCenter.html",{});
+    }
+
+</script>
+</body>
+</html>

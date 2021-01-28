@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
-Main-Class: com.clb.parkingspace.ParkingspaceApplication
+Class-Path: com.clb.parkingspace
+Main-Class: com.clb.parkingspace.PwdFactory
 

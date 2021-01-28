@@ -3,7 +3,9 @@ package com.clb.parkingspace.service.impl.merch;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.clb.parkingspace.dao.merch.MerCustMapper;
 import com.clb.parkingspace.dao.merch.MerStoresMapper;
+
 import com.clb.parkingspace.po.merch.DriCust;
+
 import com.clb.parkingspace.po.merch.MerStore;
 import com.clb.parkingspace.service.merch.IDriCustService;
 import com.clb.parkingspace.service.merch.IStoresService;
@@ -17,7 +19,7 @@ public class MerStoresServiceImp extends ServiceImpl<MerStoresMapper,MerStore> i
 
 @Resource
     MerStoresMapper merStoresMapper;
-    public List<MerStore> selectStoreWaresList(String storeId){
+    public List<com.clb.parkingspace.dto.MerStore> selectStoreWaresList(String storeId){
        return merStoresMapper.selectStoreWaresList(storeId);
     };
 

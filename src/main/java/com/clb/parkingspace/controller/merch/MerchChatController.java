@@ -1,6 +1,7 @@
 package com.clb.parkingspace.controller.merch;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.clb.parkingspace.dto.SenderMarkVo;
 import com.clb.parkingspace.dto.UserOnLineList;
 import com.clb.parkingspace.po.Needer;
@@ -127,7 +128,7 @@ public class MerchChatController {
        //更新在线心跳
         userOnLineList.updateHearDate(senderId);
 
-        EntityWrapper ew=new EntityWrapper();
+        EntityWrapper<MerNeederTalk> ew=new EntityWrapper();
         if(StringUtils.isEmpty(sinceTime)){
         }else{
             ew.gt("create_time",sinceTime);
@@ -141,7 +142,7 @@ public class MerchChatController {
         }else{
             ew.gt("create_time",sinceTime);
         }
-       List<NeederTalk> list= merNeederTalkService.selectList(ew);
+       List<MerNeederTalk> list= merNeederTalkService.selectList(ew);
        Date lastDataTime=null;
         Map<String,Object> map=new HashMap<>();
        if(list.size()>0){
@@ -158,13 +159,53 @@ public class MerchChatController {
         //查询当前用户是否有新消息
            int i=new java.util.Random().nextInt(10);
         Map data=new HashMap<String,Boolean>();
-        Needer loginNeeder=(Needer)session.getAttribute("loginNeeder");
-        String userId=loginNeeder.getId();
+        Object nob= session.getAttribute("merLoginNeeder");
+        if(nob==null){
+            data.put("hasNewMsg",false);
+            return  data;
+        }
+        MerNeeder merNeeder=(MerNeeder)nob;
+        String userId=merNeeder.getId();
         MerNeeder needer=merNeederService.selectById(userId);
         boolean isHasNewMs= needer.isHasNewMsg();
+        if(isHasNewMs==true){//查询消息发送者
+            Wrapper<SenderMark> seEw=new EntityWrapper();
+            seEw.eq("scan_id",needer.getId());
+            List<SenderMark> li=senderMarkService.selectList(seEw);
+            if(li.size()>0){
+               if(li.size()==1){
+                   SenderMark sm=li.get(0);
+                   data.put("merchId", sm.getSenderId());
+                   data.put("chatUrl", "page/merch/chatPanel.html");
+               }else{
+                   data.put("chatUrl", "page/chart/merMsgCenter.html");
+               }
+
+            }
+        }
         data.put("hasNewMsg",isHasNewMs);
         return  data;
     }
+
+
+
+
+    @RequestMapping(value = "/reNewMsg.do")
+    @ResponseBody
+    public Object reNewMsg(HttpSession session, @RequestParam(value = "booleSt",required = true)Boolean booleSt){
+        Map data=new HashMap<String,Boolean>();
+        Object nob= session.getAttribute("merLoginNeeder");
+        MerNeeder merNeeder=(MerNeeder)nob;
+        String userId=merNeeder.getId();
+        MerNeeder needer=merNeederService.selectById(userId);
+        needer.setHasNewMsg(false);
+        data.put("hasNewMsg",booleSt);
+        merNeederService.updateById(needer);
+        return  data;
+    }
+
+
+
 
     /**
      * 发送人信息和发送的消息内容,初始化消息中心页
@@ -174,9 +215,9 @@ public class MerchChatController {
     @RequestMapping(value = "/findSendersMsg.do")
     @ResponseBody
     public Object senderMsg(HttpSession session) {
-        EntityWrapper<NeederTalk> ewt=new EntityWrapper();
-        Needer loginNeeder=(Needer)session.getAttribute("loginNeeder");
-        String userId=loginNeeder.getId();
+        EntityWrapper<MerNeederTalk> ewt=new EntityWrapper();
+        MerNeeder loginNeeder=(MerNeeder)session.getAttribute("merLoginNeeder");
+            String userId=loginNeeder.getId();
 
         EntityWrapper<SenderMark> sdm=new EntityWrapper();
         sdm.eq("scan_id",userId);
@@ -215,7 +256,9 @@ public class MerchChatController {
     @ResponseBody
     public Object leaveDialog(HttpSession session,String receiverId) {
         EntityWrapper<NeederTalk> ewt=new EntityWrapper();
-        Needer loginNeeder=(Needer)session.getAttribute("loginNeeder");
+        Object o=session.getAttribute("loginNeeder");
+        if(o!=null){
+        Needer loginNeeder=(Needer)o;
         String userId=loginNeeder.getId();
         EntityWrapper<SenderMark> sdm=new EntityWrapper();
         sdm.eq("scan_id",userId);
@@ -225,6 +268,7 @@ public class MerchChatController {
             sk.setFlash(false);//离开对话页，标记消息未查看
         }
         senderMarkService.update(sk,sdm);
+        }
         return null;
     };
 }

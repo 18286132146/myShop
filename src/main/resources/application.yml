@@ -11,13 +11,13 @@ spring:
     static-path-pattern: /**
 
   datasource:
-    url: jdbc:mysql://8.133.162.72:3306/marrymaker?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
-#    url: jdbc:mysql://localhost:3306/matchmaker?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+ #   url: jdbc:mysql://8.133.162.72:3306/matchmaker?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    url: jdbc:mysql://localhost:3306/matchmaker?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: wdqh050213Aa
-#    password: 123456
+ #   password: Aa123456
+    password: 123456
   application:
     name: marryMacher
   jackson:

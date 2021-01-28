@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.clb.parkingspace.dao.merch.MerStoresMapper">
-    <resultMap type="com.clb.parkingspace.po.merch.MerStore" id="areaMap">
+    <resultMap type="com.clb.parkingspace.dto.MerStore" id="areaMap">
         <id property="id" column="sId"/>
         <result property="name" column="sName"/>
         <result property="sellerId" column="seller_id"/>
@@ -23,7 +23,7 @@
 
 
     <select id="selectStoreWaresList" parameterType="java.lang.String" resultMap="areaMap">
-        select a.id as sId,a.name as sName,a.seller_id,a.icon_img,a.create_time,a.privalege,a.main_url,
+        select a.id as sId,a.name as sName,a.seller_id,a.icon_img,a.create_time,a.main_url,
         b.id as bId,b.name as bName,b.price,b.min_price,b.img_url,b.store_id,b.manager_id
 
 

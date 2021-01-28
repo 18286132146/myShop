@@ -1,6 +1,6 @@
 var App = {
-    current: 0,
-    size: 20,
+    curPage:1,
+    pageSize:16,
     /*pageA:$("#pageA"),
     pageB:$("#pageB"),
     pageC:$("#pageC"),*/
@@ -11,20 +11,13 @@ var App = {
         App.initPageA();
     },
     initPageA: function (data) {
-        //查询集市商店列表
-        $.ajax({
-            url: Fw.getBasePath() + '/market/listStoresForMenus.do',
-            type: 'POST',
-            data: {},
-            processData: false,
-            contentType: false,
-            async: false,
-            success: function (data) {
-                var tpl = $("#tpl").html();
-                var html = juicer(tpl, {"data": data});
-                $("#storeUl").html(html);
-            }
-        })
+        var tittle=$("#pageA").attr("tittle");
+       $(".web-title").html(tittle);
+       WY.ajax2(Fw.getBasePath() + '/market/listStoresForMenus.do',{"curPage":App.curPage,"pageSize":App.pageSize},function (data) {
+           var tpl = $("#tpl").html();
+           var html = juicer(tpl, {"data": data.storeList});
+           $("#storeUl").html(html);
+       })
 
     },
 

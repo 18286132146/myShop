@@ -2,7 +2,7 @@
 <html lang="en" >
 <head>
     <meta charset="UTF-8">
-    <title>好酒</title>
+    <title></title>
     <script src="../../js/ytfw.js"></script>
     <script src="../../js/ytfw/device/web.js"></script>
     <link href="../../css/common.css" rel="stylesheet"/>
@@ -53,9 +53,11 @@
             width: 96%;
             height: 5rem;
             background: #b8d4f2;
-            position: absolute;
+           /* position: absolute;*/
             bottom: 0;
             padding: 1rem;
+            position: fixed;
+            z-index: 999;
         }
 
         .footer input {
@@ -86,6 +88,7 @@
         .footer span:hover {
             color: #fff;
             background: #999;
+            z-index: 999;
         }
 
         #user_face_icon {
@@ -95,7 +98,7 @@
             height: 6.5rem;
             border-radius: 30px;
             position: absolute;
-            bottom: 0.4rem;
+           /* bottom: 0.4rem;*/
             /* left: 14px;*/
             cursor: pointer;
             overflow: hidden;
@@ -168,7 +171,7 @@
     </style>
     <script type="text/javascript">
 
-        var basePath = Fw.getBasePath()
+        var basePath = Fw.getBasePath();
        /* var chatDetailList = [[${detailList}]];*/
         var receiverId = Fw.getParameters('receiver');/*[[${receiver}]]*/
         var chatDetailList =null;
@@ -180,26 +183,21 @@
         var sender;
         $(function(){
             var txt = $("#text").val();
-            $.ajax({
-                    url: basePath + '/merchChat/goChatPan.do',
-                    type: 'POST',
-                    data: {"receiverId": receiverId},
-                    success: function (data) {
-                        chatDetailList= data.detailList;
-                         receiver= data.receiver;
-                        sender= data.sender;
-                        receiverImg.src = basePath + "/merNeeders/findPic?fileName=" + receiver.imgUrl;
-                        senderImg.src = basePath + "/merNeeders/findPic?fileName=" + sender.imgUrl;
-                        $("#receiverImg").attr("src", receiverImg.src);
-                        arrIcon=[senderImg.src, receiverImg.src];
-                    }
-                    })
+                 WY.ajax2(basePath + 'merchChat/goChatPan.do',{"receiverId": receiverId},function (data) {
+                     chatDetailList= data.detailList;
+                     receiver= data.receiver;
+                     sender= data.sender;
+                     receiverImg.src = basePath + "merNeeders/findPic?fileName=" + receiver.imgUrl;
+                     senderImg.src = basePath + "merNeeders/findPic?fileName=" + sender.imgUrl;
+                     $("#receiverImg").attr("src", receiverImg.src);
+                     arrIcon=[senderImg.src, receiverImg.src];
+                 })
+                   //更新状态为没有新消息
+                 WY.ajax2(basePath +"merchChat/reNewMsg.do",{booleSt:false},function (data) {
+
+                 })
                 }
             );
-       /* var receiverImg = new Image();
-        receiverImg.src = basePath + "/needers/findPic?fileName=" + receiver.imgUrl;
-        var senderImg = new Image();
-        senderImg.src = basePath + "/needers/findPic?fileName=" + sender.imgUrl;*/
         $(function () {
           /*  $("#receiverImg").attr("src", receiverImg.src);*/
             setInterval(lastChatData, 1000);
@@ -210,7 +208,7 @@
         function sendMsg() {
             var txt = $("#text").val();
             $.ajax({
-                    url: basePath + '/merchChat/sendMsg.do',
+                    url: basePath + 'merchChat/sendMsg.do',
                     type: 'POST',
                     data: {"receiverId": receiver.id, "senderId": sender.id, "txt": txt},
                     success: function (data) {

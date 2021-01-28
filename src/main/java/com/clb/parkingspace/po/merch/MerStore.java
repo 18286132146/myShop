@@ -17,8 +17,6 @@ public class MerStore {
     private String sellerId;
     private String iconImg;
     private Date createTime;
-    private String goodsId;
-    private String privalege;
     private String mainUrl;
-    private List<MerWares> waresList;
+    private boolean isAccPhone;
 }

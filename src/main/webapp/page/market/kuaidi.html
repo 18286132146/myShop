@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/ytfw.js"></script>
+     <script src="../../js/ytfw/device/web.js"></script>
+    <link rel="stylesheet" href="../../assets/css/core/frozen.css">
+    <link rel="stylesheet" href="../../assets/css/core/web.css">
+       <link rel="stylesheet" href="../../assets/css/core/core.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            margin: 100px;
+            padding: 0;
+            list-style: none;
+        }
+
+        ul li {
+            margin-left: -0.6rem;
+            position: relative;
+            padding-left: 0.4rem;
+            padding-bottom: 20px;
+            border-left: 2px #999 solid;
+        }
+
+        ul li em {
+            position: absolute;
+            left: -0.1rem;
+            top: 0;
+            width: 0.2rem;
+            height: 0.2rem;
+            border-radius: 0.8rem;
+            background: #146ab5;
+        }
+
+        ul li.active em {
+            background: red;
+        }
+
+        ul li p {
+            margin: 0;
+        }
+
+        ul
+        li
+        time {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .search {
+            font-size: 0.5rem;
+        }
+
+        .search input {
+            height: 0.5rem;
+            width: 4rem;
+            font-size: 0.4rem;
+        }
+
+        .searchImg {
+            width: 0.7rem;
+            height: 0.7rem;
+            right: 0.4rem;
+            position: fixed;
+        }
+    </style>
+</head>
+<body>
+<div id="gz18">
+    <div id="pageA" title="快递查询"
+         data-btnLeft="true|&nbsp;|YT.prevPage()" data-btnRight="true|添加|GZ18.toAdd()">
+        <div class="search" style="background: #b8d4f2;
+    height: 0.88rem;
+    z-index: 999;
+    width: 100%;">
+            快递单号：<input id="orderId" name="orderId"/><img class="searchImg" onclick="App.search()" src="../../img/search.png"/>
+        </div>
+    </div>
+
+
+    <div id="pageB" class="panel-package">
+
+        <div class="package-title">
+            <div class="complain-box">
+
+
+            </div>
+
+            <h3 class="title-text">
+
+            </h3>
+            <div class="title-en">
+
+            </div>
+        </div>
+
+        <div class="package-status">
+            <div class="status-box" id="status_list">
+                <ul id="J_listtext2" class="status-list">
+
+                </ul>
+            </div>
+
+            <!-- <div a="baaaaaaaaaaaaaaaaaa" b="${currentTrace.findFromAllItem(" we")}"="">-->
+        </div>
+        <!--   <div class="status-info">
+               <div class="info-inner" id="J_tipinfo">
+                   以上信息已经过优化处理，如需查看快递公司原文信息
+                   <a class="J_textchage" data-text="J_listtext1" href="javascript:void(0)">请点击</a>
+               </div>
+           </div>-->
+
+    </div>
+
+</div>
+
+<script id="templ" type="text/template">
+    {@each list as item,index}
+        <li><em></em><span style="font-size: 0.4rem" class="date">${item.time}</span>
+            <span style="font-size: 0.4rem" class="text">${item.status}</span>
+        </li>
+    {@/each}
+</script>
+</body>
+</html>

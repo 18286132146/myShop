@@ -7,7 +7,6 @@ import lombok.Data;
 @TableName(value ="sys_role_priv")
 public class SysRolePriv {
     private String id;
-    private String userId;
-    private String menuId;
+    private int privleges;
     private String roleId;
 }

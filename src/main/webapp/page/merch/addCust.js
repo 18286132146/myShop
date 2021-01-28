@@ -28,20 +28,22 @@ var App={
     window.location=Fw.getBasePath()+"/page/merch/driCustList.html";
   },
    submit:function(){
-        alert("dao");
+       var phone= $("#phone").val();
+        if(!WY.isPhoneAvailable(phone)){
+            alert("请输入正确的号码！");
+           return
+        }
        var formData = new FormData(document.getElementById("fm"));
-       $.ajax({
-           url: Fw.getBasePath() + '/merch/addCust.do',
-           type: 'POST',
-           data: formData,
-           processData: false,
-           contentType: false,
-           async: false,
-           success: function (data) {
+       WY.ajax(Fw.getBasePath() + 'drink/addCust.do',formData,
+            function (data) {
                console.log(data);
+               if(data.status=='500'){
+                   alert(data.msg);
+                   return;
+               }
                App.success(data);
            }
-       })
+       )
    },
 
     findAreas:function(grade, pid) {

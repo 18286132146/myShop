@@ -2,6 +2,7 @@
 package com.clb.parkingspace.config;
 
 
+import com.clb.parkingspace.interceptor.MerchHandlerInterceptor;
 import com.clb.parkingspace.interceptor.MyHandlerInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +30,9 @@ public class MyMvcConfig implements WebMvcConfigurer {
                         .addPathPatterns("/**")
                         .excludePathPatterns("/css/**", "/js/**","/jqury/**","/**/layer-v3.1.1/**","/**/login.do","/**/img/**","/**/**.js")
                         .excludePathPatterns("/**/login.html","/**/sys/toLogin.do","/**/addNeeders.do","/**/goAddNeeders.do","/**/findAreaData");
+
+                registry.addInterceptor(new MerchHandlerInterceptor()).addPathPatterns("/**");
+
 
             }
 

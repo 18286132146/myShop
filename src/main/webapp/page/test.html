@@ -4,29 +4,311 @@
 　　
 <head>
     <meta charset="UTF-8">
-   <!-- <script src="../js/jquery.min.js"></script>-->
-    <script src="../js/ytfw.js"></script>
-    <script src="../js/ytfw/device/web.js"></script>
-    <link rel="stylesheet" href="../assets/css/core/frozen.css">
-    <link rel="stylesheet" href="../assets/css/core/web.css">
-    <link rel="stylesheet" href="../assets/css/core/core.css">
-    <!-- <script src="../js/ytfw/device/client/client.js"></script>-->
-   <!-- <script src="../js/ytfw/device/web/web.js"></script>-->
-    　 <!--<script src="../js/ytfw/bootstrap.js"></script>-->
-<!--    <script src="../js/ytfw/device/web/web.js"></script>
-    <script src="../js/ytfw/device/device.js"></script>
-    <script src="../js/ytfw/core/YT.js"></script>-->
+    <title></title>
+    <script src="../js/jquery/jquery-2.1.1.js"></script>
+    <script src=""></script>
+    <script src="../js/Recordmp3js-master/js/recordmp3.js"></script>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        user-select: none;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    .wrap {
+        width: 95%;
+        margin: 0 auto;
+    }
+
+    .clearfix::after {
+        content: "";
+        display: block;
+        height: 0;
+        clear: both;
+    }
+
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+    }
+
+    .content-wrap {
+        overflow: scroll;
+        width: 100%;
+        height: 84%;
+    }
+
+    /* 头部 */
+    .header-wrap {
+        height: 50px;
+        background: rgba(93, 93, 93, 0.8);
+        font-size: 20px;
+        text-align: center;
+        line-height: 50px;
+        color: #fff;
+    }
+
+    /* 主体内容区 */
+    .content-wrap .content {
+        width: 95%;
+        margin: 0 auto;
+    }
+
+    .content-wrap .content li {
+        margin-top: 20px;
+    }
+
+    .content-wrap .content audio,
+    .content-wrap .content a {
+        display: none;
+    }
+
+    .content-wrap .content img {
+        float: left;
+        width: 60px;
+    }
+
+    /* 语音总时间 */
+    .content-wrap .content .num-box {
+        float: left;
+        margin: 18px 0 0 5px;
+        font-style: normal;
+    }
+
+    /* 播放按钮容器 */
+    .content-wrap .content .play-wrap {
+        float: left;
+        position: relative;
+        width: 17%;
+        height: 40px;
+        margin: 10px 0 0 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background: #57e23b url(../images/voice2.png) no-repeat 5px 4px;
+    }
+
+    /* 播放按钮容器箭头 */
+    .content-wrap .content .play-wrap::before {
+        content: "";
+        position: absolute;
+        top: 14px;
+        left: -14px;
+        border-width: 7px;
+        border-style: solid;
+        border-color: transparent #ccc transparent transparent;
+    }
+
+    .content-wrap .content .play-wrap::after {
+        content: "";
+        position: absolute;
+        top: 14px;
+        left: -12px;
+        border-width: 7px;
+        border-style: solid;
+        border-color: transparent #57e23b transparent transparent;
+    }
+
+    /* 录制提示信息 */
+    .hide-tips-wrap {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 150px;
+        height: 150px;
+        margin: -75px 0 0 -75px;
+        border-radius: 10px;
+        background: rgba(189, 189, 189, 0.56);
+        text-align: center;
+    }
+
+    .hide-tips-wrap .tips-icon {
+        display: block;
+        width: 48px;
+        height: 48px;
+        margin: 30px auto;
+        background: url(../images/voice.png);
+    }
+
+    .hide-tips-wrap .tips-txt {
+        display: block;
+        color: #8a8a8a;
+    }
+
+    /* 录制语音按钮 */
+    .inp-wrap {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        text-align: center;
+    }
+
+    input[type="button"] {
+        width: 80%;
+        height: 50px;
+        border: 1px solid #ccc;
+        outline: 0;
+        border-radius: 5px;
+        background: #ededed;
+        font-size: 20px;
+        color: #000;
+    }
+</style>
 </head>
-　　
+
 <body>
-<div id="gz18">
-    <div class="page" data-page="A" title="工作日程"
-         data-btnLeft="true|&nbsp;|YT.prevPage()" data-btnRight="true|添加|GZ18.toAdd()"></div>
-    <div class="page" data-page="B" title="添加日程"
-         data-btnLeft="true|&nbsp;|GZ18.showPageA()" data-btnRight="false||"></div>
-    <div class="page" data-page="C" title="修改日程"
-         data-btnLeft="true|&nbsp;|GZ18.showPageA()" data-btnRight="false||"></div>
+
+
+
+<div class="header-wrap">Jon</div>
+<!-- 主体内容区 -->
+<div class="content-wrap">
+    <!-- 发送消息内容 -->
+    <div class="wrap content">
+        <ul class="voice-wrap"></ul>
+    </div>
+    <!-- 发送语音按钮 -->
+    <div class="wrap inp-wrap">
+        <input type="button" value="按住说话">
+    </div>
+    <!-- 录制语音弹出层 -->
+    <div class="hide-tips-wrap">
+        <i class="tips-icon"></i>
+        <span class="tips-txt">松开发送消息</span>
+    </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+<script>
+    // 禁止浏览器鼠标右键功能
+    document.oncontextmenu = function () {
+        return false;
+    }
+    // 创建一个录音对象
+    var recorder = new MP3Recorder({
+        funCancel: function (msg) {
+            console.log(msg);
+            recorder = null;
+        }
+    });
+    var mp3Blob,
+        oBtn = document.querySelector('input[type="button"]'),
+        oHideTips = document.querySelector('.hide-tips-wrap'),
+        oMarkIcon = oHideTips.querySelector('.tips-icon'),
+        oTipsTxt = oHideTips.querySelector('.tips-txt');
+    oBtn.addEventListener('touchstart', function () {
+        recorder.start();
+        oHideTips.style.display = 'block';
+    });
+    oBtn.addEventListener('touchmove', function (e) {
+        e.preventDefault();
+    });
+    oBtn.addEventListener('touchend', function () {
+        recorder.stop();
+        recorder.getMp3Blob(function (blob) {
+            mp3Blob = blob;
+            var url = URL.createObjectURL(mp3Blob),
+                // 获取语言列表容器
+                oWrap = document.querySelector('.voice-wrap'),
+                // 创建li
+                oLi = document.createElement('li'),
+                // 创建audio标签
+                oAudio = document.createElement('audio'),
+                // 创建a标签
+                oHref = document.createElement('a'),
+                // 创建播放语音显示按钮
+                oSpanPlay = document.createElement('span'),
+                // 创建播放语音总时间
+                oNumberBox = document.createElement('i'),
+                // 创建头像img
+                oImg = new Image();
+            // 给audio标签添加媒体链接
+            oAudio.src = url;
+            // 给a标签添加下载链接
+            oHref.href = url;
+            oHref.download = new Date().toISOString() + '.mp3';
+            oHref.innerHTML = oHref.download;
+            // 给图片添加路径
+            oImg.src = '../images/picture.jpg';
+            oSpanPlay.className = 'play-wrap';
+            oNumberBox.className = 'num-box';
+            setTimeout(function () {
+                var nDuration = conversionTime(oAudio.duration);
+                // 判断时间是否少于一秒
+                if (isNaN(nDuration) || nDuration == 0) {
+                    oMarkIcon.style.backgroundImage = 'url(../images/mark.png)';
+                    oTipsTxt.innerText = '说话时间太短';
+                    // 关闭提示层
+                    setTimeout(function () {
+                        oHideTips.style.display = 'none';
+                        oMarkIcon.style.backgroundImage = 'url(../images/voice.png)';
+                        oTipsTxt.innerText = '松开发送消息';
+                    }, 500);
+                } else {
+                    oNumberBox.innerText = nDuration + '″';
+                    // 将创建好的对象放入li标签
+                    oLi.appendChild(oAudio);
+                    oLi.appendChild(oHref);
+                    oLi.appendChild(oImg);
+                    oLi.appendChild(oSpanPlay);
+                    oLi.appendChild(oNumberBox);
+                    oLi.className = 'clearfix';
+                    // 将li标签放入语言列表容器
+                    oWrap.appendChild(oLi);
+                    // 获取播放语音按钮总的宽度
+                    var nSpanTotalWidth = parseFloat(getStyle(oLi, 'width')) * 0.7 - oSpanPlay.offsetWidth;
+                    // 当前播放按钮宽度  当前距离 = 当前时间 / 总时间 * 总距离 + 初始距离
+                    oSpanPlay.style.width = nDuration / 60 * nSpanTotalWidth + oSpanPlay.offsetWidth - 2 + 'px';
+                    var bMark = true;
+                    // 播放语音
+                    oSpanPlay.onclick = function () {
+                        if (bMark) {
+                            this.style.backgroundImage = 'url(../images/voiceplayer1.gif)';
+                            oAudio.play();
+                            oAudio.addEventListener('timeupdate', function () {
+                                if (this.ended) {
+                                    oSpanPlay.style.backgroundImage = 'url(../images/voice2.png)';
+                                }
+                            });
+                        } else {
+                            this.style.backgroundImage = 'url(../images/voice2.png)';
+                            oAudio.pause();
+                        }
+                        bMark = !bMark;
+                    }
+                    // 关闭提示层
+                    setTimeout(function () {
+                        oHideTips.style.display = 'none';
+                    }, 500);
+                }
+            }, 100);
+        });
+    });
+    // 转换毫秒时间为秒
+    function conversionTime(t) {
+        var s = Math.floor(t % 60);
+        return s;
+    }
+    // 获取样式
+    function getStyle(obj, attr) {
+        return window.getComputedStyle(obj, null)[attr]
+    }
+
+</script>
 </body>
+
 　　
 </html>

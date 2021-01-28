@@ -3,13 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
-    <script></script>
+    <script src="js/jquery.min.js"/>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            margin: 100px;
+            padding: 0;
+            list-style: none;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 30px;
+            padding-bottom: 20px;
+            border-left: 2px #999 solid;
+        }
+
+        ul li em {
+            position: absolute;
+            left: -5px;
+            top: 0;
+            width: 8px;
+            height: 8px;
+            border-radius: 8px;
+            background: #999;
+        }
+
+        ul li.active em {
+            background: red;
+        }
+
+        ul li p {
+            margin: 0;
+        }
+
+        ul
+        li
+        time {
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+
 </head>
 <body>
-<script>
+
+<ul>
+    <li class="active"><em></em>
+        <p><b>参与考试《第一期模拟考试》</b></p>
+        <p>
+            <time>3小时50分钟</time>
+        </p>
+    </li>
+    <li><em></em>
+        <p><b>学习文档《LDO电路设计规范》</b></p>
+        <p>
+            <time>3小时50分钟</time>
+        </p>
+    </li>
+    <li><em></em>
+        <p><b>学习文档《LDO电路设计规范》</b></p>
+        <p>
+            <time>3小时50分钟</time>
+        </p>
+    </li>
+</ul>
+
+
+<script type="text/javascript">
+  /*  document.URL = "page/market/marketCenter.html";
     $(function () {
-        window.location.href="/page/market/marketCenter.html";
-    })
+        /!*window.location.href="page/market/marketCenter.html";*!/
+        document.URL = "page/market/marketCenter.html"
+    })*/
+
 </script>
 </body>
 </html>

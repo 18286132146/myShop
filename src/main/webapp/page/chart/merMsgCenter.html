@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+　　
+<head>
+    <meta charset="UTF-8">
+    <!-- <script src="../js/jquery.min.js"></script>-->
+    <script src="../../js/ytfw.js"></script>
+    <script src="../../js/ytfw/device/web.js"></script>
+    <link rel="stylesheet" href="../../assets/css/core/frozen.css">
+    <link rel="stylesheet" href="../../assets/css/core/web.css">
+    <link rel="stylesheet" href="../../assets/css/core/core.css">
+
+    <style type="text/css">
+        .msgDiv {
+            height: 1.2rem;
+            background-color: rgba(30, 159, 255, 0.17);
+            display: block;
+            margin: 0rem 0.1rem 0.1rem 0.1rem;
+        }
+
+        .headImg {
+            width: 1rem;
+            height: 1rem;
+            border-radius: 0.1rem;
+            margin-top: 0.1rem
+        }
+
+        .msgSpan {
+            position: fixed;
+            display: inline-block;
+            width: 0.5rem;
+            height: 0.5rem;
+            background: red;
+            border-radius: 0.4rem;
+            text-align: center;
+            line-height: 0.5rem;
+        }
+
+    </style>
+</head>
+　　
+<body>
+<div id="gz18">
+    <div id="pageA" title="消息"
+         data-btnLeft="true|&nbsp;|YT.prevPage()" data-btnRight="true|添加|GZ18.toAdd()">
+    </div>
+</div>
+
+
+<script id="tpl" type="text/template">
+<div style="">
+            <ul>
+             {@each data as item,index}
+                <li class="msgLi">
+                    <div class="msgDiv" id="${item.voicerId}" onclick="App.goChat('${item.senderId}')">
+                       <img class='headImg' src='merNeeders/findPic?fileName=${item.headImg}'/>
+                       {@if item.newMsgNum>0}
+                        <span class="msgSpan">${item.newMsgNum}</span>
+                        {@/if}
+                    </div>
+                </li>
+              {@/each}
+            </ul>
+ </div>
+
+
+
+</script>
+</body>
+　　
+</html>

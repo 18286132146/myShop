@@ -13,7 +13,7 @@ public class MerNeeder {
     @TableId(value = "id")
     private String id;
     private String name;
-    private String role;
+    private int role;
     private String sex;
     private int age;
     private String province;
@@ -29,4 +29,5 @@ public class MerNeeder {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lastScan;
     private boolean hasNewMsg;
+    private boolean isAccPhone;
 }

@@ -87,12 +87,17 @@
     </div>
 </div>
 
-<script id="tpl" type="text/juicer">
+<script id="tpl" type="text/template">
              {@each data as item,index}
                  <tr>
                     <td>${index}</td>
                     <td>${item.name}</td>
-                    <td>${item.sex}</td>
+                     {@if item.sex=="0"}
+                     <td>男</td>
+                     {@/if}
+                     {@if item.sex=="1"}
+                     <td>女</td>
+                     {@/if}
                     <td>${item.phone}</td>
                     <td>${item.grade}</td>
                 </tr>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="height: 100%">
+<html lang="en" style="height: 100%" xmlns:tel="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>App.storeName</title>
@@ -40,17 +40,20 @@
             font-size: 0.4rem
         }
 
-        #goodsImg {
-            background: url("../../img/alcohol/6c494a5fe7108597f8548605ae59f04.jpg") no-repeat;
-            background-size: 100%, 100%;
-            height: 41%;
-            width: 100%;
+        /*    #goodsImg {
+                background-size: 100%, 100%;
+                height: 41%;
+                width: 100%;
 
-        }
+            }*/
 
         .lan img {
             width: 0.6rem;
             height: 0.6rem
+        }
+        .menuDiv2{
+            text-align: center;
+           width: 1.6rem;height: 1.6rem;
         }
     </style>
 </head>
@@ -63,40 +66,46 @@
         <div class="menus">
             <ul class="" id="menuUl">
             </ul>
-            <div class="page" style="background: rgba(30,159,255,0.29);position: fixed;bottom: 2%;width: 100%">
+           <!-- <div class="page" style="background: rgba(30,159,255,0.29);position: fixed;bottom: 2%;width: 100%">
                 <div class="uPagee" id="uPage" onclick="changePage.call(this)">上一页</div>
                 <div class="dPagee" style="float: right;margin-right:1rem" id="dPage" onclick="changePage.call(this)">
                     下一页
                 </div>
+            </div>-->
+            <div style="height: 1.2rem;width:100%;position: fixed;z-index: 999;bottom: 0rem;background: #ff090c">
+              <table>
+                  <tr>
+                      <td><div class="menuDiv2" onclick="App.goAddWare()" >
+                          <img src="../../img/merch/addWare.png" class="neederDetail"  style="width: 0.6rem;height:0.6rem;"/>
+                          <div style="font-size: 0.24rem">添加商品</div>
+                           </div>
+                      </td>
+                      <td>
+                          <div class="menuDiv2" onclick='App.copyMyLick();'>
+                              <img src="../../img/merch/collect.png" style="width: 0.6rem;height:0.6rem;">
+                              <div style="font-size: 0.24rem">复制连接</div>
+                          </div>
+                      </td>
+                      <td>
+                          <div class="menuDiv2" onclick="YT.goMarketCenter()">
+                              <img  style="height:0.6rem;width:0.6rem;" src="../../img/jishi.png" style="width: 0.6rem;height:0.6rem;"/>
+                              <div style="font-size: 0.24rem">主页</div>
+                          </div>
+                      </td>
+                      <td>
+                          <div class="menuDiv2" onclick="Fw.redirect('page/market/kuaidi.html')">
+                              <img  style="height:0.6rem;width:0.6rem;" src="../../img/deliveryFind.png" style="width: 0.6rem;height:0.6rem;"/>
+                              <div style="font-size: 0.24rem">全国快递查询</div>
+                          </div>
+                      </td>
+                  </tr>
+              </table>
             </div>
         </div>
 
     </div>
     <div id="pageB" title="详细信息" style="height: 100%;display: none"
          data-btnLeft="true|&nbsp;|YT.prevPage()" data-btnRight="true|添加|GZ18.toAdd()">
-        <div class="goods_detail" id="goodsImg">
-
-
-        </div>
-        <div id="goodsInfo">
-            <div style="height: 1rem;">
-                <img src="../../img/alcohol/renmingbi.png" style="width: 0.4rem;height: 0.4rem"/><span
-                    style="font-size: 0.5rem;color: red">51.6</span>
-            </div>
-            <div>
-                紫红冠酱
-            </div>
-        </div>
-        <div style="height: 1rem;width:100%;position: fixed;z-index: 999;bottom: 0rem;background: #ff090c;font-size: 0.3rem">
-            <input type="hidden" id="merchId" name="ae5e940187c64a5598563ef31f9b2375"/>
-            <pan>联系商家：</pan>
-            <span class="lan"><img src="../../img/merch/merchant.png" class="neederDetail"
-                                   onclick="App.linkMerch.call(this)"></span>
-            <pan>收藏：</pan>
-            <span class="lan"><img src="../../img/merch/collect.png" onclick='brightHeart.call(this);'></span>
-
-        </div>
-
     </div>
     <div id="pageC" title="联系卖家" style="height: 100%"
          data-btnLeft="true|&nbsp;|YT.prevPage()" data-btnRight="true|添加|GZ18.toAdd()">
@@ -162,16 +171,73 @@
         window.history.back();
     }
 </script>
-<script id="templ" type="text/juicer">
-        {@each dataList as item,index}
-         <li class="menuLi">
-                    <div class="menuDiv" onclick="App.showDetail('${item.id}')">
-                        <img class="menuImg" src="${item.imgUrl}"/>
-                        <div class="menuInf">${item.name}</div>
-                    </div>
+<script id="templ" type="text/template">
+    {@each dataList as item,index}
+    <li class="menuLi">
+        <div class="menuDiv" onclick="App.showDetail('${item.id}')">
+            <img class="menuImg" src="wares/findPic?fileName=${item.imgUrl}"/>
+            <div class="menuInf" id="wareName">${item.name}</div>
+        </div>
 
-         </li>
-        {@/each}
+    </li>
+    {@/each}
 </script>
+
+<script id="templ2" type="text/template">
+    <div class="goods_detail" id="goodsImg" style="text-align: center">
+        <img src="wares/findPic?fileName=${item.imgUrl}" style="width: 7rem;height:9rem"/>
+    </div>
+    <div id="goodsInfo" style="padding: 0.2rem">
+        <div style="height: 1rem;">
+            <!-- <img src="img/alcohol/renmingbi.png" style="width: 0.4rem;height: 0.4rem;"/>-->
+            <span style="font-size: 0.5rem;color: red">￥${item.price}</span>
+        </div>
+        <div>
+            <span>${item.name}</span>
+        </div>
+    </div>
+    <div style="height: 1.2rem;width:100%;position: fixed;z-index: 999;bottom: 0rem;background: #ff090c">
+        <input type="hidden" id="merchId" name="${item.managerId}"/>
+       <!-- <pan>联系商家：</pan>
+        <span class="lan"><img src="img/merch/merchant.png" class="neederDetail"
+                               onclick="App.linkMerch.call(this)"></span>
+        <pan>复制链接：</pan>
+        <span class="lan"><img src="img/merch/collect.png" onclick='App.copyMyLick()'></span>
+        <pan>拨号：</pan>
+        <span class="lan"><a id="managerPhone" href=""><img src="img/merch/call.png"/></a></span>
+-->
+
+        <table>
+            <tr>
+                <td><div class="menuDiv2"  onclick="App.linkMerch.call(this)" style="width: 1rem;height: 1rem;">
+                    <img src="img/merch/merchant.png" class="neederDetail"  style="width: 0.6rem;height:0.6rem;"/>
+                    <div style="font-size: 0.24rem">联系商家</div>
+                </div>
+                </td>
+                <td>
+                    <div class="menuDiv2" onclick='App.copyMyLick();' style="width: 1rem;height: 1rem">
+                        <img src="img/merch/collect.png" style="width: 0.6rem;height:0.6rem;">
+                        <div style="font-size: 0.24rem">复制连接</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="menuDiv2" onclick="YT.goMarketCenter()" style="width: 1rem;height: 1rem">
+                        <a id="managerPhone" href=""><img  style="height:0.6rem;width:0.6rem;" src="img/merch/call.png" style="width: 0.6rem;height:0.6rem;"/></a>
+                        <div style="font-size: 0.24rem">拨号</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="menuDiv2" onclick="Fw.redirect('page/market/kuaidi.html')" style="width: 1rem;height: 1rem">
+                        <img  style="height:0.6rem;width:0.6rem;" src="img/deliveryFind.png" style="width: 0.6rem;height:0.6rem;"/>
+                        <div style="font-size: 0.24rem">全国快递查询</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+</script>
+
 </body>
 </html>

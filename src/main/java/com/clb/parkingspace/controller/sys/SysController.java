@@ -3,6 +3,7 @@ package com.clb.parkingspace.controller.sys;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.clb.parkingspace.dto.UserOnLineList;
 import com.clb.parkingspace.po.Needer;
+import com.clb.parkingspace.po.merch.MerNeeder;
 import com.clb.parkingspace.service.INeederService;
 import com.clb.parkingspace.service.merch.IMerNeederService;
 import org.slf4j.Logger;
@@ -63,7 +64,6 @@ public class SysController {
         map.put("result", "yes");
         return map;
     }
-
     /**
      * 商户登录
      *
@@ -74,13 +74,14 @@ public class SysController {
      */
     @RequestMapping(value = "/merLogin.do", method = RequestMethod.POST)
     @ResponseBody
-    public Object merLogin(@RequestParam(value = "username", required = true) String username, @RequestParam("password") String password, HttpServletRequest request) {
+    public Object merLogin(@RequestParam(value = "username", required = true) String username, @RequestParam(value="password", required = true) String password, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Map map = new HashMap();
         map.put("username", username);
         EntityWrapper ew = new EntityWrapper();
         ew.eq("phone", username);
-        List<Needer> nrList = merNeederService.selectList(ew);
+        ew.and().eq("password", password);
+        List<MerNeeder> nrList = merNeederService.selectList(ew);
         if (nrList.size() == 0) {
             map.put("msg", "请检查用户名和密码是否正确！");
             map.put("result", "no");
@@ -109,10 +110,14 @@ public class SysController {
         Object o = session.getAttribute("merLoginNeeder");
         if (o == null) {
             map.put("result", "no");
+            return map;
         } else {
         /*    MerNeeder mer =(MerNeeder)o;
             map.put("merchId", mer.getId());*/
+            MerNeeder needer=(MerNeeder)o;
+            needer=merNeederService.selectById(needer.getId());
             map.put("result", "yes");
+            map.put("merLoginNeeder",needer);
         }
         return map;
     }

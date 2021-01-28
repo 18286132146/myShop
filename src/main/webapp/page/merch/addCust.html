@@ -12,23 +12,66 @@
     <link rel="stylesheet" href="../../assets/css/core/core.css">
 
     <style type="text/css">
-        select{font-size: 0.4rem;width: 4rem;height: 1rem}
-        option{font-size: 0.4rem}
-        input{font-size: 0.4rem;
+        select {
+            font-size: 0.4rem;
             width: 4rem;
-            height: 0.6rem;}
-        .sex{width: 0.5rem}
-        .submit{background: #a1a1d0;
+            height: 1rem
+        }
+
+        option {
+            font-size: 0.4rem
+        }
+
+        input {
+            font-size: 0.4rem;
+            width: 4rem;
+            height: 0.6rem;
+        }
+
+        .sex {
+            width: 0.5rem
+        }
+
+        .submit {
+            background: #a1a1d0;
             border-radius: 0.2rem;
             width: 50%;
             text-align: center;
-            bottom: 10%;
+            bottom: 0.4rem;
             margin-left: 2rem;
-            position: absolute;}
+            margin-top: 0.5rem
+        }
+
+        /* * {
+             margin: 0.4rem 0.1rem
+         }*/
+
+        select {
+            padding: 0.1rem 0;
+            height: 0.9rem;
+            width: 65%;
+            border: 0.08rem solid #287cff;
+        }
+
+        .eleInput {
+            height: 0.8rem;
+            width: 65%;
+            border: 0.1rem solid #287cff;
+        }
+
+        .area div {
+            margin-left: 1rem;
+        }
+
+        .inDiv {
+            padding: 0.1rem;
+            display: flex;
+            align-items: center;
+        }
     </style>
 
 </head>
-<body style="font-size: 0.6rem">
+<body style="font-size: 0.5rem">
 <div id="gz18">
     <div id="pageA" title="添加顾客"
          data-btnLeft="true|&nbsp;|YT.prevPage()" data-btnRight="true|添加|GZ18.toAdd()">
@@ -39,8 +82,8 @@
                 </div>
                 <div class="inDiv">
                     <span> 性&nbsp;&nbsp;&nbsp;别：</span>
-                    <input  class="sex" id="sex" name="sex" checked type="radio"/>男
-                    <input class="sex" name="sex" type="radio"/>女
+                    <input class="sex" id="sex" name="sex" value="1" checked type="radio"/>男
+                    <input class="sex" name="sex" value="0" type="radio"/>女
                 </div>
                 <div class="inDiv">
                     <span> 年&nbsp;&nbsp;&nbsp;龄：</span><input class="eleInput" id="age" name="age" type="number"/>
@@ -52,12 +95,20 @@
                     <span>居住地:</span>
                     <div>
                         <select id="province" name="province">
-                            <option selected>--请选择--</option>
                         </select>省
+                        <select id="city" name="city"></select>市
+                        <select id="county" name="county"></select>县/区
+                        <input id="detail" name="detail" class="eleInput"/>详细地址
+                        <br/>
+                        <br/>
+                        <select name="grade" style="width: 2rem">
+                            <option value="1星">1星</option>
+                            <option value="2星">2星</option>
+                            <option value="3星">3星</option>
+                            <option value="4星">4星</option>
+                            <option value="5星">5星</option>
+                        </select>星 级
                     </div>
-                    <div><select id="city" name="city"></select>市</div>
-                    <div><select id="county" name="county"></select>县/区</div>
-                    <div><input id="detail" name="detail" class="eleInput"/>详细地址</div>
                 </div>
                 <div class="pageB">
                     <section class="upload-section">
@@ -70,7 +121,7 @@
             </form>
         </div>
     </div>
-    </div>
+</div>
 </div>
 </body>
 　　

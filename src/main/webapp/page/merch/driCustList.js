@@ -15,8 +15,8 @@ var App={
         $(".searchImg").bind('click',function () {
            App.search();
         })
-        var html="<img src='' style='height: 0.85rem;' class='addCust'/>";
-        $(".titlebar-right-btn").html(html);
+        var html = "<span class='titlebar-right-btn'><img style='height: 0.85rem;' class='addCust' src=''/></span>"
+        $(".titlebar-right-btn").before(html);
         $(".addCust").attr('src',Fw.getBasePath()+'/img/alcohol/addCust.png')
         $(".titlebar-right-btn").bind('click',function () {
             window.location=Fw.getBasePath()+'/page/merch/addCust.html';
@@ -33,7 +33,7 @@ var App={
        formData.append("current",App.current);
        formData.append("size",App.size);
        $.ajax({
-           url: Fw.getBasePath() + '/merch/listMyCust.do',
+           url: Fw.getBasePath() + '/drink/listMyCust.do',
            type: 'POST',
            data: formData,
            processData: false,

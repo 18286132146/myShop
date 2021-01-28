@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.clb.parkingspace.controller.CommonController;
 import com.clb.parkingspace.po.Needer;
+import com.clb.parkingspace.po.SenderMark;
 import com.clb.parkingspace.po.merch.MerNeeder;
 import com.clb.parkingspace.po.merch.MerNeederTalk;
+import com.clb.parkingspace.service.ISenderMarkService;
 import com.clb.parkingspace.service.merch.IMerNeederService;
 import com.clb.parkingspace.service.merch.IMerNeederTalkService;
 import com.clb.parkingspace.util.FileUtil;
@@ -44,6 +46,8 @@ public class MerchNeedersController extends CommonController {
     private IMerNeederTalkService merNeederTalkService;
     @Value("${merchNeederImpFolder}")
     private String merchNeederImpFolder;
+    @Autowired
+    private ISenderMarkService senderMarkService;
 
     @RequestMapping(value = "/goIndex")
     public String goCommandGate() {
@@ -98,9 +102,16 @@ public class MerchNeedersController extends CommonController {
                 bufferedImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
             }
             OutputStream outputStream = response.getOutputStream();
-            response.setHeader("Content-Disposition", "inline; filename=image.jpg");
-            response.setContentType("image/jpeg");
-            ImageIO.write(bufferedImage, "jpeg", outputStream);
+            if(fileName.toUpperCase().contains(".PNG")){
+                response.setHeader("Content-Disposition", "inline; filename=image.png");
+                response.setContentType("image/png");
+                ImageIO.write(bufferedImage, "png", outputStream);
+            }else {
+                response.setHeader("Content-Disposition", "inline; filename=image.jpg");
+                response.setContentType("image/jpeg");
+                ImageIO.write(bufferedImage, "jpeg", outputStream);
+            }
+
             outputStream.flush();
             outputStream.close();
         } catch (Exception e) {
@@ -268,14 +279,42 @@ public class MerchNeedersController extends CommonController {
             MerNeeder m=  new MerNeeder();
             m.setId(Random.getId());
             m.setPhone(phone);
-            m.setRole("0");
+            m.setRole(0);
             m.setImgUrl("konglong.png");
             merNeederService.insert(m);
             session.setAttribute("merLoginNeeder",m);
+            resultMap.put("chatUrl", "page/merch/chatPanel.html");
             resultMap.put("result","yes");
             return resultMap;
         }else{
-            session.setAttribute("merLoginNeeder",merNeederList.get(0));
+            MerNeeder merNeeder=merNeederList.get(0);
+            if(merNeeder.getRole()==0){
+                session.setAttribute("merLoginNeeder",merNeeder);
+            }
+            String userId=merNeeder.getId();
+            resultMap.put("merLogiId",userId);
+            MerNeeder needer=merNeederService.selectById(userId);
+            boolean isHasNewMs= needer.isHasNewMsg();
+            if(isHasNewMs==true){//查询消息发送者
+                Wrapper<SenderMark> seEw=new EntityWrapper();
+                seEw.eq("scan_id",needer.getId());
+                List<SenderMark> li=senderMarkService.selectList(seEw);
+                if(li.size()>0){
+                    if(li.size()==1){
+                        SenderMark sm=li.get(0);
+                        resultMap.put("merchId", sm.getSenderId());
+                        resultMap.put("chatUrl", "page/merch/chatPanel.html");
+                        resultMap.put("result","yes");
+                        return  resultMap;
+                    }else{
+                        resultMap.put("chatUrl", "page/chart/merMsgCenter.html");
+                        resultMap.put("result","yes");
+                        return  resultMap;
+                    }
+
+                }
+            }
+            resultMap.put("chatUrl", "page/merch/chatPanel.html");
             resultMap.put("result","yes");
             return  resultMap;
         }

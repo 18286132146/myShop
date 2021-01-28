@@ -53,9 +53,12 @@
             width: 96%;
             height: 5rem;
             background: #666;
-            position: absolute;
+            /*position: absolute;*/
             bottom: 0;
             padding: 1rem;
+            z-index: 999;
+            position: fixed;
+            z-index: 999;
         }
 
         .footer input {
@@ -95,7 +98,7 @@
             height: 6.5rem;
             border-radius: 30px;
             position: absolute;
-            bottom: 0.4rem;
+            /*bottom: 0.4rem;*/
             /* left: 14px;*/
             cursor: pointer;
             overflow: hidden;
@@ -168,9 +171,9 @@
     </style>
     <script type="text/javascript">
 
-        var basePath = Fw.getBasePath()
-       /* var chatDetailList = [[${detailList}]];*/
-        var receiverId = Fw.getParameters('receiver');/*[[${receiver}]]*/
+      /*  var basePath = Fw.getBasePath()
+       /!* var chatDetailList = [[${detailList}]];*!/
+        var receiverId = Fw.getParameters('receiver');/!*[[${receiver}]]*!/
         var chatDetailList =null;
         var receiverImg = new Image();
 
@@ -196,12 +199,12 @@
                     })
                 }
             );
-       /* var receiverImg = new Image();
+       /!* var receiverImg = new Image();
         receiverImg.src = basePath + "/needers/findPic?fileName=" + receiver.imgUrl;
         var senderImg = new Image();
-        senderImg.src = basePath + "/needers/findPic?fileName=" + sender.imgUrl;*/
+        senderImg.src = basePath + "/needers/findPic?fileName=" + sender.imgUrl;*!/
         $(function () {
-          /*  $("#receiverImg").attr("src", receiverImg.src);*/
+          /!*  $("#receiverImg").attr("src", receiverImg.src);*!/
             setInterval(lastChatData, 1000);
         })
 
@@ -225,7 +228,7 @@
         }
 
         var iNow = -1;    //用来累加改变左右浮动
-       /* var arrIcon = [senderImg.src, receiverImg.src];*/
+       /!* var arrIcon = [senderImg.src, receiverImg.src];*!/
         var num = 0;     //控制头像改变
         function lastChatData() {//查询消息展示到聊天页面
             var content = document.getElementsByTagName('ul')[0];
@@ -265,10 +268,10 @@
             window.history.back();
         }
 
-       /* window.onbeforeunload = function (e) {
+       /!* window.onbeforeunload = function (e) {
             var e = window.event || e;
             e.returnValue("你确定要离开？");
-        }*/
+        }*!/
 
         function checkLeave() {
             $.ajax({
@@ -281,7 +284,7 @@
             })
 
         }
-
+*/
     </script>
 </head>
 <body onbeforeunload="checkLeave()">

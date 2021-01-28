@@ -13,10 +13,10 @@ import java.util.Date;
 @Service
 public class MerNeedsTalkServiceImp extends ServiceImpl<MerNeederTalkMapper,MerNeederTalk> implements IMerNeederTalkService {
 @Resource
-  private NeederTalkMapper neederTalkMapper;
+  private MerNeederTalkMapper merNeederTalkMapper;
 
     public Object senderMsgInfo(String userId,String lastDate){
-        return neederTalkMapper.senderMsgInfoCount(userId,lastDate);
+        return merNeederTalkMapper.senderMsgInfoCount(userId,lastDate);
     };
 
     /**
@@ -27,7 +27,7 @@ public class MerNeedsTalkServiceImp extends ServiceImpl<MerNeederTalkMapper,MerN
      * @return
      */
     public int newMsgNums(String userId,String voicerId,Date lastDate){
-        Integer num=neederTalkMapper.newMsgNums(userId,voicerId,lastDate);
+        Integer num=merNeederTalkMapper.newMsgNums(userId,voicerId,lastDate);
         return num==null? 0:num;
     };
 

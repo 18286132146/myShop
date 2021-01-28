@@ -2,6 +2,7 @@ package com.clb.parkingspace.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.clb.parkingspace.po.AreaMap;
 import com.clb.parkingspace.po.Needer;
@@ -86,6 +87,17 @@ public class NeedersController extends CommonController {
         }
         return null;
     }
+    @RequestMapping(value = "/showDetail.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Object showDetail(@RequestParam String neederId) {
+            Map map = new HashMap();
+        Wrapper ew=new EntityWrapper();
+        ew.eq("id",neederId);
+        Needer n=neederService.selectOne(ew);
+        String m=n.getMemo();
+            map.put("memo", m);
+            return map;
+    }
 
 
     @RequestMapping(value = "/findPic")
@@ -120,9 +132,18 @@ public class NeedersController extends CommonController {
         //老用户，回显数据
         Needer needer = (Needer) session.getAttribute("loginNeeder");
         Needer needer2 = neederService.selectById(needer.getId());
-
         modle.addAttribute("needer", needer2);
         return "/page/needers/editNeeders.html";
+    }
+
+    @RequestMapping(value = "/findLoginNeeder.do")
+    @ResponseBody
+    public Object findLoginNeeder(HttpSession session) {
+        Needer needer = (Needer) session.getAttribute("loginNeeder");
+        Needer needer2 = neederService.selectById(needer.getId());
+        Map result = new HashMap<String, Object>();
+        result.put("neederMap", needer2);
+        return result;
     }
 
     @RequestMapping(value = "/addNeeders.do", method = RequestMethod.POST)
@@ -174,7 +195,7 @@ public class NeedersController extends CommonController {
                         targetFile1.createNewFile();//创建
                     } catch (IOException e) {
                         e.printStackTrace();
-                    }
+                    };
                 }
                 file.transferTo(targetFile1);
                 needer.setImgUrl(id + fileName);
@@ -189,7 +210,8 @@ public class NeedersController extends CommonController {
 
     @RequestMapping(value = "/editNeeders.do", method = RequestMethod.POST)
     @ResponseBody
-    public Object editNeeders(@RequestParam(value = "file", required = true) MultipartFile file,
+    public Object editNeeders(@RequestParam(value = "file", required = false) MultipartFile file,
+                              @RequestParam(value = "isDelPic", required = false) boolean isDelPic,
                               @RequestParam(value = "name", required = false) String name,
                               @RequestParam(value = "sex", required = false) String sex,
                               @RequestParam(value = "age", required = true) int age,
@@ -200,8 +222,8 @@ public class NeedersController extends CommonController {
                               @RequestParam(value = "password", required = false) String password, @RequestParam(value = "phone", required = false) String phone) throws Exception {
         Map map = new HashMap<String, Object>();
         EntityWrapper ew = new EntityWrapper();
-        byte[] b=file.getBytes();
-        ew.eq("phone", phone);
+        byte[] b = file.getBytes();
+       // ew.eq("phone", phone);
         Needer needSe = (Needer) request.getSession().getAttribute("loginNeeder");
         EntityWrapper ewr = new EntityWrapper();
         ewr.eq("id", needSe.getId());
@@ -210,7 +232,7 @@ public class NeedersController extends CommonController {
         // Needer needer = new Needer();
         nee.setAge(age);
         nee.setSex(sex);
-        nee.setArea(county + detail);
+        nee.setArea(county + "," + detail);
         nee.setCity(city);
         nee.setIdCard(idCard);
         nee.setMemo(memo);
@@ -219,41 +241,73 @@ public class NeedersController extends CommonController {
         nee.setPhone(phone);
         String fileName = "";
         String oldFileName = nee.getImgUrl();
-        boolean isNewImg=false;
+        String path = neederImpFolder;//图片保存路径
+         File oldFile = new File(path, oldFileName);
+        if(!StringUtils.isEmpty(oldFileName)){
+
+        }
+        boolean isNewImg = false;
         if (file != null) {
             fileName = file.getOriginalFilename(); //获取文件名
-            if(!fileName.isEmpty()){
-                isNewImg=true;//更换图片
+            if (!fileName.isEmpty()) {
+                isNewImg = true;//更换图片
+            }else if(isDelPic && StringUtils.isEmpty(fileName)&& oldFile!=null){//删除图片
+                nee.setImgUrl("");
+                if(StringUtils.isEmpty(oldFileName)&& oldFile.exists()){
+                  // boolean isd= oldFile.delete();
+                 Thread t=new Thread(){
+                     boolean  isDel=false;
+                       @Override
+                       public void run() {
+                         boolean  isDel= oldFile.delete();
+                             this.stop();
+                           this.destroy();
+                       }
+                   };
+                 t.start();
+                }
+                System.gc();
             }
         } else {
-            Map result = new HashMap<>();
-            result.put("msg", "头像不能为空！");
-            return result;
+            nee.setImgUrl("");
         }
-        if (fileName.isEmpty()) {
+        if (file != null&&fileName.isEmpty()) {
             fileName = nee.getImgUrl();//编辑时没有更改图片，图片名称就是用户id
         }
-            if (fileName.contains(".")) {
+        if (fileName!=null&&fileName.contains(".")) {
             String fileEnd = fileName.substring(fileName.indexOf("."), fileName.length());
             fileName = nee.getId() + fileEnd;
         }
-        if (!(file == null) && !fileName.isEmpty() && isNewImg) {
-            String path = neederImpFolder;//图片保存路径
-            if(!oldFileName.equals(fileName)){
-                File oldFile = new File(path, oldFileName);
-                oldFile.delete();
+        if (!(file == null) && !StringUtils.isEmpty(fileName) && isNewImg) {
+            if (!oldFileName.equals(fileName) && oldFile!=null) {
+                if(oldFile.exists()){
+                    Thread t=new Thread(){
+                        boolean  isDel=false;
+                        @Override
+                        public void run() {
+                            boolean  isDel= oldFile.delete();
+                                this.stop();
+                                this.destroy();
+                        }
+                    };
+                    t.start();
+                }
+                System.gc();
             }
             try {
-                FileUtil.writeFile(path,fileName,file);
+                FileUtil.writeFile(path, fileName, file);
                 nee.setImgUrl(fileName);
             } catch (Exception e) {
                 e.printStackTrace();
                 map.put("result", "fail");
                 return map;
+            }finally {
+
             }
         }
         neederService.update(nee, ewr);
         map.put("result", "success");
+        System.gc();
         return map;
     }
 
