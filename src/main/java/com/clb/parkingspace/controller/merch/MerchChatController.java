@@ -64,7 +64,7 @@ public class MerchChatController {
             neder.setHasNewMsg(true);
             merNeederService.update(neder,nE);
             /**
-             * 标记接收者有新消息
+             * 更新最后对话发送时间
              */
            EntityWrapper<SenderMark> ew=new EntityWrapper();
             ew.eq("sender_id",senderId);
@@ -77,7 +77,7 @@ public class MerchChatController {
                 sder.setSenderId(senderId);
                 sder.setFlash(false);//标记未查看
                 senderMarkService.insert(sder);
-            }else if(sdm.isFlash()){//消息没有被查看不更新最后一次浏览时间
+            }else{//消息没有被查看不更新最后一次浏览时间
                 sdm.setLastDate(new Date());
                 sdm.setFlash(false);//标记未查看
                 senderMarkService.update(sdm,ew);
@@ -171,10 +171,12 @@ public class MerchChatController {
         if(isHasNewMs==true){//查询消息发送者
             Wrapper<SenderMark> seEw=new EntityWrapper();
             seEw.eq("scan_id",needer.getId());
+            seEw.orderBy("last_date",false);
             List<SenderMark> li=senderMarkService.selectList(seEw);
             if(li.size()>0){
+                SenderMark  sm= li.get(0);
+                data.put("msgLastScan",sm.getLastDate());
                if(li.size()==1){
-                   SenderMark sm=li.get(0);
                    data.put("merchId", sm.getSenderId());
                    data.put("chatUrl", "page/merch/chatPanel.html");
                }else{

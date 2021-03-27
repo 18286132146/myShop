@@ -34,6 +34,12 @@ var App={
            return
         }
        var formData = new FormData(document.getElementById("fm"));
+        //号码校验
+       var is=WY.isPhoneAvailable($("#phone").val());
+       if(!is){
+           alert("手机号码错误，请检查手机号码！");
+           return;
+       }
        WY.ajax(Fw.getBasePath() + 'drink/addCust.do',formData,
             function (data) {
                console.log(data);

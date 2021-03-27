@@ -6,6 +6,7 @@ import com.clb.parkingspace.po.Needer;
 import com.clb.parkingspace.po.merch.MerNeeder;
 import com.clb.parkingspace.service.INeederService;
 import com.clb.parkingspace.service.merch.IMerNeederService;
+import com.clb.parkingspace.util.security.ProvePrivalege;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,8 @@ public class SysController {
        private ICommonService commonService;*/
     @Autowired
     private UserOnLineList userOnLineList;
-
+    @Autowired
+    private ProvePrivalege provePrivalege;
 
     @Autowired
     private INeederService neederService;
@@ -90,6 +92,9 @@ public class SysController {
         session.setAttribute("merLoginNeeder", nrList.get(0));
         userOnLineList.add(nrList.get(0).getId());//用户上线
         userOnLineAmont();
+
+       List list= provePrivalege.userPrivs(session);
+        map.put("privs",list);
         map.put("result", "yes");
         return map;
     }
@@ -97,8 +102,6 @@ public class SysController {
     /**
      * 检查商户是否登录
      *
-     * @param username
-     * @param password
      * @param request
      * @return
      */
@@ -138,6 +141,13 @@ public class SysController {
         System.out.println("==============有==：" + amount + "========人在线！");
         return amount;
     }
-
+    @RequestMapping(value = "/findUserPrivs.do")
+    @ResponseBody
+    public Object findUserPrivs(HttpSession session) {
+      List<Integer> priList= provePrivalege.userPrivs(session);
+      Map map=new HashMap();
+      map.put("privs",priList);
+      return map;
+    }
 
 }

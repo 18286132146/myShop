@@ -81,8 +81,8 @@
                             </div>
                         </article>
                         <div class="inDiv" style="margin-top: 1rem;font-size: 1rem" >
-                            <span>横放</span><input id="ver" type="radio" name="imgFloor"  value="1" style="height: 1rem"/>
-                            <span>竖放</span><input id="row" type="radio" name="imgFloor"  value="0" style="height: 1rem"/>
+                            <span>竖放</span><input id="ver" type="radio" name="imgFloor"  value="0" style="height: 1rem"/>
+                            <span>横放</span><input id="row" type="radio" name="imgFloor"  value="1" style="height: 1rem"/>
                         </div>
                         <div class="submit" onclick="App.next()" style="margin-top: 4rem">
                             下一步
@@ -103,46 +103,5 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    var basePath = Fw.getBasePath();
-    //初始化区县数据
-
-    //检查是否已经上传图片
-    function checkPho() {
-        var f = $("#file").val();
-        if (!f) {
-            alert("请上传一张靓照,能尽快脱单哦!");
-            return false;
-        }
-        return true;
-    }
-
-
-    //手机号验证
-    function goTo() {
-        var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
-        return myreg.test($("#phone").val());
-
-    }
-
-    function ensurePass() {
-        var sureP = $("#sureP").val();
-        //密码检查
-        var password = $("#resure").val();
-        if (password == sureP) {
-            submit1();
-        } else {
-            $("#passEn").attr("src", basePath + "/img/false.png");
-        }
-    }
-
-
-
-    function goNeederSqual() {
-        Fw.redirect("/page/needers/neederSqual.html", {});
-    }
-
-</script>
 </body>
 </html>

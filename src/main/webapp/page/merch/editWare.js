@@ -28,10 +28,10 @@ var App = {
                 if (data.ware.imgFloor) {
                     switch (data.ware.imgFloor) {
                         case "0":
-                            $("#ver").attr("checked", true);
+                            $("#ver").attr("checked", "checked");
                             break;
                         case "1":
-                            $("#row").attr("checked", true);
+                            $("#row").attr("checked", "checked");
                             break;
                     }
                 }
@@ -93,17 +93,18 @@ var App = {
     },
     submit2: function () {
         var formData = new FormData(document.getElementById("fm"));
-        if (!App.storeId) {
-            alert("商店id不能为空！")
+        if (!App.wareId) {
+            alert("商品id不能为空！")
             return;
         }
-        formData.append("storeId", App.storeId);
-        WY.ajax(Fw.getBasePath() + "wares/addWare.do", formData, function (data) {
-            if (data.status == '201') {
+        formData.append("wareId", App.wareId);
+       /* formData.append("imgFloor", $("input[checked='checked']").val());*/
+        WY.ajax(Fw.getBasePath() + "wares/editWare.do", formData, function (data) {
+            if (data.status == '202') {
+               alert(data.msg);
                 Fw.redirect("page/login/merLogin.html");
             }
-            console.log(data);
-            if (data.status == 'yes') {
+            if (data.status == '200') {
                 Fw.redirect("page/merch/storeMenus.html");
             } else {
                 layer.alert(data.msg);

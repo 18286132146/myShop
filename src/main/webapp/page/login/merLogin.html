@@ -74,7 +74,9 @@
             success: function (data) {
                 console.log(data)
                 if(data.result=='yes'){
-                   window.history.back();
+                  // window.history.back();
+                    localStorage.setItem("userPrivs",data.privs);
+                    Fw.redirect("page/market/marketCenter.html")
                 }else{
                     alert(data.msg);
                 }

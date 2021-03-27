@@ -17,6 +17,15 @@ $(function () {
         '<input value="${val}" data-name="SEARCH_NAME" type="text" placeholder="${placeholder}">',
         '</div>', '</div>'].join('');
 
+    var mp3tpl=[
+        '<audio id="audioPlay" style="display: none">',
+        '<source src="js/msg/mail.mp3" type="audio/mpeg">',
+        '</audio>'
+    ].join('')
+    $(mp3tpl).appendTo("body");
+
+      //  $('#audioPlay')[0].play();
+
     /*消息相关*/
     var val = 0;
     var fla = {hasNew: false};
@@ -99,6 +108,22 @@ $(function () {
                         msgCach.merchId=data.merchId;
                         localStorage.setItem("chatUrl",data.chatUrl);
                         localStorage.setItem("merchId",data.merchId);
+                        var oldastScan=localStorage.getItem("msgLastScan");
+                        var oldastScanDate=null;
+                        if(oldastScan){
+                            oldastScanDate=new Date(Date.parse(oldastScan.replace(/-/g, "/")));
+                        }
+                        var scanDate = new Date(Date.parse(data.msgLastScan.replace(/-/g, "/")));
+                        if(!oldastScanDate){
+                            localStorage.setItem("msgLastScan",scanDate);
+                        }
+                        if(oldastScanDate<scanDate){
+                            localStorage.removeItem("msgLastScan");
+                            localStorage.setItem("msgLastScan",scanDate);
+                            //新消息提醒
+                            $('#audioPlay')[0].play();
+                        }
+
                     } else {
                         fla.hasNew = false;
                     }

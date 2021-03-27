@@ -30,10 +30,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
                         .addPathPatterns("/**")
                         .excludePathPatterns("/css/**", "/js/**","/jqury/**","/**/layer-v3.1.1/**","/**/login.do","/**/img/**","/**/**.js")
                         .excludePathPatterns("/**/login.html","/**/sys/toLogin.do","/**/addNeeders.do","/**/goAddNeeders.do","/**/findAreaData");
-
                 registry.addInterceptor(new MerchHandlerInterceptor()).addPathPatterns("/**");
-
-
             }
 
         };

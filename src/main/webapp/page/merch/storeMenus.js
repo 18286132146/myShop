@@ -1,12 +1,18 @@
 var App = {
+    pageNo: 1,
     pages: null,
     storeId: null,
     storeName: null,
-    wareId:null,
+    wareId: null,
     data: null,
     curPage: 1,
     pageSize: 16,
     init: function () {
+       //菜单权限查询，显示对于权限菜单
+      var userPrivs=localStorage.getItem("userPrivs");
+        for(var pr in userPrivs){
+            $(".priv"+pr).css("display","block");
+        }
         var query = window.location.search.substring(1);
         var vars = query.split("&");
         $("#pageB").css("display", "none");
@@ -36,10 +42,10 @@ var App = {
             }
         }
         $(".titlebar-left-btn").bind('click', function () {
-            if($("#pageB").css("display")=="block"){
-                $("#pageB").css("display","none");
-                $("#pageA").css("display","block");
-              return
+            if ($("#pageB").css("display") == "block") {
+                $("#pageB").css("display", "none");
+                $("#pageA").css("display", "block");
+                return
             }
             window.history.back();
         });
@@ -50,8 +56,11 @@ var App = {
             window.location = Fw.getBasePath() + "/page/merch/driCustList.html";
         })
         App.showWaresBySId(App.storeId);
-    }
-    ,
+      /*  var pageNo = App.pageNo;
+            App.goPage(pageNo);
+        var index = null;*/
+
+    },
     showWaresBySId: function (storeId) {
         WY.ajax2(Fw.getBasePath() + "wares/listByStoreId.do", {
             "storeid": App.storeId,
@@ -66,16 +75,15 @@ var App = {
         var html = juicer(tpl, {"dataList": data.wareList});
         $("#menuUl").html(html);
         //判断是不是本店店长权限
-        WY.ajax2(basePath + 'sys/merIsLogin.do',{},function (data) {
-           if(data.result=='yes'){
-               /*localStorage.removeItem("merLoginNeeder");
-               localStorage.setItem("merLoginNeeder",JSON.stringify(data.merLoginNeeder))*/
-               if(!(data.merLoginNeeder.role==1||data.merLoginNeeder.role==3)){
-                   $("#addWare").css("display","none");
-               }
-           }
+        WY.ajax2(basePath + 'sys/merIsLogin.do', {}, function (data) {
+            if (data.result == 'yes') {
+                /*localStorage.removeItem("merLoginNeeder");
+                localStorage.setItem("merLoginNeeder",JSON.stringify(data.merLoginNeeder))*/
+                if (!(data.merLoginNeeder.role == 1 || data.merLoginNeeder.role == 3)) {
+                    $("#addWare").css("display", "none");
+                }
+            }
         })
-
 
 
         /*   var warname = $("#wareName").substring(0, 4);
@@ -85,13 +93,12 @@ var App = {
     },
 
     showDetail: function (id) {
-        App.wareId=id;
+        App.wareId = id;
         $("#pageA").css('display', 'none');
         $("#pageB").css('display', 'block');
         $(".web-title").html($("#pageB").attr('title'));
         var tpl = $("#templ2").html();
         WY.ajax2(Fw.getBasePath() + "wares/findById.do", {"wareId": id}, function (data) {
-            var tpl = $("#templ2").html();
             var html = juicer(tpl, {"item": data.ware});
             $("#pageB").html(html);
             $("#merchId").val(data.ware.id);
@@ -100,8 +107,11 @@ var App = {
             } else {
 
             }
+            var userPrivs=localStorage.getItem("userPrivs");
+            for(var pr in userPrivs){
+                $(".priv"+pr).css("display","block");
+            }
         })
-
     },
 
     closeLayer: function (index) {
@@ -138,17 +148,17 @@ var App = {
                     });
 
                     $("#yes").bind("click", function () {
-                        var phone= $("#phone").val();
-                        if(!WY.isPhoneAvailable(phone)){
+                        var phone = $("#phone").val();
+                        if (!WY.isPhoneAvailable(phone)) {
                             alert("请输入正确的号码！");
                             return
                         }
-                        WY.ajax2(basePath + 'merNeeders/merCheckOrRegis.do',{phone: phone},function(data){
+                        WY.ajax2(basePath + 'merNeeders/merCheckOrRegis.do', {phone: phone}, function (data) {
                             layer.close(lay);
                             if (data.result == "yes") {
-                                if(data.merLogiId ==$("#merchId").attr("name")){
-                                    Fw.redirect("page/login/merLogin.html",{phone: $("#phone").val()});
-                                  return;
+                                if (data.merLogiId == $("#merchId").attr("name")) {
+                                    Fw.redirect("page/login/merLogin.html", {phone: $("#phone").val()});
+                                    return;
                                 }
                                 Fw.redirect(data.chatUrl, {receiver: $("#merchId").attr("name")});
                             }
@@ -164,14 +174,14 @@ var App = {
         })
     },
     goAddWare: function () {
-        Fw.redirect("page/merch/addWare.html", {})
+        Fw.redirect("page/merch/addWare.html", {storeId: App.storeId})
     },
     copyMyLick: function () {
         var btn = document.getElementById('copy');
         var val = window.location.href + '&storeId=' + App.storeId;
-        var dis=$("#pageB").css("display");
-        if(dis=='block'){
-            val= val  + '&wareId=' + App.wareId;
+        var dis = $("#pageB").css("display");
+        if (dis == 'block') {
+            val = val + '&wareId=' + App.wareId;
         }
         var tempInput = document.createElement('input');
         tempInput.value = val;
@@ -181,9 +191,50 @@ var App = {
         tempInput.className = 'tempInput ';
         tempInput.style.display = 'none';
         document.body.removeChild(tempInput);//移除
-       /* var la = layer.alert("当前商店连接已复制到剪贴板！", {icon: 5, title: "提示", area: ["6rem", "4rem"]});*/
-       /* layer.style(la, {fontSize: '1rem'})*/
-       alert("连接已复制到剪贴板！");
+        /* var la = layer.alert("当前商店连接已复制到剪贴板！", {icon: 5, title: "提示", area: ["6rem", "4rem"]});*/
+        /* layer.style(la, {fontSize: '1rem'})*/
+        alert("连接已复制到剪贴板！");
+    },
+    /*去聊天*/
+    goDetail: function () {
+        /*var id = $(this).attr('class');
+        window.location = basePath + "/needers/goMsgToNeeder?id=" + id;*/
+    },
+
+
+    closeLayer: function () {
+        layer.close(index);
+    },
+
+    goPage: function (pageNo) {
+        $("#neederImgs").html("");
+        /*  $.ajax({
+                  url: basePath + '/marketCenter/',
+                  type: 'POST',
+                  data: {"neederName": "neederImpFolder"},
+                  success: function (data1) {}}
+
+          )*/
+    },
+
+    changePage: function () {
+        var id = $(this).attr("id");
+        switch (id) {
+            case 'uPage':
+                App.pageNo = App.pageNo - 1;
+                if (App.pageNo < 1) {
+                    App.pageNo = 1;
+                }
+                goPage(App.pageNo);
+                break;
+            case 'dPage':
+                App.pageNo = App.pageNo + 1;
+                goPage(App.pageNo);
+        }
+    },
+
+    back: function () {
+        window.history.back();
     }
 }
 

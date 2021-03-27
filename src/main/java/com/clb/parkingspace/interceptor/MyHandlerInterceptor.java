@@ -26,7 +26,7 @@ public class MyHandlerInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
 
         String path=request.getServletPath();
-        if(path.contains("/needers/") && (!path.contains("addMerNeeders.html"))){
+        if(path.contains("/needers/") && (!path.contains("addNeeders.html"))){
             Object loginNeeder=request.getSession().getAttribute("loginNeeder");
             if(loginNeeder==null){
                 request.setAttribute("msg","没有权限请先登录");

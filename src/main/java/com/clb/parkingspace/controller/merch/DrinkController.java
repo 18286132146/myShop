@@ -79,6 +79,7 @@ public class DrinkController extends CommonController {
                              @RequestParam(value = "detail", required = false) String detail,
                              @RequestParam(value = "phone", required = false) String phone,
                              @RequestParam(value = "memo", required = false) String memo,
+                             @RequestParam(value = "grade", required = false) String grade,
                               HttpServletRequest request
                              ) throws Exception {
         Map map = new HashMap<String, Object>();
@@ -104,6 +105,7 @@ public class DrinkController extends CommonController {
         cust.setPhone(phone);
         MerNeeder ned=(MerNeeder)request.getSession().getAttribute("merLoginNeeder");
         cust.setOwnner(ned.getId());
+        cust.setGrade(grade);
         driCustService.insert(cust);
         map.put("result", "success");
         return map;
