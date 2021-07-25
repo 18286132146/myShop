@@ -238,7 +238,7 @@ public class MerchWaresController extends CommonController {
                 File file=new File(merWareFolder + fileName);
                 //查询到的图片保存到redis缓存10分钟
                 redisTemplate.opsForValue().set(fileName.getBytes(), SerializeUtile.serialize(file), 10,TimeUnit.MINUTES);
-                logger.info("从硬盘读取图片后已经放入reids缓存10分钟！");
+                logger.info("从硬盘读取图片后已经放入reids缓存10分钟！.");
                 bufferedImage =ImageIO.read(file);
             }
             if (bufferedImage == null) {
