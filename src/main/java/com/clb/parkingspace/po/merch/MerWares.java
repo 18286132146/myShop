@@ -19,5 +19,6 @@ public class MerWares {
     private String storeId;
     private String managerId;
     private String imgFloor;//图片横竖
+    private String picBase64Str;
 
 }

@@ -12,9 +12,12 @@ import com.clb.parkingspace.service.ISenderMarkService;
 import com.clb.parkingspace.service.merch.IMerNeederService;
 import com.clb.parkingspace.service.merch.IMerNeederTalkService;
 import com.clb.parkingspace.util.FileUtil;
+import com.clb.parkingspace.util.ImageHelper;
 import com.clb.parkingspace.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,12 +30,16 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +55,8 @@ public class MerchNeedersController extends CommonController {
     private String merchNeederImpFolder;
     @Autowired
     private ISenderMarkService senderMarkService;
+    @Autowired
+    RedisTemplate redisTemplate;
 
     @RequestMapping(value = "/goIndex")
     public String goCommandGate() {
@@ -101,6 +110,8 @@ public class MerchNeedersController extends CommonController {
                 // 如何却没有图片页面显示黑框
                 bufferedImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
             }
+
+         //ImageHelper imgStore=new ImageHelper(bufferedImage);
             OutputStream outputStream = response.getOutputStream();
             if(fileName.toUpperCase().contains(".PNG")){
                 response.setHeader("Content-Disposition", "inline; filename=image.png");
@@ -118,8 +129,8 @@ public class MerchNeedersController extends CommonController {
             //logger.info(e.toString());
         }
 
-
     }
+
 
 
     @RequestMapping(value = "/goAddNeeders.do")

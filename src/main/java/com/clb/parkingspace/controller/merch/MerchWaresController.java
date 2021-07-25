@@ -14,10 +14,13 @@ import com.clb.parkingspace.service.merch.IStoresService;
 import com.clb.parkingspace.service.merch.IWaresService;
 import com.clb.parkingspace.service.sys.ISysRolePrivService;
 import com.clb.parkingspace.util.FileUtil;
+import com.clb.parkingspace.util.ImageHelper;
 import com.clb.parkingspace.util.Random;
+import com.clb.parkingspace.util.SerializeUtile;
 import com.clb.parkingspace.util.security.ProvePrivalege;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,15 +29,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -42,8 +44,11 @@ import java.nio.file.WatchService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-
+/**
+ * 添加商品
+ */
 @Controller
 @RequestMapping("/wares")
 public class MerchWaresController extends CommonController {
@@ -63,7 +68,8 @@ public class MerchWaresController extends CommonController {
 
     @Autowired
     private ProvePrivalege provePrivalege;
-
+    @Autowired
+    RedisTemplate redisTemplate;
 
     @RequestMapping(value = "/addWare.do")
     @ResponseBody
@@ -107,7 +113,9 @@ public class MerchWaresController extends CommonController {
         }
       /*  Wrapper<MerStore> stoEw=new EntityWrapper();
         stoEw.eq("id",storeId);*/
+        InputStream in = null;
         try {
+
             if(!targetFile.exists()){//判断f 如果不存在,就创建
                 try {
                     targetFile.mkdirs();
@@ -118,6 +126,17 @@ public class MerchWaresController extends CommonController {
             }
             file.transferTo(targetFile);
             merWares.setImgUrl(id + fileName);
+           /*
+           //保存图片base64格式数据到数据库
+           in = new FileInputStream(targetFile);
+           byte[] b=new byte[in.available()];
+            in.read(b);
+            // 对字节数组Base64编码
+            BASE64Encoder encoder = new BASE64Encoder();
+            String a = encoder.encode(b);
+            String pp = a;
+            System.out.println(">>>>>>>>pp>>>>>>>>>>>>>"+pp);
+            merWares.setPicBase64Str(pp);*/
         } catch (IOException e) {
             e.printStackTrace();
             result.put("status","no");
@@ -206,29 +225,43 @@ public class MerchWaresController extends CommonController {
 
     @RequestMapping(value = "/findPic")
     public void findPic(HttpServletRequest request, HttpServletResponse response, @RequestParam String fileName) throws Exception {
+
         try {
-            BufferedImage bufferedImage = ImageIO.read(Files.newInputStream(Paths.get(merWareFolder + fileName)));
+            Object obj=redisTemplate.opsForValue().get(fileName.getBytes());
+            BufferedImage bufferedImage=null;
+            if(obj!=null){//数据库有图片直接去否则查询后放入redis
+                byte[] bytes=  (byte[])obj;
+                Object obj2= SerializeUtile.unserialize(bytes);
+                File file=(File)obj2;
+                bufferedImage =ImageIO.read(file);
+            }else{
+                File file=new File(merWareFolder + fileName);
+                //查询到的图片保存到redis缓存10分钟
+                redisTemplate.opsForValue().set(fileName.getBytes(), SerializeUtile.serialize(file), 10,TimeUnit.MINUTES);
+                logger.info("从硬盘读取图片后已经放入reids缓存10分钟！");
+                bufferedImage =ImageIO.read(file);
+            }
             if (bufferedImage == null) {
                 // 如何却没有图片页面显示黑框
                 bufferedImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
             }
+
             OutputStream outputStream = response.getOutputStream();
-            if(fileName.toUpperCase().indexOf("PNG")>0){
+            if(fileName.toUpperCase().contains(".PNG")){
                 response.setHeader("Content-Disposition", "inline; filename=image.png");
                 response.setContentType("image/png");
                 ImageIO.write(bufferedImage, "png", outputStream);
-            }else{
+            }else {
                 response.setHeader("Content-Disposition", "inline; filename=image.jpg");
                 response.setContentType("image/jpeg");
                 ImageIO.write(bufferedImage, "jpeg", outputStream);
             }
+
             outputStream.flush();
             outputStream.close();
         } catch (Exception e) {
             //logger.info(e.toString());
         }
-
-
     }
     @RequestMapping(value = "/findById.do")
     @ResponseBody

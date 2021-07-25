@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -41,7 +43,8 @@ public class ChatController {
     private UserOnLineList userOnLineList;
     @Autowired
     private ISenderMarkService senderMarkService;
-
+    @Resource
+    RedisTemplate redisTemplate;
     @RequestMapping(value = "/sendMsg.do", method = RequestMethod.POST)
     @ResponseBody
     public Object sendMsg(@RequestParam("senderId")String senderId, @RequestParam("receiverId")String receiverId,  @RequestParam("txt")String txt){

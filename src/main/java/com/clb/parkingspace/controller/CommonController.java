@@ -22,8 +22,8 @@ import java.util.Map;
 public class CommonController {
     @Autowired
    private ICommonService commonService;
+   protected Logger logger=LoggerFactory.getLogger(this.getClass());
 
-    Logger logger=LoggerFactory.getLogger(this.getClass());
     @RequestMapping(value = "/findAreaData", method = RequestMethod.POST)
     @ResponseBody
     public Object findAreaData(String pId){
